@@ -1,0 +1,136 @@
+@model BidNest.ViewModels.CategoryViewModel
+@{
+    ViewData["Title"] = "Edit Category";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Management / Categories /</span> Edit
+    </h4>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Edit Category: @Model.Name</h5>
+                    <a href="@Url.Action("Categories")" class="btn btn-outline-secondary">
+                        <i class="bx bx-arrow-back"></i> Back to Categories
+                    </a>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="EditCategory" method="post">
+                        <input asp-for="CategoryId" type="hidden">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Name" class="form-label">Category Name</label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter category name">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Description" class="form-label">Description</label>
+                                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter category description (optional)"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ParentId" class="form-label">Parent Category</label>
+                                <select asp-for="ParentId" class="form-select" asp-items="ViewBag.ParentCategories">
+                                    <option value="">-- Root Category --</option>
+                                </select>
+                                <span asp-validation-for="ParentId" class="text-danger"></span>
+                                <div class="form-text">Leave empty to make this a root category</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status</label>
+                                <div class="form-check form-switch">
+                                    <input asp-for="IsActive" class="form-check-input" type="checkbox">
+                                    <label asp-for="IsActive" class="form-check-label">Active</label>
+                                </div>
+                                <span asp-validation-for="IsActive" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bx bx-save"></i> Update Category
+                                </button>
+                                <a href="@Url.Action("Categories")" class="btn btn-outline-secondary ms-2">Cancel</a>
+                                <a href="@Url.Action("CategoryDetails", new { id = Model.CategoryId })" class="btn btn-outline-info ms-2">
+                                    <i class="bx bx-show"></i> View Details
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Category Statistics</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Items in Category:</span>
+                        <span class="badge bg-label-primary">@Model.ItemCount</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Sub Categories:</span>
+                        <span class="badge bg-label-secondary">@Model.SubCategoryCount</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Status:</span>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-label-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-label-danger">Inactive</span>
+                        }
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.ParentName))
+                    {
+                        <div class="d-flex justify-content-between">
+                            <span>Parent:</span>
+                            <span class="badge bg-label-info">@Model.ParentName</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @if (Model.ItemCount > 0 || Model.SubCategoryCount > 0)
+            {
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h6 class="mb-0 text-warning">
+                            <i class="bx bx-warning"></i> Warning
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-0 text-muted">
+                            This category contains @Model.ItemCount item(s) and @Model.SubCategoryCount subcategory(ies). 
+                            Changes may affect existing data.
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

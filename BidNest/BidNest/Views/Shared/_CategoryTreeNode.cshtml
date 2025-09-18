@@ -1,0 +1,79 @@
+@model BidNest.ViewModels.CategoryViewModel
+
+<div class="category-node">
+    <div class="category-content">
+        <div class="category-info">
+            <div class="category-icon">
+                <i class="bx bx-category"></i>
+            </div>
+            <div class="category-details">
+                <h6>@Model.Name</h6>
+                <div class="category-meta">
+                    @if (!string.IsNullOrEmpty(Model.Description))
+                    {
+                        <span>@Model.Description</span>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No description</span>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="category-stats">
+            <span class="badge bg-label-primary" title="Items">
+                <i class="bx bx-package"></i> @Model.ItemCount
+            </span>
+            <span class="badge bg-label-secondary" title="Sub Categories">
+                <i class="bx bx-subdirectory-right"></i> @Model.SubCategoryCount
+            </span>
+            @if (Model.IsActive)
+            {
+                <span class="badge bg-label-success">Active</span>
+            }
+            else
+            {
+                <span class="badge bg-label-danger">Inactive</span>
+            }
+            
+            <div class="dropdown">
+                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="@Url.Action("CategoryDetails", "Admin", new { id = Model.CategoryId })">
+                        <i class="bx bx-show me-1"></i> View Details
+                    </a>
+                    <a class="dropdown-item" href="@Url.Action("EditCategory", "Admin", new { id = Model.CategoryId })">
+                        <i class="bx bx-edit-alt me-1"></i> Edit
+                    </a>
+                    <a class="dropdown-item" href="@Url.Action("CreateCategory", "Admin", new { parentId = Model.CategoryId })">
+                        <i class="bx bx-plus me-1"></i> Add Sub Category
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <form method="post" action="@Url.Action("ToggleCategoryStatus", "Admin", new { id = Model.CategoryId })" style="display: inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="dropdown-item">
+                            <i class="bx @(Model.IsActive ? "bx-hide" : "bx-show") me-1"></i> 
+                            @(Model.IsActive ? "Deactivate" : "Activate")
+                        </button>
+                    </form>
+                    <a class="dropdown-item text-danger" href="@Url.Action("DeleteCategory", "Admin", new { id = Model.CategoryId })">
+                        <i class="bx bx-trash me-1"></i> Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @if (Model.SubCategories.Any())
+    {
+        <div class="subcategories">
+            @foreach (var subCategory in Model.SubCategories)
+            {
+                @await Html.PartialAsync("_CategoryTreeNode", subCategory)
+            }
+        </div>
+    }
+</div>

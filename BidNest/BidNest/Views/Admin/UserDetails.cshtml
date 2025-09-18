@@ -1,0 +1,201 @@
+@model BidNest.Models.User
+@{
+    ViewData["Title"] = "User Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4">
+    <span class="text-muted fw-light">Management / Users /</span> @Model.Username
+</h4>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <h5 class="card-header">User Information</h5>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <p class="form-control-plaintext">@Model.FullName</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <p class="form-control-plaintext">@Model.Username</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <p class="form-control-plaintext">@Model.Email</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Role</label>
+                            <p class="form-control-plaintext">
+                                @if (Model.Role.Name == "Admin")
+                                {
+                                    <span class="badge bg-label-primary">@Model.Role.Name</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-label-secondary">@Model.Role.Name</span>
+                                }
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <p class="form-control-plaintext">
+                                @if (Model.IsBlocked)
+                                {
+                                    <span class="badge bg-label-danger">Blocked</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-label-success">Active</span>
+                                }
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Member Since</label>
+                            <p class="form-control-plaintext">@Model.CreatedAt.ToString("MMMM dd, yyyy")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <h5 class="card-header">Items Listed</h5>
+            <div class="card-body">
+                @if (Model.Items.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Items.Take(5))
+                                {
+                                    <tr>
+                                        <td>@item.Title</td>
+                                        <td>
+                                            @switch (item.Status)
+                                            {
+                                                case "A":
+                                                    <span class="badge bg-label-success">Active</span>
+                                                    break;
+                                                case "I":
+                                                    <span class="badge bg-label-warning">Inactive</span>
+                                                    break;
+                                                case "C":
+                                                    <span class="badge bg-label-secondary">Closed</span>
+                                                    break;
+                                            }
+                                        </td>
+                                        <td>@item.CreatedAt.ToString("MMM dd")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    @if (Model.Items.Count > 5)
+                    {
+                        <p class="text-muted small">Showing 5 of @Model.Items.Count items</p>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">No items listed yet.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <h5 class="card-header">Bidding Activity</h5>
+            <div class="card-body">
+                @if (Model.Bids.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var bid in Model.Bids.OrderByDescending(b => b.BidTime).Take(5))
+                                {
+                                    <tr>
+                                        <td>$@bid.Amount.ToString("N2")</td>
+                                        <td>
+                                            @if (bid.IsWinning)
+                                            {
+                                                <span class="badge bg-label-success">Winning</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-label-secondary">Outbid</span>
+                                            }
+                                        </td>
+                                        <td>@bid.BidTime.ToString("MMM dd")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    @if (Model.Bids.Count > 5)
+                    {
+                        <p class="text-muted small">Showing 5 of @Model.Bids.Count bids</p>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">No bidding activity yet.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <a href="@Url.Action("Users")" class="btn btn-secondary">
+                    <i class="bx bx-arrow-back me-1"></i> Back to Users
+                </a>
+                @if (Model.RoleId != 1)
+                {
+                    <form asp-action="ToggleUserBlock" asp-route-id="@Model.UserId" method="post" style="display: inline;" class="ms-2">
+                        @Html.AntiForgeryToken()
+                        @if (Model.IsBlocked)
+                        {
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to unblock this user?')">
+                                <i class="bx bx-user-check me-1"></i> Unblock User
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure you want to block this user?')">
+                                <i class="bx bx-user-x me-1"></i> Block User
+                            </button>
+                        }
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>

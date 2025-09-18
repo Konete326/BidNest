@@ -1,0 +1,111 @@
+@model BidNest.ViewModels.CategoryViewModel
+@{
+    ViewData["Title"] = "Create Category";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Management / Categories /</span> Create
+    </h4>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Create New Category</h5>
+                    <a href="@Url.Action("Categories")" class="btn btn-outline-secondary">
+                        <i class="bx bx-arrow-back"></i> Back to Categories
+                    </a>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="CreateCategory" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Name" class="form-label">Category Name</label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter category name">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Description" class="form-label">Description</label>
+                                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter category description (optional)"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ParentId" class="form-label">Parent Category</label>
+                                <select asp-for="ParentId" class="form-select" asp-items="ViewBag.ParentCategories">
+                                    <option value="">-- Root Category --</option>
+                                </select>
+                                <span asp-validation-for="ParentId" class="text-danger"></span>
+                                <div class="form-text">Leave empty to create a root category</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status</label>
+                                <div class="form-check form-switch">
+                                    <input asp-for="IsActive" class="form-check-input" type="checkbox" checked>
+                                    <label asp-for="IsActive" class="form-check-label">Active</label>
+                                </div>
+                                <span asp-validation-for="IsActive" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bx bx-plus"></i> Create Category
+                                </button>
+                                <a href="@Url.Action("Categories")" class="btn btn-outline-secondary ms-2">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Category Guidelines</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="bx bx-check text-success me-2"></i>
+                            Use clear, descriptive names
+                        </li>
+                        <li class="mb-2">
+                            <i class="bx bx-check text-success me-2"></i>
+                            Keep category hierarchy logical
+                        </li>
+                        <li class="mb-2">
+                            <i class="bx bx-check text-success me-2"></i>
+                            Avoid duplicate category names
+                        </li>
+                        <li class="mb-2">
+                            <i class="bx bx-check text-success me-2"></i>
+                            Add descriptions for clarity
+                        </li>
+                        <li class="mb-0">
+                            <i class="bx bx-check text-success me-2"></i>
+                            Consider future subcategories
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

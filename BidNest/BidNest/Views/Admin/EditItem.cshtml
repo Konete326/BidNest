@@ -1,0 +1,255 @@
+@model BidNest.ViewModels.ItemEditViewModel
+@{
+    ViewData["Title"] = "Edit Item";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Management / Items /</span> Edit
+    </h4>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Edit Item: @Model.Name</h5>
+                    <div>
+                        <a href="@Url.Action("ItemDetails", new { id = Model.ItemId })" class="btn btn-outline-info">
+                            <i class="bx bx-show"></i> View Details
+                        </a>
+                        <a href="@Url.Action("Items")" class="btn btn-outline-secondary">
+                            <i class="bx bx-arrow-back"></i> Back to Items
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="EditItem" method="post" enctype="multipart/form-data">
+                        <input asp-for="ItemId" type="hidden">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Name" class="form-label">Item Name</label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter item name">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Description" class="form-label">Description</label>
+                                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe the item in detail"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CategoryId" class="form-label">Category</label>
+                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                                    <option value="">-- Select Category --</option>
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Status" class="form-label">Current Status</label>
+                                <select asp-for="NewStatus" class="form-select">
+                                    <option value="">-- Keep Current (@Model.StatusDisplay) --</option>
+                                    <option value="A">Active</option>
+                                    <option value="P">Pending</option>
+                                    <option value="E">Expired</option>
+                                    <option value="S">Sold</option>
+                                </select>
+                                <span asp-validation-for="NewStatus" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="MinimumBid" class="form-label">Minimum Bid ($)</label>
+                                <input asp-for="MinimumBid" class="form-control" type="number" step="0.01" min="0.01">
+                                <span asp-validation-for="MinimumBid" class="text-danger"></span>
+                                @if (Model.BidCount > 0)
+                                {
+                                    <div class="form-text text-warning">
+                                        <i class="bx bx-warning"></i> This item has @Model.BidCount bid(s). Changing minimum bid may affect existing bids.
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="BuyNowPrice" class="form-label">Buy Now Price ($) - Optional</label>
+                                <input asp-for="BuyNowPrice" class="form-control" type="number" step="0.01" min="0.01">
+                                <span asp-validation-for="BuyNowPrice" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Auction End Date</label>
+                                <input type="datetime-local" class="form-control" value="@Model.EndDate.ToString("yyyy-MM-ddTHH:mm")" readonly>
+                                <div class="form-text">
+                                    Current end date. Use "Extend Auction" below to modify.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ExtendDays" class="form-label">Extend Auction (Days)</label>
+                                <select asp-for="ExtendDays" class="form-select">
+                                    <option value="">-- No Extension --</option>
+                                    <option value="1">Extend by 1 Day</option>
+                                    <option value="3">Extend by 3 Days</option>
+                                    <option value="7">Extend by 7 Days</option>
+                                    <option value="14">Extend by 14 Days</option>
+                                </select>
+                                <span asp-validation-for="ExtendDays" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check form-switch">
+                                    <input asp-for="IsFeatured" class="form-check-input" type="checkbox">
+                                    <label asp-for="IsFeatured" class="form-check-label">Featured Item</label>
+                                </div>
+                                <span asp-validation-for="IsFeatured" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="AdminNotes" class="form-label">Admin Notes</label>
+                                <textarea asp-for="AdminNotes" class="form-control" rows="2" placeholder="Internal notes (not visible to users)"></textarea>
+                                <span asp-validation-for="AdminNotes" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Current Images -->
+                        @if (Model.Images.Any())
+                        {
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Current Images</label>
+                                    <div class="row">
+                                        @foreach (var image in Model.Images)
+                                        {
+                                            <div class="col-md-3 mb-3">
+                                                <div class="card">
+                                                    <img src="@image.ImagePath" class="card-img-top" style="height: 150px; object-fit: cover;" alt="Item Image">
+                                                    <div class="card-body p-2">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            @if (image.IsPrimary)
+                                                            {
+                                                                <span class="badge bg-primary">Primary</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <form method="post" action="@Url.Action("SetPrimaryImage", new { itemId = Model.ItemId, imageId = image.ImageId })" style="display: inline;">
+                                                                    @Html.AntiForgeryToken()
+                                                                    <button type="submit" class="btn btn-sm btn-outline-primary">Set Primary</button>
+                                                                </form>
+                                                            }
+                                                            <form method="post" action="@Url.Action("RemoveItemImage", new { itemId = Model.ItemId, imageId = image.ImageId })" style="display: inline;">
+                                                                @Html.AntiForgeryToken()
+                                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Remove this image?')">
+                                                                    <i class="bx bx-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Add New Images -->
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="NewImages" class="form-label">Add New Images</label>
+                                <input asp-for="NewImages" class="form-control" type="file" multiple accept="image/*">
+                                <span asp-validation-for="NewImages" class="text-danger"></span>
+                                <div class="form-text">
+                                    Select additional images to add (JPG, PNG, GIF, WebP). Max 5MB per image.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bx bx-save"></i> Update Item
+                                </button>
+                                <a href="@Url.Action("Items")" class="btn btn-outline-secondary ms-2">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Item Statistics</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Current Bid:</span>
+                        @if (Model.CurrentBid.HasValue)
+                        {
+                            <span class="badge bg-label-success">$@Model.CurrentBid.Value.ToString("N2")</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No bids</span>
+                        }
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Total Bids:</span>
+                        <span class="badge bg-label-info">@Model.BidCount</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Status:</span>
+                        <span class="badge @Model.StatusBadgeClass">@Model.StatusDisplay</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Created:</span>
+                        <span class="text-muted">@Model.CreatedAt.ToString("MMM dd, yyyy")</span>
+                    </div>
+                    @if (Model.UpdatedAt.HasValue)
+                    {
+                        <div class="d-flex justify-content-between">
+                            <span>Updated:</span>
+                            <span class="text-muted">@Model.UpdatedAt.Value.ToString("MMM dd, yyyy")</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @if (Model.BidCount > 0)
+            {
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h6 class="mb-0 text-warning">
+                            <i class="bx bx-warning"></i> Warning
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-0 text-muted">
+                            This item has @Model.BidCount bid(s). 
+                            Changes to pricing or status may affect existing bidders.
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

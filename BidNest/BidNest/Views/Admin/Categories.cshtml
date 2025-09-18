@@ -1,0 +1,161 @@
+@model BidNest.ViewModels.CategoryListViewModel
+@{
+    ViewData["Title"] = "Category Management";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Management /</span> Categories
+    </h4>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Categories</h5>
+            <div>
+                <a href="@Url.Action("CreateCategory")" class="btn btn-primary">
+                    <i class="bx bx-plus"></i> Add Category
+                </a>
+                <a href="@Url.Action("MergeCategories")" class="btn btn-warning">
+                    <i class="bx bx-merge"></i> Merge Categories
+                </a>
+                <a href="@Url.Action("CategoryHierarchy")" class="btn btn-info">
+                    <i class="bx bx-sitemap"></i> Hierarchy View
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <!-- Search and Filter Form -->
+            <form method="get" class="row mb-3">
+                <div class="col-md-4">
+                    <input type="text" name="search" class="form-control" placeholder="Search categories..." value="@Model.SearchTerm">
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="showInactive" value="true" @(Model.ShowInactive ? "checked" : "")>
+                        <label class="form-check-label">Show Inactive</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="bx bx-search"></i> Search
+                    </button>
+                    <a href="@Url.Action("Categories")" class="btn btn-outline-secondary">Clear</a>
+                </div>
+            </form>
+
+            <!-- Categories Table -->
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Parent Category</th>
+                            <th>Items</th>
+                            <th>Sub Categories</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bx bx-category me-2"></i>
+                                        <div>
+                                            <h6 class="mb-0">@category.Name</h6>
+                                            @if (!string.IsNullOrEmpty(category.Description))
+                                            {
+                                                <small class="text-muted">@category.Description</small>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(category.ParentName))
+                                    {
+                                        <span class="badge bg-label-info">@category.ParentName</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Root Category</span>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="badge bg-label-primary">@category.ItemCount</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-label-secondary">@category.SubCategoryCount</span>
+                                </td>
+                                <td>
+                                    @if (category.IsActive)
+                                    {
+                                        <span class="badge bg-label-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-label-danger">Inactive</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="@Url.Action("CategoryDetails", new { id = category.CategoryId })">
+                                                <i class="bx bx-show me-1"></i> View Details
+                                            </a>
+                                            <a class="dropdown-item" href="@Url.Action("EditCategory", new { id = category.CategoryId })">
+                                                <i class="bx bx-edit-alt me-1"></i> Edit
+                                            </a>
+                                            <form method="post" action="@Url.Action("ToggleCategoryStatus", new { id = category.CategoryId })" style="display: inline;">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="dropdown-item">
+                                                    <i class="bx @(category.IsActive ? "bx-hide" : "bx-show") me-1"></i> 
+                                                    @(category.IsActive ? "Deactivate" : "Activate")
+                                                </button>
+                                            </form>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item text-danger" href="@Url.Action("DeleteCategory", new { id = category.CategoryId })">
+                                                <i class="bx bx-trash me-1"></i> Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                @if (!Model.Categories.Any())
+                {
+                    <div class="text-center py-4">
+                        <i class="bx bx-category display-4 text-muted"></i>
+                        <p class="text-muted mt-2">No categories found.</p>
+                        <a href="@Url.Action("CreateCategory")" class="btn btn-primary">Create First Category</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

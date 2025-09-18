@@ -1,0 +1,264 @@
+@model BidNest.ViewModels.ItemListViewModel
+@{
+    ViewData["Title"] = "Item Management";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Management /</span> Items
+    </h4>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Auction Items</h5>
+            <div>
+                <a href="@Url.Action("CreateItem")" class="btn btn-primary">
+                    <i class="bx bx-plus"></i> Add Item
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <!-- Search and Filter Form -->
+            <form method="get" class="row mb-4">
+                <div class="col-md-3">
+                    <input type="text" name="search" class="form-control" placeholder="Search items..." value="@Model.SearchTerm">
+                </div>
+                <div class="col-md-2">
+                    <select name="categoryId" class="form-select">
+                        <option value="">All Categories</option>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.CategoryId" selected="@(Model.CategoryId == category.CategoryId)">
+                                @category.Name
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="status" class="form-select">
+                        <option value="">All Status</option>
+                        <option value="A" selected="@(Model.Status == "A")">Active</option>
+                        <option value="S" selected="@(Model.Status == "S")">Sold</option>
+                        <option value="E" selected="@(Model.Status == "E")">Expired</option>
+                        <option value="P" selected="@(Model.Status == "P")">Pending</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="sortBy" class="form-select">
+                        <option value="">Sort By</option>
+                        <option value="name" selected="@(Model.SortBy == "name")">Name A-Z</option>
+                        <option value="name_desc" selected="@(Model.SortBy == "name_desc")">Name Z-A</option>
+                        <option value="price" selected="@(Model.SortBy == "price")">Price Low-High</option>
+                        <option value="price_desc" selected="@(Model.SortBy == "price_desc")">Price High-Low</option>
+                        <option value="end_date" selected="@(Model.SortBy == "end_date")">Ending Soon</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="bx bx-search"></i> Search
+                    </button>
+                    <a href="@Url.Action("Items")" class="btn btn-outline-secondary">Clear</a>
+                </div>
+            </form>
+
+            <!-- Items Table -->
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Category</th>
+                            <th>Seller</th>
+                            <th>Min Bid</th>
+                            <th>Current Bid</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        @if (item.Images.Any())
+                                        {
+                                            <img src="@item.Images.FirstOrDefault(i => i.IsPrimary)?.ImagePath" alt="@item.Name" 
+                                                 class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                        }
+                                        else
+                                        {
+                                            <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" 
+                                                 style="width: 50px; height: 50px;">
+                                                <i class="bx bx-image text-muted"></i>
+                                            </div>
+                                        }
+                                        <div>
+                                            <h6 class="mb-0">@item.Name</h6>
+                                            <small class="text-muted">ID: @item.ItemId</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.CategoryName))
+                                    {
+                                        <span class="badge bg-label-info">@item.CategoryName</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No Category</span>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="text-muted">@item.SellerName</span>
+                                </td>
+                                <td>
+                                    <strong>$@item.MinimumBid.ToString("N2")</strong>
+                                </td>
+                                <td>
+                                    @if (item.CurrentBid.HasValue)
+                                    {
+                                        <span class="text-success">$@item.CurrentBid.Value.ToString("N2")</span>
+                                        <small class="text-muted d-block">(@item.BidCount bids)</small>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No bids</span>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="@(item.EndDate < DateTime.Now ? "text-danger" : "")">
+                                        @item.EndDate.ToString("MMM dd, yyyy")
+                                    </span>
+                                    <small class="text-muted d-block">@item.EndDate.ToString("HH:mm")</small>
+                                </td>
+                                <td>
+                                    <span class="badge @item.StatusBadgeClass">@item.StatusDisplay</span>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="@Url.Action("ItemDetails", new { id = item.ItemId })">
+                                                <i class="bx bx-show me-1"></i> View Details
+                                            </a>
+                                            <a class="dropdown-item" href="@Url.Action("EditItem", new { id = item.ItemId })">
+                                                <i class="bx bx-edit-alt me-1"></i> Edit
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            
+                                            @if (item.Status == "A")
+                                            {
+                                                <form method="post" action="@Url.Action("UpdateItemStatus", new { id = item.ItemId, status = "E" })" style="display: inline;">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="dropdown-item">
+                                                        <i class="bx bx-stop-circle me-1"></i> End Auction
+                                                    </button>
+                                                </form>
+                                            }
+                                            
+                                            <form method="post" action="@Url.Action("ToggleFeatured", new { id = item.ItemId })" style="display: inline;">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="dropdown-item">
+                                                    <i class="bx @(item.IsFeatured ? "bx-star" : "bx-star") me-1"></i> 
+                                                    @(item.IsFeatured ? "Remove Featured" : "Make Featured")
+                                                </button>
+                                            </form>
+                                            
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item text-danger" href="@Url.Action("DeleteItem", new { id = item.ItemId })">
+                                                <i class="bx bx-trash me-1"></i> Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                @if (!Model.Items.Any())
+                {
+                    <div class="text-center py-4">
+                        <i class="bx bx-package display-4 text-muted"></i>
+                        <p class="text-muted mt-2">No items found.</p>
+                        <a href="@Url.Action("CreateItem")" class="btn btn-primary">Create First Item</a>
+                    </div>
+                }
+            </div>
+
+            <!-- Pagination -->
+            @if (Model.TotalPages > 1)
+            {
+                <nav aria-label="Page navigation" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        @if (Model.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Items", new { 
+                                    search = Model.SearchTerm, 
+                                    categoryId = Model.CategoryId, 
+                                    status = Model.Status, 
+                                    sortBy = Model.SortBy, 
+                                    page = Model.CurrentPage - 1 
+                                })">Previous</a>
+                            </li>
+                        }
+
+                        @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+                        {
+                            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Items", new { 
+                                    search = Model.SearchTerm, 
+                                    categoryId = Model.CategoryId, 
+                                    status = Model.Status, 
+                                    sortBy = Model.SortBy, 
+                                    page = i 
+                                })">@i</a>
+                            </li>
+                        }
+
+                        @if (Model.CurrentPage < Model.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Items", new { 
+                                    search = Model.SearchTerm, 
+                                    categoryId = Model.CategoryId, 
+                                    status = Model.Status, 
+                                    sortBy = Model.SortBy, 
+                                    page = Model.CurrentPage + 1 
+                                })">Next</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+
+                <div class="text-center text-muted">
+                    Showing @((Model.CurrentPage - 1) * Model.PageSize + 1) to @Math.Min(Model.CurrentPage * Model.PageSize, Model.TotalItems) 
+                    of @Model.TotalItems items
+                </div>
+            }
+        </div>
+    </div>
+</div>

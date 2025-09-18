@@ -1,0 +1,284 @@
+@model BidNest.ViewModels.ItemViewModel
+@{
+    ViewData["Title"] = "Item Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Management / Items /</span> @Model.Name
+    </h4>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Item Information</h5>
+                    <div>
+                        <a href="@Url.Action("EditItem", new { id = Model.ItemId })" class="btn btn-primary">
+                            <i class="bx bx-edit-alt"></i> Edit
+                        </a>
+                        <a href="@Url.Action("Items")" class="btn btn-outline-secondary">
+                            <i class="bx bx-arrow-back"></i> Back
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Item Name</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-package me-2"></i>
+                                <strong>@Model.Name</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Description</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.Description</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Category</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            @if (!string.IsNullOrEmpty(Model.CategoryName))
+                            {
+                                <span class="badge bg-label-info">@Model.CategoryName</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No Category</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Seller</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            <span class="text-muted">@Model.SellerName</span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Pricing</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="d-flex gap-3">
+                                <div>
+                                    <small class="text-muted">Minimum Bid</small>
+                                    <div><strong>$@Model.MinimumBid.ToString("N2")</strong></div>
+                                </div>
+                                @if (Model.BuyNowPrice.HasValue)
+                                {
+                                    <div>
+                                        <small class="text-muted">Buy Now Price</small>
+                                        <div><strong>$@Model.BuyNowPrice.Value.ToString("N2")</strong></div>
+                                    </div>
+                                }
+                                @if (Model.CurrentBid.HasValue)
+                                {
+                                    <div>
+                                        <small class="text-muted">Current Bid</small>
+                                        <div class="text-success"><strong>$@Model.CurrentBid.Value.ToString("N2")</strong></div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Auction Period</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="d-flex gap-3">
+                                <div>
+                                    <small class="text-muted">Start Date</small>
+                                    <div>@Model.StartDate.ToString("MMM dd, yyyy HH:mm")</div>
+                                </div>
+                                <div>
+                                    <small class="text-muted">End Date</small>
+                                    <div class="@(Model.EndDate < DateTime.Now ? "text-danger" : "")">
+                                        @Model.EndDate.ToString("MMM dd, yyyy HH:mm")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Status & Activity</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="d-flex gap-3 align-items-center">
+                                <span class="badge @Model.StatusBadgeClass">@Model.StatusDisplay</span>
+                                @if (Model.IsFeatured)
+                                {
+                                    <span class="badge bg-label-warning">Featured</span>
+                                }
+                                <span class="text-muted">@Model.BidCount bid(s)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Timestamps</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="d-flex gap-3">
+                                <div>
+                                    <small class="text-muted">Created</small>
+                                    <div>@Model.CreatedAt.ToString("MMM dd, yyyy HH:mm")</div>
+                                </div>
+                                @if (Model.UpdatedAt.HasValue)
+                                {
+                                    <div>
+                                        <small class="text-muted">Updated</small>
+                                        <div>@Model.UpdatedAt.Value.ToString("MMM dd, yyyy HH:mm")</div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item Images -->
+            @if (Model.Images.Any())
+            {
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Item Images</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach (var image in Model.Images)
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <img src="@image.ImagePath" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Item Image">
+                                        <div class="card-body p-2">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                @if (image.IsPrimary)
+                                                {
+                                                    <span class="badge bg-primary">Primary Image</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">Image @image.DisplayOrder</span>
+                                                }
+                                                <small class="text-muted">@image.CreatedAt.ToString("MMM dd")</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Quick Actions</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="@Url.Action("EditItem", new { id = Model.ItemId })" class="btn btn-primary">
+                            <i class="bx bx-edit-alt"></i> Edit Item
+                        </a>
+                        
+                        @if (Model.Status == "A")
+                        {
+                            <form method="post" action="@Url.Action("UpdateItemStatus", new { id = Model.ItemId, status = "E" })">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-warning w-100" onclick="return confirm('End this auction?')">
+                                    <i class="bx bx-stop-circle"></i> End Auction
+                                </button>
+                            </form>
+                        }
+                        
+                        <form method="post" action="@Url.Action("ToggleFeatured", new { id = Model.ItemId })">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-info w-100">
+                                <i class="bx bx-star"></i> 
+                                @(Model.IsFeatured ? "Remove Featured" : "Make Featured")
+                            </button>
+                        </form>
+                        
+                        <a href="@Url.Action("DeleteItem", new { id = Model.ItemId })" class="btn btn-danger">
+                            <i class="bx bx-trash"></i> Delete Item
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.Status == "A" && Model.EndDate > DateTime.Now)
+            {
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h6 class="mb-0">Extend Auction</h6>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="@Url.Action("ExtendAuction", new { id = Model.ItemId })">
+                            @Html.AntiForgeryToken()
+                            <div class="mb-3">
+                                <select name="days" class="form-select" required>
+                                    <option value="">Select Extension</option>
+                                    <option value="1">1 Day</option>
+                                    <option value="3">3 Days</option>
+                                    <option value="7">7 Days</option>
+                                    <option value="14">14 Days</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary w-100">
+                                <i class="bx bx-time"></i> Extend Auction
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h6 class="mb-0">Item Statistics</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Views:</span>
+                        <span class="text-muted">N/A</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Watchers:</span>
+                        <span class="text-muted">N/A</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Total Bids:</span>
+                        <span class="badge bg-label-info">@Model.BidCount</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Images:</span>
+                        <span class="badge bg-label-secondary">@Model.Images.Count</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

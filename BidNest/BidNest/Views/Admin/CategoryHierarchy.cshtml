@@ -1,0 +1,127 @@
+@model List<BidNest.ViewModels.CategoryViewModel>
+@{
+    ViewData["Title"] = "Category Hierarchy";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Management / Categories /</span> Hierarchy View
+    </h4>
+
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Category Hierarchy</h5>
+            <div>
+                <a href="@Url.Action("CreateCategory")" class="btn btn-primary">
+                    <i class="bx bx-plus"></i> Add Category
+                </a>
+                <a href="@Url.Action("Categories")" class="btn btn-outline-secondary">
+                    <i class="bx bx-list-ul"></i> List View
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            @if (Model.Any())
+            {
+                <div class="category-tree">
+                    @foreach (var category in Model)
+                    {
+                        @await Html.PartialAsync("_CategoryTreeNode", category)
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="bx bx-category display-4 text-muted"></i>
+                    <h5 class="mt-3 text-muted">No Categories Found</h5>
+                    <p class="text-muted">Start by creating your first category to organize your auction items.</p>
+                    <a href="@Url.Action("CreateCategory")" class="btn btn-primary">
+                        <i class="bx bx-plus"></i> Create First Category
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+.category-tree {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.category-node {
+    margin: 8px 0;
+    padding: 12px;
+    border: 1px solid #e7eaf3;
+    border-radius: 8px;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.category-node:hover {
+    border-color: #d4d8dd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.category-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category-info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.category-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.category-details h6 {
+    margin: 0;
+    font-weight: 600;
+    color: #5a6169;
+}
+
+.category-meta {
+    font-size: 0.875rem;
+    color: #8592a3;
+    margin-top: 2px;
+}
+
+.category-stats {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.subcategories {
+    margin-left: 30px;
+    margin-top: 12px;
+    border-left: 2px solid #f1f1f1;
+    padding-left: 20px;
+}
+
+.subcategories .category-node {
+    background: #f8f9fa;
+    border-color: #e9ecef;
+}
+
+.subcategories .category-icon {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #495057;
+}
+</style>
