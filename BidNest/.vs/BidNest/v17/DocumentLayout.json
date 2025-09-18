@@ -1,12 +1,37 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\.net\\BidNest\\BidNest\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\.net\\bidnest\\bidnest\\bidnest\\models\\bidnestcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|solutionrelative:bidnest\\models\\bidnestcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BidnestContext.cs",
+              "DocumentMoniker": "D:\\.net\\BidNest\\BidNest\\BidNest\\Models\\BidnestContext.cs",
+              "RelativeDocumentMoniker": "BidNest\\Models\\BidnestContext.cs",
+              "ToolTip": "D:\\.net\\BidNest\\BidNest\\BidNest\\Models\\BidnestContext.cs",
+              "RelativeToolTip": "BidNest\\Models\\BidnestContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-18T14:55:33.719Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
