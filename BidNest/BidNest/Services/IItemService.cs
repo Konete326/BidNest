@@ -32,5 +32,21 @@ namespace BidNest.Services
         Task<List<ItemViewModel>> GetFeaturedItemsAsync(int count = 8);
         Task<List<ItemViewModel>> GetRecentItemsAsync(int count = 10);
         Task<List<ItemViewModel>> GetItemsByCategoryAsync(int categoryId, int count = 20);
+        
+        // Seller-specific methods
+        Task<List<ItemViewModel>> GetSellerActiveItemsAsync(int sellerId);
+        Task<List<ItemViewModel>> GetSellerPendingItemsAsync(int sellerId);
+        Task<List<ItemViewModel>> GetSellerSoldItemsAsync(int sellerId);
+        Task<decimal> GetSellerTotalEarningsAsync(int sellerId);
+        Task<List<SellerBidViewModel>> GetSellerRecentBidsAsync(int sellerId, int count);
+        Task<List<ItemViewModel>> GetSellerItemsAsync(int sellerId, string status, int page, int pageSize);
+        Task<int> GetSellerItemsCountAsync(int sellerId, string status);
+        Task<int> GetSellerTotalListingsAsync(int sellerId);
+        Task<int> GetSellerActiveListingsCountAsync(int sellerId);
+        Task<int> GetSellerSoldItemsCountAsync(int sellerId);
+        Task<decimal> GetSellerAverageSellingPriceAsync(int sellerId);
+        Task<List<MonthlyEarningsViewModel>> GetSellerMonthlyEarningsAsync(int sellerId, int months);
+        Task<List<CategoryStatsViewModel>> GetSellerTopCategoriesAsync(int sellerId, int count);
+        Task<List<ItemViewModel>> GetSellerRecentSalesAsync(int sellerId, int count);
     }
 }

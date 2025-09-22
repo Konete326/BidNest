@@ -1,0 +1,105 @@
+@model List<BidNest.ViewModels.CategoryStatsViewModel>
+@{
+    ViewData["Title"] = "Browse Categories";
+}
+
+<div class="container my-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2 class="mb-3">Browse by Category</h2>
+            <p class="text-muted">Discover amazing items across all categories</p>
+        </div>
+    </div>
+
+    @if (Model.Any())
+    {
+        <!-- Categories Grid -->
+        <div class="row">
+            @foreach (var category in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 category-card">
+                        <div class="card-body text-center">
+                            <div class="category-icon mb-3">
+                                <i class="@GetCategoryIcon(category.CategoryName) fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title">@category.CategoryName</h5>
+                            <div class="row text-center mb-3">
+                                <div class="col-6">
+                                    <div class="fw-bold text-success fs-4">@category.ItemCount</div>
+                                    <small class="text-muted">Active Items</small>
+                                </div>
+                                <div class="col-6">
+                                    <div class="fw-bold text-info fs-4">$@category.AveragePrice.ToString("N0")</div>
+                                    <small class="text-muted">Avg Price</small>
+                                </div>
+                            </div>
+                            <a href="@Url.Action("Category", new { id = category.CategoryId })" 
+                               class="btn btn-primary">
+                                <i class="fas fa-eye me-1"></i>Browse @category.CategoryName
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <!-- No Categories -->
+        <div class="text-center py-5">
+            <i class="fas fa-th-large fa-4x text-muted mb-3"></i>
+            <h4 class="text-muted">No Categories Available</h4>
+            <p class="text-muted">Categories will appear here when items are added.</p>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
+                <i class="fas fa-home"></i> Go Home
+            </a>
+        </div>
+    }
+</div>
+
+@functions {
+    private string GetCategoryIcon(string categoryName)
+    {
+        return categoryName.ToLower() switch
+        {
+            var name when name.Contains("electronics") => "fas fa-laptop",
+            var name when name.Contains("clothing") || name.Contains("fashion") => "fas fa-tshirt",
+            var name when name.Contains("home") || name.Contains("furniture") => "fas fa-home",
+            var name when name.Contains("sports") => "fas fa-football-ball",
+            var name when name.Contains("books") => "fas fa-book",
+            var name when name.Contains("toys") || name.Contains("games") => "fas fa-gamepad",
+            var name when name.Contains("jewelry") => "fas fa-gem",
+            var name when name.Contains("art") => "fas fa-palette",
+            var name when name.Contains("music") => "fas fa-music",
+            var name when name.Contains("automotive") || name.Contains("cars") => "fas fa-car",
+            var name when name.Contains("collectibles") => "fas fa-coins",
+            var name when name.Contains("antiques") => "fas fa-chess-rook",
+            _ => "fas fa-tag"
+        };
+    }
+}
+
+@section Styles {
+    <style>
+        .category-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        
+        .category-icon {
+            transition: transform 0.3s;
+        }
+        
+        .category-card:hover .category-icon {
+            transform: scale(1.1);
+        }
+    </style>
+}

@@ -1,0 +1,94 @@
+@model List<BidNest.ViewModels.BidViewModel>
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Item</th>
+                    <th>My Bid</th>
+                    <th>Bid Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bid in Model)
+                {
+                    <tr class="@(bid.IsWinning ? "table-success" : "")">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <div class="avatar-sm bg-primary rounded d-flex align-items-center justify-content-center">
+                                        <i class="bx bx-package text-white"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="fw-medium">@bid.ItemName</div>
+                                    <small class="text-muted">Item #@bid.ItemId</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="fs-5 fw-bold @(bid.IsWinning ? "text-success" : "")">
+                                $@bid.Amount.ToString("N2")
+                            </span>
+                        </td>
+                        <td>
+                            <div>@bid.BidTime.ToString("MMM dd, yyyy")</div>
+                            <small class="text-muted">@bid.BidTime.ToString("HH:mm")</small>
+                            <div><small class="text-info">@bid.TimeAgo</small></div>
+                        </td>
+                        <td>
+                            @if (bid.IsWinning)
+                            {
+                                <span class="badge bg-success">
+                                    <i class="bx bx-trophy"></i> Winning
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">
+                                    <i class="bx bx-x"></i> Outbid
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="@Url.Action("Details", new { id = bid.ItemId })" class="btn btn-outline-primary">
+                                    <i class="bx bx-show"></i> View
+                                </a>
+                                @if (!bid.IsWinning)
+                                {
+                                    <a href="@Url.Action("Bid", new { id = bid.ItemId })" class="btn btn-outline-success">
+                                        <i class="bx bx-gavel"></i> Bid Again
+                                    </a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="text-center py-5">
+        <i class="bx bx-package display-1 text-muted"></i>
+        <h5 class="mt-3 text-muted">No Bids Found</h5>
+        <p class="text-muted">You haven't placed any bids in this category yet.</p>
+    </div>
+}
+
+<style>
+    .avatar-sm {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .table-success {
+        --bs-table-bg: rgba(25, 135, 84, 0.1);
+    }
+</style>

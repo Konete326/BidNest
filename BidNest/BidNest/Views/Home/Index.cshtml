@@ -10,7 +10,7 @@
                 <h1 class="display-4 fw-bold">Welcome to BidNest</h1>
                 <p class="lead">Your trusted online auction platform where you can bid on amazing items and sell your treasures.</p>
                 <div class="mt-4">
-                    <a href="@Url.Action("Auctions")" class="btn btn-light btn-lg me-3">Browse Auctions</a>
+                    <a href="@Url.Action("Active", "Auction")" class="btn btn-light btn-lg me-3">Browse Auctions</a>
                     @if (User.Identity?.IsAuthenticated != true)
                     {
                         <a href="@Url.Action("Register", "Account")" class="btn btn-outline-light btn-lg">Join Now</a>
@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <a href="#" class="btn btn-primary btn-sm w-100">View Details</a>
+                            <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" class="btn btn-primary btn-sm w-100">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
 
     <div class="row mt-5">
         <div class="col-12 text-center">
-            <a href="@Url.Action("Auctions")" class="btn btn-outline-primary btn-lg">View All Auctions</a>
+            <a href="@Url.Action("Active", "Auction")" class="btn btn-outline-primary btn-lg">View All Auctions</a>
         </div>
     </div>
 </div>

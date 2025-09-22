@@ -1,0 +1,390 @@
+@model BidNest.ViewModels.PendingApprovalViewModel
+@{
+    ViewData["Title"] = "Pending Approvals";
+}
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">Pending Approvals</h2>
+                    <p class="text-muted">Review and approve seller submissions</p>
+                </div>
+                <div>
+                    <span class="badge bg-warning fs-6">@Model.TotalPending Pending</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.PendingItems.Any())
+    {
+        <!-- Bulk Actions -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="selectAll">
+                            <label class="form-check-label" for="selectAll">
+                                Select All
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <button type="button" class="btn btn-success me-2" id="bulkApprove" disabled>
+                            <i class="fas fa-check me-1"></i>Bulk Approve
+                        </button>
+                        <button type="button" class="btn btn-danger" id="bulkReject" disabled>
+                            <i class="fas fa-times me-1"></i>Bulk Reject
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Items List -->
+        <div class="row">
+            @foreach (var item in Model.PendingItems)
+            {
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100 approval-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div class="form-check">
+                                <input class="form-check-input item-checkbox" type="checkbox" value="@item.ItemId">
+                            </div>
+                            <small class="text-muted">Submitted @item.SubmittedAt.ToString("MMM dd, yyyy")</small>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    @if (!string.IsNullOrEmpty(item.PrimaryImageUrl))
+                                    {
+                                        <img src="@item.PrimaryImageUrl" alt="@item.Title" 
+                                             class="img-fluid rounded" style="height: 120px; object-fit: cover; width: 100%;">
+                                    }
+                                    else
+                                    {
+                                        <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                                             style="height: 120px;">
+                                            <i class="fas fa-image fa-2x text-muted"></i>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-8">
+                                    <h6 class="card-title">@item.Title</h6>
+                                    <p class="card-text small text-muted">
+                                        @(item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)
+                                    </p>
+                                    <div class="row small">
+                                        <div class="col-6">
+                                            <strong>Category:</strong><br>
+                                            <span class="badge bg-info">@item.CategoryName</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <strong>Starting Bid:</strong><br>
+                                            <span class="text-success fw-bold">$@item.MinimumBid.ToString("N2")</span>
+                                        </div>
+                                    </div>
+                                    <div class="row small mt-2">
+                                        <div class="col-12">
+                                            <strong>Seller:</strong> @item.SellerName<br>
+                                            <small class="text-muted">@item.SellerEmail</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-outline-info btn-sm" 
+                                        onclick="viewDetails(@item.ItemId)">
+                                    <i class="fas fa-eye me-1"></i>Details
+                                </button>
+                                <div>
+                                    <button type="button" class="btn btn-success btn-sm me-1" 
+                                            onclick="approveItem(@item.ItemId, '@item.Title')">
+                                        <i class="fas fa-check me-1"></i>Approve
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" 
+                                            onclick="rejectItem(@item.ItemId, '@item.Title')">
+                                        <i class="fas fa-times me-1"></i>Reject
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Approval pagination">
+                <ul class="pagination justify-content-center">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("PendingApprovals", new { page = Model.CurrentPage - 1 })">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                    }
+
+                    @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("PendingApprovals", new { page = i })">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("PendingApprovals", new { page = Model.CurrentPage + 1 })">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    }
+    else
+    {
+        <!-- Empty State -->
+        <div class="text-center py-5">
+            <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+            <h4 class="text-muted">All Caught Up!</h4>
+            <p class="text-muted">No items pending approval at the moment.</p>
+            <a href="@Url.Action("Dashboard")" class="btn btn-primary">
+                <i class="fas fa-tachometer-alt me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    }
+</div>
+
+<!-- Approval Modal -->
+<div class="modal fade" id="approvalModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-check me-2"></i>Approve Item
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to approve "<span id="approveItemName"></span>"?</p>
+                <p class="text-muted small">This will make the item live and available for bidding immediately.</p>
+                
+                <div class="mb-3">
+                    <label class="form-label">Admin Notes (Optional)</label>
+                    <textarea class="form-control" id="approveNotes" rows="3" 
+                              placeholder="Add any notes about this approval..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="confirmApprove">
+                    <i class="fas fa-check me-1"></i>Approve Item
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rejection Modal -->
+<div class="modal fade" id="rejectionModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-times me-2"></i>Reject Item
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to reject "<span id="rejectItemName"></span>"?</p>
+                
+                <div class="mb-3">
+                    <label class="form-label">Rejection Reason *</label>
+                    <select class="form-select" id="rejectionReason" required>
+                        <option value="">Select a reason...</option>
+                        <option value="Inappropriate content">Inappropriate content</option>
+                        <option value="Poor image quality">Poor image quality</option>
+                        <option value="Insufficient description">Insufficient description</option>
+                        <option value="Prohibited item">Prohibited item</option>
+                        <option value="Duplicate listing">Duplicate listing</option>
+                        <option value="Pricing issues">Pricing issues</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Additional Notes</label>
+                    <textarea class="form-control" id="rejectNotes" rows="3" 
+                              placeholder="Provide specific feedback to help the seller improve..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmReject">
+                    <i class="fas fa-times me-1"></i>Reject Item
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let currentItemId = 0;
+
+        // Select all functionality
+        document.getElementById('selectAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.item-checkbox');
+            checkboxes.forEach(cb => cb.checked = this.checked);
+            updateBulkButtons();
+        });
+
+        // Individual checkbox change
+        document.querySelectorAll('.item-checkbox').forEach(cb => {
+            cb.addEventListener('change', updateBulkButtons);
+        });
+
+        function updateBulkButtons() {
+            const selected = document.querySelectorAll('.item-checkbox:checked');
+            const bulkApprove = document.getElementById('bulkApprove');
+            const bulkReject = document.getElementById('bulkReject');
+            
+            if (selected.length > 0) {
+                bulkApprove.disabled = false;
+                bulkReject.disabled = false;
+            } else {
+                bulkApprove.disabled = true;
+                bulkReject.disabled = true;
+            }
+        }
+
+        function approveItem(itemId, itemName) {
+            currentItemId = itemId;
+            document.getElementById('approveItemName').textContent = itemName;
+            document.getElementById('approveNotes').value = '';
+            
+            const modal = new bootstrap.Modal(document.getElementById('approvalModal'));
+            modal.show();
+        }
+
+        function rejectItem(itemId, itemName) {
+            currentItemId = itemId;
+            document.getElementById('rejectItemName').textContent = itemName;
+            document.getElementById('rejectionReason').value = '';
+            document.getElementById('rejectNotes').value = '';
+            
+            const modal = new bootstrap.Modal(document.getElementById('rejectionModal'));
+            modal.show();
+        }
+
+        function viewDetails(itemId) {
+            // Open item details in new tab
+            window.open(`/Auction/Details/${itemId}`, '_blank');
+        }
+
+        // Confirm approval
+        document.getElementById('confirmApprove').addEventListener('click', function() {
+            const notes = document.getElementById('approveNotes').value;
+            
+            fetch('@Url.Action("ApproveItem")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: `itemId=${currentItemId}&adminNotes=${encodeURIComponent(notes)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                    location.reload();
+                } else {
+                    showAlert('danger', data.message);
+                }
+                bootstrap.Modal.getInstance(document.getElementById('approvalModal')).hide();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('danger', 'An error occurred. Please try again.');
+            });
+        });
+
+        // Confirm rejection
+        document.getElementById('confirmReject').addEventListener('click', function() {
+            const reason = document.getElementById('rejectionReason').value;
+            const notes = document.getElementById('rejectNotes').value;
+            
+            if (!reason) {
+                showAlert('warning', 'Please select a rejection reason.');
+                return;
+            }
+            
+            fetch('@Url.Action("RejectItem")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: `itemId=${currentItemId}&rejectionReason=${encodeURIComponent(reason)}&adminNotes=${encodeURIComponent(notes)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert('success', data.message);
+                    location.reload();
+                } else {
+                    showAlert('danger', data.message);
+                }
+                bootstrap.Modal.getInstance(document.getElementById('rejectionModal')).hide();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('danger', 'An error occurred. Please try again.');
+            });
+        });
+
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const container = document.querySelector('.container-fluid');
+            container.insertBefore(alertDiv, container.firstChild);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+    </script>
+}
+
+@section Styles {
+    <style>
+        .approval-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .approval-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+}
+
+@Html.AntiForgeryToken()

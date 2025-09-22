@@ -14,12 +14,14 @@ namespace BidNest.Controllers
         private readonly BidnestContext _context;
         private readonly IItemService _itemService;
         private readonly IImageService _imageService;
+        private readonly ILogger<AdminController> _logger;
 
-        public AdminController(BidnestContext context, IItemService itemService, IImageService imageService)
+        public AdminController(BidnestContext context, IItemService itemService, IImageService imageService, ILogger<AdminController> logger)
         {
             _context = context;
             _itemService = itemService;
             _imageService = imageService;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
@@ -629,17 +631,17 @@ namespace BidNest.Controllers
                 Description = item.Description,
                 CategoryId = item.CategoryId,
                 MinimumBid = item.MinimumBid,
-                BuyNowPrice = item.BuyNowPrice,
+                BuyNowPrice = null, // Not in database schema
                 StartDate = item.StartDate,
                 EndDate = item.EndDate,
                 Status = item.Status,
-                IsFeatured = item.IsFeatured,
+                IsFeatured = false, // Not in database schema
                 SellerId = item.SellerId,
                 Images = item.Images,
                 CurrentBid = item.CurrentBid,
                 BidCount = item.BidCount,
                 CreatedAt = item.CreatedAt,
-                UpdatedAt = item.UpdatedAt
+                UpdatedAt = null // Not in database schema
             };
 
             await PopulateCategoriesForItemAsync();
@@ -650,22 +652,49 @@ namespace BidNest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditItem(ItemEditViewModel model)
         {
-            if (ModelState.IsValid)
+            _logger.LogInformation("=== ADMIN EDIT ITEM POST METHOD CALLED ===");
+            _logger.LogInformation("EditItem POST called for ItemId: {ItemId}", model?.ItemId ?? 0);
+
+            if (model == null)
             {
-                try
-                {
-                    await _itemService.UpdateItemAsync(model);
-                    TempData["SuccessMessage"] = "Item updated successfully.";
-                    return RedirectToAction(nameof(Items));
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError(string.Empty, $"Error updating item: {ex.Message}");
-                }
+                _logger.LogError("Model is null in EditItem POST");
+                TempData["ErrorMessage"] = "No data received. Please try again.";
+                return RedirectToAction(nameof(Items));
             }
 
-            await PopulateCategoriesForItemAsync();
-            return View(model);
+            _logger.LogInformation("Received model data - ItemId: {ItemId}, Name: {Name}, Description: {Description}, CategoryId: {CategoryId}, MinimumBid: {MinimumBid}",
+                model.ItemId, model.Name ?? "NULL", model.Description ?? "NULL", model.CategoryId, model.MinimumBid);
+
+            // Enforce server-side validation
+            if (!ModelState.IsValid)
+            {
+                var errors = string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                _logger.LogWarning("EditItem ModelState invalid for ItemId {ItemId}. Errors: {Errors}", model.ItemId, errors);
+                TempData["ErrorMessage"] = "Please correct the highlighted errors and try again.";
+                await PopulateCategoriesForItemAsync();
+                return View(model);
+            }
+
+            try
+            {
+                _logger.LogInformation("Attempting to update item {ItemId}", model.ItemId);
+                await _itemService.UpdateItemAsync(model);
+
+                _logger.LogInformation("Item {ItemId} updated successfully", model.ItemId);
+                TempData["SuccessMessage"] = "Item updated successfully.";
+
+                // Redirect to Item Details for better UX
+                return RedirectToAction(nameof(ItemDetails), new { id = model.ItemId });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating item {ItemId}", model.ItemId);
+                ModelState.AddModelError(string.Empty, $"Error updating item: {ex.Message}");
+                TempData["ErrorMessage"] = "An unexpected error occurred while updating the item.";
+
+                await PopulateCategoriesForItemAsync();
+                return View(model);
+            }
         }
 
         [HttpGet]
@@ -853,6 +882,162 @@ namespace BidNest.Controllers
                 .OrderBy(u => u.FullName)
                 .ToListAsync();
             ViewBag.Sellers = new SelectList(sellers, "UserId", "FullName");
+        }
+
+        // GET: Admin/Bids
+        public async Task<IActionResult> Bids(string search = "", int page = 1, int pageSize = 20)
+        {
+            var query = _context.Bids
+                .Include(b => b.Item)
+                .Include(b => b.Bidder)
+                .AsQueryable();
+
+            // Search functionality
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(b => 
+                    b.Item.Title.Contains(search) ||
+                    b.Bidder.FullName.Contains(search) ||
+                    b.Bidder.Email.Contains(search));
+            }
+
+            // Get total count for pagination
+            var totalBids = await query.CountAsync();
+
+            // Apply pagination
+            var bids = await query
+                .OrderByDescending(b => b.BidTime)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(b => new BidNest.ViewModels.BidViewModel
+                {
+                    BidId = b.BidId,
+                    ItemId = b.ItemId,
+                    BidderId = b.BidderId,
+                    Amount = b.Amount,
+                    BidTime = b.BidTime,
+                    IsWinning = b.IsWinning,
+                    BidderName = b.Bidder.FullName,
+                    ItemName = b.Item.Title
+                })
+                .ToListAsync();
+
+            var viewModel = new BidNest.ViewModels.AdminBidsViewModel
+            {
+                Bids = bids,
+                SearchTerm = search,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalBids = totalBids,
+                TotalPages = (int)Math.Ceiling((double)totalBids / pageSize)
+            };
+
+            return View(viewModel);
+        }
+
+        // GET: Admin/PendingApprovals
+        public async Task<IActionResult> PendingApprovals(int page = 1, int pageSize = 10)
+        {
+            var totalPending = await _context.Items.CountAsync(i => i.Status == "P");
+            
+            var pendingItems = await _context.Items
+                .Where(i => i.Status == "P")
+                .Include(i => i.Category)
+                .Include(i => i.Seller)
+                .Include(i => i.ItemImages)
+                .OrderBy(i => i.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(i => new ItemApprovalViewModel
+                {
+                    ItemId = i.ItemId,
+                    Title = i.Title,
+                    Description = i.Description ?? "",
+                    CategoryName = i.Category != null ? i.Category.Name : "Uncategorized",
+                    MinimumBid = i.MinBid,
+                    StartDate = i.StartDate,
+                    EndDate = i.EndDate,
+                    SellerName = i.Seller.FullName,
+                    SellerEmail = i.Seller.Email,
+                    SubmittedAt = i.CreatedAt,
+                    ImageUrls = i.ItemImages.OrderByDescending(img => img.IsPrimary).Select(img => img.Url).ToList()
+                })
+                .ToListAsync();
+
+            var viewModel = new PendingApprovalViewModel
+            {
+                PendingItems = pendingItems,
+                TotalPending = totalPending,
+                CurrentPage = page,
+                PageSize = pageSize
+            };
+
+            return View(viewModel);
+        }
+
+        // POST: Admin/ApproveItem
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ApproveItem(int itemId, string? adminNotes)
+        {
+            var item = await _context.Items.FindAsync(itemId);
+            if (item == null || item.Status != "P")
+            {
+                return Json(new { success = false, message = "Item not found or not pending approval." });
+            }
+
+            try
+            {
+                item.Status = "A"; // Set to Active
+                item.StartDate = DateTime.UtcNow; // Start the auction now
+                
+                // Log the approval
+                _logger.LogInformation("Item {ItemId} approved by admin {AdminId}", itemId, GetCurrentUserId());
+                
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Item approved successfully!" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error approving item {ItemId}", itemId);
+                return Json(new { success = false, message = "Error approving item. Please try again." });
+            }
+        }
+
+        // POST: Admin/RejectItem
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RejectItem(int itemId, string rejectionReason, string? adminNotes)
+        {
+            var item = await _context.Items.FindAsync(itemId);
+            if (item == null || item.Status != "P")
+            {
+                return Json(new { success = false, message = "Item not found or not pending approval." });
+            }
+
+            if (string.IsNullOrWhiteSpace(rejectionReason))
+            {
+                return Json(new { success = false, message = "Rejection reason is required." });
+            }
+
+            try
+            {
+                item.Status = "R"; // Set to Rejected
+                
+                // Log the rejection
+                _logger.LogInformation("Item {ItemId} rejected by admin {AdminId}. Reason: {Reason}", 
+                    itemId, GetCurrentUserId(), rejectionReason);
+                
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Item rejected successfully!" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error rejecting item {ItemId}", itemId);
+                return Json(new { success = false, message = "Error rejecting item. Please try again." });
+            }
         }
 
         private int GetCurrentUserId()

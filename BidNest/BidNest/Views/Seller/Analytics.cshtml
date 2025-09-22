@@ -1,0 +1,284 @@
+@model BidNest.ViewModels.SellerAnalyticsViewModel
+@{
+    ViewData["Title"] = "Sales Analytics";
+}
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">Sales Analytics</h2>
+                    <p class="text-muted">Track your selling performance and insights</p>
+                </div>
+                <div>
+                    <a href="@Url.Action("Dashboard")" class="btn btn-outline-primary">
+                        <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3 class="mb-0">@Model.TotalListings</h3>
+                            <p class="mb-0">Total Listings</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-list fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3 class="mb-0">@Model.SoldItems</h3>
+                            <p class="mb-0">Items Sold</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-check-circle fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3 class="mb-0">$@Model.TotalEarnings.ToString("N2")</h3>
+                            <p class="mb-0">Total Earnings</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-dollar-sign fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3 class="mb-0">@Model.ConversionRate.ToString("N1")%</h3>
+                            <p class="mb-0">Success Rate</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-percentage fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Monthly Earnings Chart -->
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Monthly Earnings (Last 12 Months)</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.MonthlyEarnings.Any())
+                    {
+                        <canvas id="earningsChart" width="400" height="200"></canvas>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                            <h6 class="text-muted">No earnings data available</h6>
+                            <p class="text-muted">Start selling to see your earnings trends!</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Categories -->
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Top Categories</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.TopCategories.Any())
+                    {
+                        @foreach (var category in Model.TopCategories)
+                        {
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <div class="fw-bold">@category.CategoryName</div>
+                                    <small class="text-muted">@category.ItemCount items</small>
+                                </div>
+                                <div class="text-end">
+                                    <div class="fw-bold text-success">$@category.AveragePrice.ToString("N2")</div>
+                                    <small class="text-muted">avg price</small>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-3">
+                            <i class="fas fa-tags fa-2x text-muted mb-2"></i>
+                            <p class="text-muted mb-0">No category data yet</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Sales -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Sales</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentSales.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Category</th>
+                                        <th>Final Price</th>
+                                        <th>Sold Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.RecentSales)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    @if (item.Images.Any())
+                                                    {
+                                                        <img src="@item.Images.First().ImagePath" alt="@item.Name" 
+                                                             class="rounded me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
+                                                             style="width: 40px; height: 40px;">
+                                                            <i class="fas fa-image text-muted"></i>
+                                                        </div>
+                                                    }
+                                                    <div>
+                                                        <div class="fw-bold">@item.Name</div>
+                                                        <small class="text-muted">ID: @item.ItemId</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-info">@item.CategoryName</span>
+                                            </td>
+                                            <td>
+                                                <div class="fw-bold text-success">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</div>
+                                                <small class="text-muted">@item.BidCount bids</small>
+                                            </td>
+                                            <td>
+                                                <div>@item.EndDate.ToString("MMM dd, yyyy")</div>
+                                                <small class="text-muted">@item.EndDate.ToString("h:mm tt")</small>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
+                                                   class="btn btn-sm btn-outline-primary">View</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                            <h6 class="text-muted">No sales yet</h6>
+                            <p class="text-muted">Your sold items will appear here once you make your first sale!</p>
+                            <a href="@Url.Action("Create")" class="btn btn-primary">
+                                <i class="fas fa-plus me-1"></i>Create Your First Listing
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @if (Model.MonthlyEarnings.Any())
+    {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            // Monthly Earnings Chart
+            const ctx = document.getElementById('earningsChart').getContext('2d');
+            const earningsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [@Html.Raw(string.Join(",", Model.MonthlyEarnings.Select(e => $"'{e.MonthName}'")))],
+                    datasets: [{
+                        label: 'Monthly Earnings',
+                        data: [@string.Join(",", Model.MonthlyEarnings.Select(e => e.Earnings))],
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        tension: 0.1,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toFixed(2);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    }
+}
+
+@section Styles {
+    <style>
+        .card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+}

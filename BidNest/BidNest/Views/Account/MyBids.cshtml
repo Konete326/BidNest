@@ -1,0 +1,242 @@
+@model BidNest.ViewModels.UserBidsViewModel
+@{
+    ViewData["Title"] = "My Bids";
+}
+
+<div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">My Bids</h2>
+                    <p class="text-muted">Track all your bidding activity</p>
+                </div>
+                <div>
+                    <span class="badge bg-primary fs-6">@Model.TotalBids Total Bids</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Bids.Any())
+    {
+        <!-- Bids List -->
+        <div class="row">
+            @foreach (var bid in Model.Bids)
+            {
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100 bid-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span class="badge @bid.StatusBadgeClass">@bid.StatusDisplay</span>
+                            <small class="text-muted">@bid.TimeAgo</small>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    @if (!string.IsNullOrEmpty(bid.ItemImageUrl))
+                                    {
+                                        <img src="@bid.ItemImageUrl" alt="@bid.ItemTitle" 
+                                             class="img-fluid rounded" style="height: 120px; object-fit: cover; width: 100%;">
+                                    }
+                                    else
+                                    {
+                                        <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                                             style="height: 120px;">
+                                            <i class="fas fa-image fa-2x text-muted"></i>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-8">
+                                    <h6 class="card-title">@bid.ItemTitle</h6>
+                                    <p class="card-text small text-muted mb-2">
+                                        <span class="badge bg-info">@bid.CategoryName</span>
+                                    </p>
+                                    
+                                    <!-- Bid Information -->
+                                    <div class="row small mb-2">
+                                        <div class="col-6">
+                                            <strong>My Bid:</strong><br>
+                                            <span class="text-primary fw-bold">$@bid.MyBidAmount.ToString("N2")</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <strong>Current High:</strong><br>
+                                            <span class="text-success fw-bold">$@bid.CurrentHighestBid.ToString("N2")</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Status Information -->
+                                    <div class="row small">
+                                        <div class="col-12">
+                                            @if (bid.IsWinning && bid.IsItemActive)
+                                            {
+                                                <div class="alert alert-success py-1 px-2 mb-1">
+                                                    <i class="fas fa-trophy me-1"></i>
+                                                    <strong>You're winning!</strong>
+                                                </div>
+                                            }
+                                            else if (!bid.IsWinning && bid.IsItemActive)
+                                            {
+                                                <div class="alert alert-warning py-1 px-2 mb-1">
+                                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                                    <strong>Outbid</strong>
+                                                </div>
+                                            }
+                                            else if (bid.ItemStatus == "S" && bid.IsWinning)
+                                            {
+                                                <div class="alert alert-primary py-1 px-2 mb-1">
+                                                    <i class="fas fa-check-circle me-1"></i>
+                                                    <strong>You won!</strong>
+                                                </div>
+                                            }
+                                            else if (bid.ItemStatus == "S" && !bid.IsWinning)
+                                            {
+                                                <div class="alert alert-secondary py-1 px-2 mb-1">
+                                                    <i class="fas fa-times-circle me-1"></i>
+                                                    <strong>Auction ended</strong>
+                                                </div>
+                                            }
+
+                                            @if (bid.IsItemActive)
+                                            {
+                                                <div class="text-muted">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    <span id="timer-@bid.ItemId">@bid.TimeRemaining</span> remaining
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    Bid placed: @bid.BidTime.ToString("MMM dd, yyyy h:mm tt")
+                                </small>
+                                <div>
+                                    <a href="@Url.Action("Details", "Auction", new { id = bid.ItemId })" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye me-1"></i>View Item
+                                    </a>
+                                    @if (bid.IsItemActive && !bid.IsWinning)
+                                    {
+                                        <a href="@Url.Action("Details", "Auction", new { id = bid.ItemId })" 
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fas fa-gavel me-1"></i>Bid Again
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Bids pagination">
+                <ul class="pagination justify-content-center">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("MyBids", new { page = Model.CurrentPage - 1 })">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                    }
+
+                    @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("MyBids", new { page = i })">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("MyBids", new { page = Model.CurrentPage + 1 })">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    }
+    else
+    {
+        <!-- Empty State -->
+        <div class="text-center py-5">
+            <i class="fas fa-gavel fa-4x text-muted mb-3"></i>
+            <h4 class="text-muted">No Bids Yet</h4>
+            <p class="text-muted">You haven't placed any bids yet. Start exploring auctions to find items you're interested in!</p>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
+                <i class="fas fa-search me-1"></i>Browse Auctions
+            </a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Timer functionality for active items
+        function updateTimers() {
+            @foreach (var bid in Model.Bids.Where(b => b.IsItemActive))
+            {
+                <text>
+                var endTime_@(bid.ItemId) = new Date('@bid.ItemEndDate.ToString("yyyy-MM-ddTHH:mm:ssZ")');
+                var now = new Date();
+                var timeLeft = endTime_@(bid.ItemId) - now;
+                
+                var timerElement = document.getElementById('timer-@bid.ItemId');
+                if (timerElement) {
+                    if (timeLeft &lt;= 0) {
+                        timerElement.textContent = 'Ended';
+                        timerElement.className = 'text-danger';
+                        // Reload page to update status
+                        setTimeout(function() { location.reload(); }, 2000);
+                    } else {
+                        var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                        
+                        var display = '';
+                        if (days > 0) display += days + 'd ';
+                        if (hours > 0) display += hours + 'h ';
+                        if (days === 0) display += minutes + 'm ' + seconds + 's';
+                        else display += minutes + 'm';
+                        
+                        timerElement.textContent = display;
+                    }
+                }
+                </text>
+            }
+        }
+
+        // Update timers every second for active items
+        updateTimers();
+        setInterval(updateTimers, 1000);
+    </script>
+}
+
+@section Styles {
+    <style>
+        .bid-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .bid-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .alert {
+            font-size: 0.875rem;
+        }
+    </style>
+}

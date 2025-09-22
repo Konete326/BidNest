@@ -1,0 +1,310 @@
+@model BidNest.ViewModels.SellerDashboardViewModel
+@{
+    ViewData["Title"] = "Seller Dashboard";
+}
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">Seller Dashboard</h2>
+                    <p class="text-muted">Manage your listings and track your sales</p>
+                </div>
+                <div>
+                    <a href="@Url.Action("Create")" class="btn btn-primary btn-lg">
+                        <i class="fas fa-plus me-2"></i>Sell an Item
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3 class="mb-0">@Model.TotalActiveListings</h3>
+                            <p class="mb-0">Active Listings</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-gavel fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3 class="mb-0">@Model.TotalPendingListings</h3>
+                            <p class="mb-0">Pending Approval</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-clock fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3 class="mb-0">@Model.TotalSoldItems</h3>
+                            <p class="mb-0">Items Sold</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-check-circle fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3 class="mb-0">$@Model.TotalEarnings.ToString("N2")</h3>
+                            <p class="mb-0">Total Earnings</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-dollar-sign fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Active Listings -->
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Active Listings</h5>
+                    <a href="@Url.Action("MyItems", new { status = "active" })" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    @if (Model.ActiveListings.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Current Bid</th>
+                                        <th>Bids</th>
+                                        <th>Time Left</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ActiveListings.Take(5))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    @if (item.Images.Any())
+                                                    {
+                                                        <img src="@item.Images.First().ImagePath" alt="@item.Name" 
+                                                             class="rounded me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
+                                                             style="width: 40px; height: 40px;">
+                                                            <i class="fas fa-image text-muted"></i>
+                                                        </div>
+                                                    }
+                                                    <div>
+                                                        <div class="fw-bold">@item.Name</div>
+                                                        <small class="text-muted">@item.CategoryName</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="fw-bold text-success">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</div>
+                                                <small class="text-muted">Min: $@item.MinimumBid.ToString("N2")</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">@item.BidCount</span>
+                                            </td>
+                                            <td>
+                                                <div class="text-warning fw-bold" id="timer-@item.ItemId">
+                                                    <!-- Will be populated by JavaScript -->
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
+                                                   class="btn btn-sm btn-outline-primary">View Details</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-gavel fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No Active Listings</h5>
+                            <p class="text-muted">Start selling by creating your first listing!</p>
+                            <a href="@Url.Action("Create")" class="btn btn-primary">
+                                <i class="fas fa-plus me-1"></i>Create Listing
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Bids</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentBids.Any())
+                    {
+                        @foreach (var bid in Model.RecentBids.Take(10))
+                        {
+                            <div class="d-flex align-items-center mb-3">
+                                @if (!string.IsNullOrEmpty(bid.ItemImageUrl))
+                                {
+                                    <img src="@bid.ItemImageUrl" alt="@bid.ItemTitle" 
+                                         class="rounded me-2" style="width: 32px; height: 32px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
+                                         style="width: 32px; height: 32px;">
+                                        <i class="fas fa-image text-muted small"></i>
+                                    </div>
+                                }
+                                <div class="flex-grow-1">
+                                    <div class="small fw-bold">@bid.BidderName</div>
+                                    <div class="small text-muted">bid $@bid.Amount.ToString("N2") on @bid.ItemTitle</div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">@bid.TimeAgo</small>
+                                    @if (bid.IsWinning)
+                                    {
+                                        <div><span class="badge bg-success small">Winning</span></div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-3">
+                            <i class="fas fa-history fa-2x text-muted mb-2"></i>
+                            <p class="text-muted mb-0">No recent bids</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Listings -->
+    @if (Model.PendingListings.Any())
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Pending Approval</h5>
+                        <a href="@Url.Action("MyItems", new { status = "pending" })" class="btn btn-sm btn-outline-warning">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach (var item in Model.PendingListings.Take(4))
+                            {
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="card border-warning">
+                                        <div class="card-body">
+                                            @if (item.Images.Any())
+                                            {
+                                                <img src="@item.Images.First().ImagePath" alt="@item.Name" 
+                                                     class="card-img-top mb-2" style="height: 120px; object-fit: cover;">
+                                            }
+                                            else
+                                            {
+                                                <div class="bg-light d-flex align-items-center justify-content-center mb-2" 
+                                                     style="height: 120px;">
+                                                    <i class="fas fa-image fa-2x text-muted"></i>
+                                                </div>
+                                            }
+                                            <h6 class="card-title">@item.Name</h6>
+                                            <p class="card-text small text-muted">@item.CategoryName</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="badge bg-warning">Pending</span>
+                                                <small class="text-muted">$@item.MinimumBid.ToString("N2")</small>
+                                            </div>
+                                            <div class="mt-2">
+                                                <a href="@Url.Action("Edit", new { id = item.ItemId })" 
+                                                   class="btn btn-sm btn-outline-primary">Edit</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Timer functionality for active listings
+        function updateTimers() {
+            @foreach (var item in Model.ActiveListings.Take(5))
+            {
+                <text>
+                var endTime_@(item.ItemId) = new Date('@item.EndDate.ToString("yyyy-MM-ddTHH:mm:ssZ")');
+                var now = new Date();
+                var timeLeft = endTime_@(item.ItemId) - now;
+                
+                var timerElement = document.getElementById('timer-@item.ItemId');
+                if (timerElement) {
+                    if (timeLeft &lt;= 0) {
+                        timerElement.textContent = 'Ended';
+                        timerElement.className = 'text-danger fw-bold';
+                    } else {
+                        var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                        
+                        var display = '';
+                        if (days > 0) display += days + 'd ';
+                        if (hours > 0) display += hours + 'h ';
+                        display += minutes + 'm';
+                        
+                        timerElement.textContent = display;
+                        timerElement.className = timeLeft &lt; 3600000 ? 'text-danger fw-bold' : 'text-warning fw-bold';
+                    }
+                }
+                </text>
+            }
+        }
+
+        // Update timers every minute
+        updateTimers();
+        setInterval(updateTimers, 60000);
+    </script>
+}

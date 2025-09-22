@@ -1,0 +1,377 @@
+@model BidNest.ViewModels.ItemCreateViewModel
+@{
+    ViewData["Title"] = "Sell an Item";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h2 class="mb-2">Sell an Item</h2>
+                <p class="text-muted">Create a new auction listing for your item</p>
+            </div>
+
+            <!-- Progress Steps -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-3">
+                            <div class="step-item active">
+                                <div class="step-number">1</div>
+                                <small>Item Details</small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="step-item">
+                                <div class="step-number">2</div>
+                                <small>Images</small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="step-item">
+                                <div class="step-number">3</div>
+                                <small>Pricing</small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="step-item">
+                                <div class="step-number">4</div>
+                                <small>Review</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Form -->
+            <form asp-action="Create" method="post" enctype="multipart/form-data" id="sellItemForm">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <!-- Step 1: Item Details -->
+                <div class="card mb-4" id="step-1">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Item Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Name" class="form-label">Item Name *</label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter a descriptive name for your item">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <div class="form-text">Choose a clear, descriptive name that buyers will search for</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CategoryId" class="form-label">Category *</label>
+                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                                    <option value="">Select a category</option>
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="AuctionDurationDays" class="form-label">Auction Duration</label>
+                                <select asp-for="AuctionDurationDays" class="form-select">
+                                    <option value="1">1 Day</option>
+                                    <option value="3">3 Days</option>
+                                    <option value="5">5 Days</option>
+                                    <option value="7" selected>7 Days (Recommended)</option>
+                                    <option value="10">10 Days</option>
+                                    <option value="14">14 Days</option>
+                                    <option value="21">21 Days</option>
+                                    <option value="30">30 Days</option>
+                                </select>
+                                <span asp-validation-for="AuctionDurationDays" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label asp-for="Description" class="form-label">Description *</label>
+                                <textarea asp-for="Description" class="form-control" rows="6" 
+                                          placeholder="Describe your item in detail. Include condition, features, dimensions, and any flaws."></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                                <div class="form-text">
+                                    <span id="char-count">0</span>/2000 characters. 
+                                    Include condition, size, brand, and any defects.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Images -->
+                <div class="card mb-4" id="step-2">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-camera me-2"></i>Item Images</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="Images" class="form-label">Upload Images</label>
+                            <input asp-for="Images" type="file" class="form-control" multiple accept="image/*" id="imageInput">
+                            <span asp-validation-for="Images" class="text-danger"></span>
+                            <div class="form-text">
+                                Upload up to 10 high-quality images. First image will be the main photo.
+                                Supported formats: JPG, PNG, GIF (Max 5MB each)
+                            </div>
+                        </div>
+
+                        <!-- Image Preview -->
+                        <div id="imagePreview" class="row"></div>
+
+                        <!-- Upload Tips -->
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-lightbulb me-1"></i>Photo Tips:</h6>
+                            <ul class="mb-0">
+                                <li>Use good lighting and clear focus</li>
+                                <li>Show the item from multiple angles</li>
+                                <li>Include close-ups of important details</li>
+                                <li>Show any flaws or damage honestly</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Pricing -->
+                <div class="card mb-4" id="step-3">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-dollar-sign me-2"></i>Pricing & Auction Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="MinimumBid" class="form-label">Starting Bid *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input asp-for="MinimumBid" class="form-control" placeholder="0.00" step="0.01">
+                                </div>
+                                <span asp-validation-for="MinimumBid" class="text-danger"></span>
+                                <div class="form-text">Set a competitive starting price to attract bidders</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Estimated Final Value</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="estimatedValue" placeholder="0.00" step="0.01">
+                                </div>
+                                <div class="form-text">What do you think this item is worth?</div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="alert alert-warning">
+                                    <h6><i class="fas fa-info-circle me-1"></i>Pricing Guidelines:</h6>
+                                    <ul class="mb-0">
+                                        <li><strong>Start Low:</strong> Lower starting bids attract more bidders</li>
+                                        <li><strong>Research:</strong> Check completed auctions for similar items</li>
+                                        <li><strong>Be Realistic:</strong> Overpriced items may not receive bids</li>
+                                        <li><strong>Consider Fees:</strong> Factor in any selling fees</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Review & Submit -->
+                <div class="card mb-4" id="step-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-check-circle me-2"></i>Review Your Listing</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-clock me-1"></i>What happens next?</h6>
+                            <ol class="mb-0">
+                                <li>Your listing will be submitted for review</li>
+                                <li>Our team will approve it within 24 hours</li>
+                                <li>Once approved, your auction will go live</li>
+                                <li>You'll receive email notifications for bids</li>
+                            </ol>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                            <label class="form-check-label" for="termsCheck">
+                                I agree to the <a href="#" target="_blank">Terms of Service</a> and 
+                                <a href="#" target="_blank">Seller Agreement</a>
+                            </label>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="accurateCheck" required>
+                            <label class="form-check-label" for="accurateCheck">
+                                I confirm that all information provided is accurate and complete
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <a href="@Url.Action("Dashboard")" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+                            </a>
+                            <div>
+                                <button type="button" class="btn btn-outline-primary me-2" id="saveAsDraft">
+                                    <i class="fas fa-save me-1"></i>Save as Draft
+                                </button>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-gavel me-1"></i>Submit for Review
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .step-item {
+            position: relative;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e9ecef;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-weight: bold;
+        }
+        
+        .step-item.active .step-number {
+            background: #0d6efd;
+            color: white;
+        }
+        
+        .step-item.completed .step-number {
+            background: #198754;
+            color: white;
+        }
+        
+        .image-preview-item {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .image-preview-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .image-preview-item .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(220, 53, 69, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 12px;
+        }
+        
+        .image-preview-item .primary-badge {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: rgba(13, 110, 253, 0.9);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Character counter for description
+            $('#Description').on('input', function() {
+                const length = $(this).val().length;
+                $('#char-count').text(length);
+                
+                if (length > 1800) {
+                    $('#char-count').addClass('text-warning');
+                } else if (length > 1950) {
+                    $('#char-count').addClass('text-danger').removeClass('text-warning');
+                } else {
+                    $('#char-count').removeClass('text-warning text-danger');
+                }
+            });
+
+            // Image preview functionality
+            $('#imageInput').on('change', function() {
+                const files = this.files;
+                const preview = $('#imagePreview');
+                preview.empty();
+
+                if (files.length > 10) {
+                    alert('You can upload maximum 10 images.');
+                    this.value = '';
+                    return;
+                }
+
+                Array.from(files).forEach((file, index) => {
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert(`Image ${file.name} is too large. Maximum size is 5MB.`);
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const col = $(`
+                            <div class="col-md-3 col-sm-4 col-6">
+                                <div class="image-preview-item">
+                                    <img src="${e.target.result}" alt="Preview">
+                                    <button type="button" class="remove-image" onclick="removeImage(this)">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    ${index === 0 ? '<span class="primary-badge">Main Photo</span>' : ''}
+                                </div>
+                            </div>
+                        `);
+                        preview.append(col);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            // Form validation
+            $('#sellItemForm').on('submit', function(e) {
+                if (!$('#termsCheck').is(':checked') || !$('#accurateCheck').is(':checked')) {
+                    e.preventDefault();
+                    alert('Please accept the terms and confirm the accuracy of your listing.');
+                    return false;
+                }
+            });
+
+            // Save as draft functionality
+            $('#saveAsDraft').on('click', function() {
+                // Add draft functionality here
+                alert('Draft functionality will be implemented soon.');
+            });
+        });
+
+        function removeImage(button) {
+            $(button).closest('.col-md-3').remove();
+            // Reset file input to trigger change event
+            const input = document.getElementById('imageInput');
+            input.value = '';
+        }
+    </script>
+    
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

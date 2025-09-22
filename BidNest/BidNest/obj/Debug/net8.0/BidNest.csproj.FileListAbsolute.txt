@@ -1,3 +1,14 @@
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.exe
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.Identity.Client.dll
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.dll
 D:\.net\BidNest\BidNest\BidNest\obj\Debug\net8.0\BidNest.csproj.AssemblyReference.cache
 D:\.net\BidNest\BidNest\BidNest\obj\Debug\net8.0\rpswa.dswa.cache.json
 D:\.net\BidNest\BidNest\BidNest\obj\Debug\net8.0\BidNest.GeneratedMSBuildEditorConfig.editorconfig
@@ -12,7 +23,9 @@ D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\appsettings.Development.json
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\appsettings.json
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.staticwebassets.runtime.json
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.staticwebassets.endpoints.json
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.exe
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.deps.json
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.runtimeconfig.json
+D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.pdb
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Azure.Core.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Azure.Identity.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BCrypt.Net-Next.dll
@@ -34,11 +47,7 @@ D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspac
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.DiaSymReader.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.DotNet.Scaffolding.Shared.dll
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
@@ -46,7 +55,6 @@ D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.Extensions.Dependency
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.Identity.Client.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
@@ -55,7 +63,6 @@ D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.IdentityModel.Protoco
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.NET.StringTools.dll
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\dotnet-aspnet-codegenerator-design.dll
@@ -82,7 +89,6 @@ D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\System.Composition.Convention.d
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\System.Composition.Hosting.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\System.Composition.Runtime.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\System.Composition.TypedParts.dll
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\System.Drawing.Common.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\System.Memory.Data.dll
@@ -231,10 +237,8 @@ D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Works
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
 D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
@@ -255,9 +259,5 @@ D:\.net\BidNest\BidNest\BidNest\obj\Debug\net8.0\BidNest.csproj.Up2Date
 D:\.net\BidNest\BidNest\BidNest\obj\Debug\net8.0\BidNest.dll
 D:\.net\BidNest\BidNest\BidNest\obj\Debug\net8.0\refint\BidNest.dll
 D:\.net\BidNest\BidNest\BidNest\obj\Debug\net8.0\BidNest.pdb
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.deps.json
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.runtimeconfig.json
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.dll
-D:\.net\BidNest\BidNest\BidNest\bin\Debug\net8.0\BidNest.pdb
 D:\.net\BidNest\BidNest\BidNest\obj\Debug\net8.0\BidNest.genruntimeconfig.cache
 D:\.net\BidNest\BidNest\BidNest\obj\Debug\net8.0\ref\BidNest.dll

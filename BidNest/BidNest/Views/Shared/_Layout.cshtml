@@ -10,8 +10,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="~/user/css/home.css" />
     <link rel="stylesheet" href="~/user/css/menu.css" />
+    
+    <style>
+        /* Custom logout button styling */
+        .dropdown-item.border-0.bg-transparent {
+            width: 100%;
+            text-align: left;
+            padding: 0.375rem 1rem;
+            color: #212529;
+            text-decoration: none;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .dropdown-item.border-0.bg-transparent:hover,
+        .dropdown-item.border-0.bg-transparent:focus {
+            color: #1e2125;
+            background-color: #e9ecef;
+        }
+    </style>
     <link rel="stylesheet" href="~/user/css/scrollbar.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <header>
@@ -29,7 +50,20 @@
                             <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")" href="@Url.Action("Index", "Home")">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Auctions" ? "active" : "")" href="@Url.Action("Auctions", "Home")">Auctions</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Auction" ? "active" : "")" href="@Url.Action("Active", "Auction")">Auctions</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle @(ViewContext.RouteData.Values["controller"]?.ToString() == "Search" ? "active" : "")" href="#" role="button" data-bs-toggle="dropdown">
+                                Browse
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="@Url.Action("Index", "Search")"><i class="fas fa-search me-2"></i>Search Items</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Advanced", "Search")"><i class="fas fa-sliders-h me-2"></i>Advanced Search</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Categories", "Search")"><i class="fas fa-th-large me-2"></i>Browse Categories</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Active", "Auction")"><i class="fas fa-clock me-2"></i>Active Auctions</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Ending", "Auction")"><i class="fas fa-hourglass-end me-2"></i>Ending Soon</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")" href="@Url.Action("About", "Home")">About</a>
@@ -38,6 +72,20 @@
                             <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Contact" ? "active" : "")" href="@Url.Action("Contact", "Home")">Contact</a>
                         </li>
                     </ul>
+                    
+                    <!-- Search Bar -->
+                    <form class="d-flex me-3" method="get" action="@Url.Action("Index", "Search")" id="navbar-search">
+                        <div class="position-relative">
+                            <input class="form-control" type="search" name="Query" placeholder="Search auctions..." 
+                                   id="navbar-search-input" autocomplete="off" style="width: 250px;">
+                            <div id="search-suggestions" class="position-absolute bg-white border rounded shadow-sm" 
+                                 style="top: 100%; left: 0; right: 0; z-index: 1000; display: none; max-height: 300px; overflow-y: auto;">
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-light ms-2" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
                     <ul class="navbar-nav">
                         @if (User.Identity?.IsAuthenticated == true)
                         {
@@ -48,16 +96,26 @@
                                 <ul class="dropdown-menu">
                                     @if (User.IsInRole("Admin"))
                                     {
-                                        <li><a class="dropdown-item" href="@Url.Action("Index", "Admin")">Admin Panel</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("Dashboard", "Admin")"><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("PendingApprovals", "Admin")"><i class="fas fa-clock me-2"></i>Pending Approvals</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                     }
-                                    <li><a class="dropdown-item" href="#">My Profile</a></li>
-                                    <li><a class="dropdown-item" href="#">My Bids</a></li>
-                                    <li><a class="dropdown-item" href="#">My Items</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Profile", "Account")"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("MyBids", "Account")"><i class="fas fa-gavel me-2"></i>My Bids</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Watchlist", "Account")"><i class="fas fa-heart me-2"></i>Watchlist</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><h6 class="dropdown-header">Selling</h6></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Dashboard", "Seller")"><i class="fas fa-store me-2"></i>Seller Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Create", "Seller")"><i class="fas fa-plus me-2"></i>Sell an Item</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("MyItems", "Seller")"><i class="fas fa-box me-2"></i>My Listings</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Analytics", "Seller")"><i class="fas fa-chart-line me-2"></i>Sales Analytics</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                                            <button type="submit" class="dropdown-item">Logout</button>
+                                        <form method="post" action="@Url.Action("Logout", "Account")" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="dropdown-item border-0 bg-transparent">
+                                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                            </button>
                                         </form>
                                     </li>
                                 </ul>
@@ -119,6 +177,102 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/user/js/script.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <!-- Search Auto-suggestions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('navbar-search-input');
+            const suggestionsDiv = document.getElementById('search-suggestions');
+            let searchTimeout;
+
+            if (searchInput && suggestionsDiv) {
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.trim();
+                    
+                    clearTimeout(searchTimeout);
+                    
+                    if (query.length < 2) {
+                        suggestionsDiv.style.display = 'none';
+                        return;
+                    }
+                    
+                    searchTimeout = setTimeout(() => {
+                        fetch(`/Search/Quick?q=${encodeURIComponent(query)}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.results && data.results.length > 0) {
+                                    let html = '';
+                                    data.results.forEach(item => {
+                                        html += `
+                                            <div class="p-2 border-bottom search-suggestion-item" style="cursor: pointer;">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-2">
+                                                        ${item.imageUrl ? 
+                                                            `<img src="${item.imageUrl}" alt="${item.title}" style="width: 40px; height: 40px; object-fit: cover;" class="rounded">` :
+                                                            `<div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;"><i class="fas fa-image text-muted"></i></div>`
+                                                        }
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <div class="fw-bold small">${item.title}</div>
+                                                        <div class="text-muted small">$${item.currentPrice.toFixed(2)} • ${item.categoryName || 'No category'}</div>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <small class="text-success">${item.timeRemaining}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+                                    });
+                                    
+                                    if (data.hasMore) {
+                                        html += `
+                                            <div class="p-2 text-center">
+                                                <a href="/Search?Query=${encodeURIComponent(query)}" class="btn btn-sm btn-outline-primary">
+                                                    View all ${data.totalResults} results
+                                                </a>
+                                            </div>
+                                        `;
+                                    }
+                                    
+                                    suggestionsDiv.innerHTML = html;
+                                    suggestionsDiv.style.display = 'block';
+                                    
+                                    // Add click handlers
+                                    suggestionsDiv.querySelectorAll('.search-suggestion-item').forEach(item => {
+                                        item.addEventListener('click', function() {
+                                            const title = this.querySelector('.fw-bold').textContent;
+                                            searchInput.value = title;
+                                            suggestionsDiv.style.display = 'none';
+                                        });
+                                    });
+                                } else {
+                                    suggestionsDiv.style.display = 'none';
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Search error:', error);
+                                suggestionsDiv.style.display = 'none';
+                            });
+                    }, 300);
+                });
+
+                // Hide suggestions when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!searchInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                        suggestionsDiv.style.display = 'none';
+                    }
+                });
+
+                // Show suggestions when focusing on input
+                searchInput.addEventListener('focus', function() {
+                    if (this.value.length >= 2 && suggestionsDiv.innerHTML) {
+                        suggestionsDiv.style.display = 'block';
+                    }
+                });
+            }
+        });
+    </script>
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

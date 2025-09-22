@@ -30,16 +30,10 @@ namespace BidNest.Controllers
             return View(featuredItems);
         }
 
-        public async Task<IActionResult> Auctions()
+        public IActionResult Auctions()
         {
-            var activeItems = await _context.Items
-                .Include(i => i.Category)
-                .Include(i => i.ItemImages)
-                .Where(i => i.Status == "A" && i.EndDate > DateTime.UtcNow)
-                .OrderByDescending(i => i.CreatedAt)
-                .ToListAsync();
-
-            return View(activeItems);
+            // Redirect to the proper auction controller
+            return RedirectToAction("Active", "Auction");
         }
 
         public IActionResult About()

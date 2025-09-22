@@ -162,5 +162,132 @@ namespace BidNest.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> MyBids(int page = 1, int pageSize = 10)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == 0)
+            {
+                return RedirectToAction("Login");
+            }
+
+            try
+            {
+                var totalBids = await _context.Bids
+                    .Where(b => b.BidderId == userId)
+                    .CountAsync();
+
+                var bids = await _context.Bids
+                    .Where(b => b.BidderId == userId)
+                    .Include(b => b.Item)
+                        .ThenInclude(i => i.Category)
+                    .Include(b => b.Item)
+                        .ThenInclude(i => i.ItemImages)
+                    .OrderByDescending(b => b.BidTime)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .Select(b => new MyBidViewModel
+                    {
+                        BidId = b.BidId,
+                        ItemId = b.ItemId,
+                        ItemTitle = b.Item.Title,
+                        ItemImageUrl = b.Item.ItemImages.FirstOrDefault(img => img.IsPrimary) != null 
+                            ? b.Item.ItemImages.FirstOrDefault(img => img.IsPrimary)!.Url 
+                            : b.Item.ItemImages.FirstOrDefault() != null 
+                                ? b.Item.ItemImages.FirstOrDefault()!.Url 
+                                : "",
+                        CategoryName = b.Item.Category != null ? b.Item.Category.Name : "Uncategorized",
+                        MyBidAmount = b.Amount,
+                        CurrentHighestBid = b.Item.CurrentPrice ?? b.Item.MinBid,
+                        MinimumBid = b.Item.MinBid,
+                        BidTime = b.BidTime,
+                        ItemStatus = b.Item.Status,
+                        ItemEndDate = b.Item.EndDate,
+                        IsWinning = b.IsWinning,
+                        IsItemActive = b.Item.Status == "A" && b.Item.EndDate > DateTime.UtcNow
+                    })
+                    .ToListAsync();
+
+                var viewModel = new UserBidsViewModel
+                {
+                    Bids = bids,
+                    CurrentPage = page,
+                    PageSize = pageSize,
+                    TotalBids = totalBids,
+                    TotalPages = (int)Math.Ceiling((double)totalBids / pageSize)
+                };
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Unable to load your bids. Please try again.";
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Profile()
+        {
+            var userId = GetCurrentUserId();
+            if (userId == 0)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var viewModel = new UserProfileViewModel
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email,
+                FullName = user.FullName,
+                JoinDate = user.CreatedAt,
+                Role = user.Role.Name,
+                IsBlocked = user.IsBlocked
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Watchlist(int page = 1, int pageSize = 12)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == 0)
+            {
+                return RedirectToAction("Login");
+            }
+
+            // For now, return empty watchlist - this would need a Watchlist table in the database
+            var viewModel = new WatchlistViewModel
+            {
+                Items = new List<ItemViewModel>(),
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalItems = 0,
+                TotalPages = 0
+            };
+
+            return View(viewModel);
+        }
+
+        private int GetCurrentUserId()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return int.TryParse(userIdClaim, out var userId) ? userId : 0;
+        }
     }
 }

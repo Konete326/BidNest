@@ -11,6 +11,11 @@ builder.Services.AddDbContext<BidnestContext>(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<IAuctionService, AuctionService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
+builder.Services.AddScoped<IItemStatusService, ItemStatusService>();
+builder.Services.AddSignalR();
+builder.Services.AddAuctionTimerService();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -54,5 +59,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// Map SignalR hub
+app.MapHub<BidNest.Services.AuctionHub>("/auctionHub");
 
 app.Run();

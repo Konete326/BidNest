@@ -1,0 +1,134 @@
+@model BidNest.ViewModels.ItemEditViewModel
+@{
+    ViewData["Title"] = "Edit Item";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h2 class="mb-2">Edit Item</h2>
+                <p class="text-muted">Update your auction listing details</p>
+            </div>
+
+            <!-- Main Form -->
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <input type="hidden" asp-for="ItemId">
+
+                <!-- Item Details -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Item Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Name" class="form-label">Item Name *</label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter a descriptive name for your item">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CategoryId" class="form-label">Category *</label>
+                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                                    <option value="">Select a category</option>
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="MinimumBid" class="form-label">Starting Bid *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input asp-for="MinimumBid" class="form-control" placeholder="0.00" step="0.01">
+                                </div>
+                                <span asp-validation-for="MinimumBid" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label asp-for="Description" class="form-label">Description *</label>
+                                <textarea asp-for="Description" class="form-control" rows="6" 
+                                          placeholder="Describe your item in detail..."></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Images -->
+                @if (Model.Images != null && Model.Images.Any())
+                {
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-images me-2"></i>Current Images</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                @foreach (var image in Model.Images)
+                                {
+                                    <div class="col-md-3 col-sm-4 col-6 mb-3">
+                                        <div class="position-relative">
+                                            <img src="@image.ImagePath" alt="Item Image" 
+                                                 class="img-fluid rounded" style="height: 150px; width: 100%; object-fit: cover;">
+                                            @if (image.IsPrimary)
+                                            {
+                                                <span class="position-absolute top-0 start-0 m-1 badge bg-primary">Primary</span>
+                                            }
+                                            <div class="form-check position-absolute bottom-0 end-0 m-1">
+                                                <input class="form-check-input" type="checkbox" 
+                                                       name="ImagesToDelete" value="@image.ImageId" 
+                                                       style="background-color: rgba(255,255,255,0.8);">
+                                                <label class="form-check-label text-white">
+                                                    <small>Delete</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Add New Images -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-camera me-2"></i>Add New Images</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="NewImages" class="form-label">Upload Additional Images</label>
+                            <input asp-for="NewImages" type="file" class="form-control" multiple accept="image/*">
+                            <span asp-validation-for="NewImages" class="text-danger"></span>
+                            <div class="form-text">
+                                Upload additional high-quality images. Supported formats: JPG, PNG, GIF (Max 5MB each)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <a href="@Url.Action("MyItems")" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i>Back to My Items
+                            </a>
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-save me-1"></i>Update Item
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

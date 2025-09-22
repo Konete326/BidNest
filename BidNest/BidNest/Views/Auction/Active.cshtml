@@ -1,0 +1,204 @@
+@model List<BidNest.ViewModels.AuctionStatusViewModel>
+@{
+    ViewData["Title"] = "Active Auctions";
+}
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="bx bx-time"></i> Active Auctions
+                    </h4>
+                    <div>
+                        <a href="@Url.Action("Ending")" class="btn btn-warning btn-sm">
+                            <i class="bx bx-alarm"></i> Ending Soon
+                        </a>
+                        <a href="@Url.Action("Completed")" class="btn btn-outline-secondary btn-sm">
+                            <i class="bx bx-history"></i> Completed
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    @if (Model.Any())
+                    {
+                        <div class="row">
+                            @foreach (var auction in Model)
+                            {
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <div class="card h-100 auction-card">
+                                        @if (!string.IsNullOrEmpty(auction.ItemImageUrl))
+                                        {
+                                            <img src="@auction.ItemImageUrl" class="card-img-top auction-image" alt="@auction.ItemName">
+                                        }
+                                        else
+                                        {
+                                            <div class="card-img-top auction-image bg-light d-flex align-items-center justify-content-center">
+                                                <i class="bx bx-image text-muted" style="font-size: 3rem;"></i>
+                                            </div>
+                                        }
+
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title">@auction.ItemName</h5>
+                                            
+                                            <!-- Auction Status -->
+                                            <div class="mb-3">
+                                                <span class="badge @auction.StatusBadgeClass">@auction.StatusDisplay</span>
+                                                @if (auction.TimeRemaining.TotalHours < 24)
+                                                {
+                                                    <span class="badge bg-warning text-dark ms-1">
+                                                        <i class="bx bx-alarm"></i> Ending Soon
+                                                    </span>
+                                                }
+                                            </div>
+
+                                            <!-- Current Bid Info -->
+                                            <div class="row mb-3">
+                                                <div class="col-6">
+                                                    <small class="text-muted">Current Bid</small>
+                                                    <div class="fw-bold text-success">
+                                                        @if (auction.CurrentHighestBid.HasValue)
+                                                        {
+                                                            <span>$@auction.CurrentHighestBid.Value.ToString("N2")</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-muted">$@auction.MinimumBid.ToString("N2")</span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <small class="text-muted">Bids</small>
+                                                    <div class="fw-bold">@auction.TotalBids</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Time Remaining -->
+                                            <div class="mb-3">
+                                                <small class="text-muted">Time Remaining</small>
+                                                <div class="fw-bold text-warning auction-timer" data-end-time="@auction.EndTime.ToString("yyyy-MM-ddTHH:mm:ssZ")">
+                                                    @auction.TimeRemainingDisplay
+                                                </div>
+                                            </div>
+
+                                            <!-- Current Winner -->
+                                            @if (!string.IsNullOrEmpty(auction.CurrentWinnerName))
+                                            {
+                                                <div class="mb-3">
+                                                    <small class="text-muted">Current Leader</small>
+                                                    <div class="fw-medium">
+                                                        <i class="bx bx-crown text-warning"></i> @auction.CurrentWinnerName
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            <!-- Action Buttons -->
+                                            <div class="mt-auto">
+                                                <div class="d-grid gap-2">
+                                                    <a href="@Url.Action("Details", new { id = auction.ItemId })" class="btn btn-primary">
+                                                        <i class="bx bx-show"></i> View Details
+                                                    </a>
+                                                    @if (User.Identity?.IsAuthenticated == true)
+                                                    {
+                                                        <a href="@Url.Action("Bid", new { id = auction.ItemId })" class="btn btn-success">
+                                                            <i class="bx bx-gavel"></i> Place Bid
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action("Login", "Account")" class="btn btn-outline-success">
+                                                            <i class="bx bx-user"></i> Login to Bid
+                                                        </a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="bx bx-time display-1 text-muted"></i>
+                            <h5 class="mt-3 text-muted">No Active Auctions</h5>
+                            <p class="text-muted">There are currently no active auctions. Check back later!</p>
+                            <a href="@Url.Action("Completed")" class="btn btn-outline-primary">
+                                <i class="bx bx-history"></i> View Completed Auctions
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Update all auction timers
+        function updateAllTimers() {
+            document.querySelectorAll('.auction-timer').forEach(timer => {
+                const endTime = new Date(timer.getAttribute('data-end-time'));
+                const now = new Date();
+                const timeLeft = endTime - now;
+                
+                if (timeLeft <= 0) {
+                    timer.innerHTML = '<span class="text-danger">Ended</span>';
+                    timer.closest('.auction-card').classList.add('opacity-75');
+                    return;
+                }
+
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                let display = '';
+                if (days > 0) display += `${days}d `;
+                if (hours > 0) display += `${hours}h `;
+                display += `${minutes}m ${seconds}s`;
+
+                timer.textContent = display;
+                
+                // Add urgency styling for auctions ending soon
+                if (timeLeft < 3600000) { // Less than 1 hour
+                    timer.classList.add('text-danger');
+                } else if (timeLeft < 86400000) { // Less than 24 hours
+                    timer.classList.add('text-warning');
+                }
+            });
+        }
+
+        // Update timers every second
+        setInterval(updateAllTimers, 1000);
+        
+        // Initial update
+        updateAllTimers();
+    </script>
+}
+
+@section Styles {
+    <style>
+        .auction-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .auction-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .auction-image {
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .badge {
+            font-size: 0.75em;
+        }
+    </style>
+}

@@ -9,5 +9,9 @@ namespace BidNest.Services
         string GetImageUrl(string imagePath);
         bool IsValidImageFile(IFormFile file);
         Task<string> ResizeImageAsync(string imagePath, int maxWidth = 800, int maxHeight = 600);
+        
+        // Item-specific image methods
+        Task<List<(bool Success, string Message)>> SaveItemImagesAsync(int itemId, List<IFormFile> images);
+        Task<bool> DeleteItemImagesAsync(List<int> imageIds);
     }
 }

@@ -1,0 +1,226 @@
+@model BidNest.ViewModels.SearchViewModel
+@{
+    ViewData["Title"] = "Advanced Search";
+}
+
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-search-plus me-2"></i>Advanced Search
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Advanced" method="post">
+                        <div class="row">
+                            <!-- Keywords -->
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label fw-bold">Keywords</label>
+                                <input asp-for="Query" class="form-control" placeholder="Search in title and description...">
+                                <div class="form-text">Search for specific words in item titles and descriptions</div>
+                            </div>
+
+                            <!-- Category -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Category</label>
+                                <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories">
+                                </select>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Auction Status</label>
+                                <select asp-for="Status" class="form-select" asp-items="Model.StatusOptions">
+                                </select>
+                            </div>
+
+                            <!-- Price Range -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Minimum Price</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input asp-for="MinPrice" class="form-control" placeholder="0.00" step="0.01">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Maximum Price</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input asp-for="MaxPrice" class="form-control" placeholder="No limit" step="0.01">
+                                </div>
+                            </div>
+
+                            <!-- Date Ranges -->
+                            <div class="col-12 mb-3">
+                                <h6 class="fw-bold text-primary">Date Filters</h6>
+                                <hr>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Auction Start Date</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input asp-for="StartDateFrom" type="date" class="form-control" placeholder="From">
+                                        <div class="form-text">From</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <input asp-for="StartDateTo" type="date" class="form-control" placeholder="To">
+                                        <div class="form-text">To</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Auction End Date</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input asp-for="EndDateFrom" type="date" class="form-control" placeholder="From">
+                                        <div class="form-text">From</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <input asp-for="EndDateTo" type="date" class="form-control" placeholder="To">
+                                        <div class="form-text">To</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Filters -->
+                            <div class="col-12 mb-3">
+                                <h6 class="fw-bold text-primary">Additional Filters</h6>
+                                <hr>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    <input asp-for="HasBids" class="form-check-input" value="true">
+                                    <label class="form-check-label fw-bold">
+                                        Items with bids only
+                                    </label>
+                                    <div class="form-text">Show only items that have received at least one bid</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Location</label>
+                                <input asp-for="Location" class="form-control" placeholder="City, State, or Country">
+                                <div class="form-text">Filter by seller location</div>
+                            </div>
+
+                            <!-- Sort Options -->
+                            <div class="col-12 mb-3">
+                                <h6 class="fw-bold text-primary">Sort Results</h6>
+                                <hr>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Sort By</label>
+                                <select asp-for="SortBy" class="form-select" asp-items="Model.SortOptions">
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Sort Order</label>
+                                <select asp-for="SortOrder" class="form-select">
+                                    <option value="asc">Ascending</option>
+                                    <option value="desc">Descending</option>
+                                </select>
+                            </div>
+
+                            <!-- Results Per Page -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Results Per Page</label>
+                                <select asp-for="PageSize" class="form-select">
+                                    <option value="6">6 items</option>
+                                    <option value="12" selected>12 items</option>
+                                    <option value="24">24 items</option>
+                                    <option value="48">48 items</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fas fa-search me-2"></i>Search Items
+                                        </button>
+                                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary btn-lg ms-2">
+                                            <i class="fas fa-times me-2"></i>Clear All
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a href="@Url.Action("Index")" class="btn btn-link">
+                                            <i class="fas fa-arrow-left me-1"></i>Back to Simple Search
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Search Tips -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>Search Tips
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold">Keyword Search</h6>
+                            <ul class="small text-muted">
+                                <li>Use specific terms for better results</li>
+                                <li>Search looks in both title and description</li>
+                                <li>Multiple words will find items containing all words</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold">Price & Date Filters</h6>
+                            <ul class="small text-muted">
+                                <li>Leave price fields empty for no limit</li>
+                                <li>Date ranges help find auctions in specific periods</li>
+                                <li>Combine filters for more precise results</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-submit form when certain fields change
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default values
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Add some interactivity
+            const minPriceInput = document.querySelector('input[name="MinPrice"]');
+            const maxPriceInput = document.querySelector('input[name="MaxPrice"]');
+            
+            if (minPriceInput && maxPriceInput) {
+                minPriceInput.addEventListener('change', function() {
+                    if (this.value && maxPriceInput.value && parseFloat(this.value) > parseFloat(maxPriceInput.value)) {
+                        maxPriceInput.value = this.value;
+                    }
+                });
+                
+                maxPriceInput.addEventListener('change', function() {
+                    if (this.value && minPriceInput.value && parseFloat(this.value) < parseFloat(minPriceInput.value)) {
+                        minPriceInput.value = this.value;
+                    }
+                });
+            }
+        });
+    </script>
+}

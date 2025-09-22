@@ -124,42 +124,75 @@ namespace BidNest.Services
 
         public async Task<Item> UpdateItemAsync(ItemEditViewModel model)
         {
+            Console.WriteLine($"=== UpdateItemAsync called for ItemId: {model.ItemId} ===");
+            
             var item = await _context.Items.FindAsync(model.ItemId);
             if (item == null)
                 throw new ArgumentException("Item not found");
 
+            Console.WriteLine($"Found item: {item.Title} (Current Status: {item.Status})");
+
+            // Update basic properties that exist in the database
+            var oldTitle = item.Title;
+            var oldStatus = item.Status;
+            
             item.Title = model.Name;
             item.Description = model.Description;
             item.CategoryId = model.CategoryId;
             item.MinBid = model.MinimumBid;
 
+            Console.WriteLine($"Updated Title: {oldTitle} -> {item.Title}");
+            Console.WriteLine($"Updated MinBid: {item.MinBid}");
+
             // Handle status change
             if (!string.IsNullOrEmpty(model.NewStatus) && model.NewStatus != item.Status)
             {
                 item.Status = model.NewStatus;
+                Console.WriteLine($"Status changed: {oldStatus} -> {item.Status}");
             }
 
             // Handle auction extension
             if (model.ExtendDays.HasValue && model.ExtendDays > 0)
             {
+                var oldEndDate = item.EndDate;
                 item.EndDate = item.EndDate.AddDays(model.ExtendDays.Value);
+                Console.WriteLine($"Extended auction: {oldEndDate} -> {item.EndDate}");
             }
 
-            await _context.SaveChangesAsync();
+            // Note: BuyNowPrice, IsFeatured, and UpdatedAt are not in the current database schema
+            // These properties are ignored during update
 
-            // Handle image management
+            Console.WriteLine("Saving changes to database...");
+            await _context.SaveChangesAsync();
+            Console.WriteLine("Changes saved successfully!");
+
+            // Handle image management (do not break main update flow)
             if (model.ImagesToDelete != null && model.ImagesToDelete.Any())
             {
                 foreach (var imageId in model.ImagesToDelete)
                 {
-                    await RemoveItemImageAsync(model.ItemId, imageId);
+                    try
+                    {
+                        await RemoveItemImageAsync(model.ItemId, imageId);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to remove image {ImageId} for item {ItemId}", imageId, model.ItemId);
+                    }
                 }
             }
 
             if (model.NewImages != null && model.NewImages.Any())
             {
-                var imagePaths = await _imageService.UploadImagesAsync(model.NewImages);
-                await AddItemImagesAsync(model.ItemId, imagePaths);
+                try
+                {
+                    var imagePaths = await _imageService.UploadImagesAsync(model.NewImages);
+                    await AddItemImagesAsync(model.ItemId, imagePaths);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to add new images for item {ItemId}", model.ItemId);
+                }
             }
 
             return item;
@@ -363,15 +396,16 @@ namespace BidNest.Services
             return result;
         }
 
-        public async Task<List<ItemViewModel>> GetFeaturedItemsAsync(int count = 8)
+        public async Task<List<ItemViewModel>> GetFeaturedItemsAsync(int count = 6)
         {
             var items = await _context.Items
+                .Where(i => i.Status == "A" && i.EndDate > DateTime.UtcNow)
+                .OrderByDescending(i => i.CreatedAt)
+                .Take(count)
                 .Include(i => i.Category)
                 .Include(i => i.Seller)
                 .Include(i => i.ItemImages)
-                .Where(i => i.Status == "A")
-                .OrderByDescending(i => i.CreatedAt)
-                .Take(count)
+                .Include(i => i.Bids)
                 .ToListAsync();
 
             var result = new List<ItemViewModel>();
@@ -380,7 +414,6 @@ namespace BidNest.Services
                 var viewModel = await MapToViewModelAsync(item);
                 result.Add(viewModel);
             }
-
             return result;
         }
 
@@ -444,17 +477,17 @@ namespace BidNest.Services
                 CategoryId = item.CategoryId ?? 0,
                 CategoryName = item.Category?.Name,
                 MinimumBid = item.MinBid,
-                BuyNowPrice = null, // Not in current schema
+                BuyNowPrice = null, // Not in current database schema - will be ignored
                 StartDate = item.StartDate,
                 EndDate = item.EndDate,
                 Status = item.Status,
-                IsFeatured = false, // Not in current schema
+                IsFeatured = false, // Not in current database schema - will be ignored
                 SellerId = item.SellerId,
                 SellerName = item.Seller?.FullName,
                 CurrentBid = currentBid > 0 ? currentBid : null,
                 BidCount = bidCount,
                 CreatedAt = item.CreatedAt,
-                UpdatedAt = null, // Not in current schema
+                UpdatedAt = null, // Not in current database schema - will be ignored
                 Images = item.ItemImages?.Select(img => new ItemImageViewModel
                 {
                     ImageId = img.ImageId,
@@ -464,6 +497,246 @@ namespace BidNest.Services
                     CreatedAt = img.CreatedAt
                 }).ToList() ?? new List<ItemImageViewModel>()
             };
+        }
+
+        // Seller-specific methods
+        public async Task<List<ItemViewModel>> GetSellerActiveItemsAsync(int sellerId)
+        {
+            var items = await _context.Items
+                .Where(i => i.SellerId == sellerId && i.Status == "A")
+                .Include(i => i.Category)
+                .Include(i => i.Seller)
+                .Include(i => i.ItemImages)
+                .Include(i => i.Bids)
+                .OrderByDescending(i => i.CreatedAt)
+                .ToListAsync();
+
+            var result = new List<ItemViewModel>();
+            foreach (var item in items)
+            {
+                var viewModel = await MapToViewModelAsync(item);
+                result.Add(viewModel);
+            }
+            return result;
+        }
+
+        public async Task<List<ItemViewModel>> GetSellerPendingItemsAsync(int sellerId)
+        {
+            var items = await _context.Items
+                .Where(i => i.SellerId == sellerId && i.Status == "P")
+                .Include(i => i.Category)
+                .Include(i => i.Seller)
+                .Include(i => i.ItemImages)
+                .Include(i => i.Bids)
+                .OrderByDescending(i => i.CreatedAt)
+                .ToListAsync();
+
+            var result = new List<ItemViewModel>();
+            foreach (var item in items)
+            {
+                var viewModel = await MapToViewModelAsync(item);
+                result.Add(viewModel);
+            }
+            return result;
+        }
+
+        public async Task<List<ItemViewModel>> GetSellerSoldItemsAsync(int sellerId)
+        {
+            var items = await _context.Items
+                .Where(i => i.SellerId == sellerId && i.Status == "S")
+                .Include(i => i.Category)
+                .Include(i => i.Seller)
+                .Include(i => i.ItemImages)
+                .Include(i => i.Bids)
+                .OrderByDescending(i => i.EndDate)
+                .ToListAsync();
+
+            var result = new List<ItemViewModel>();
+            foreach (var item in items)
+            {
+                var viewModel = await MapToViewModelAsync(item);
+                result.Add(viewModel);
+            }
+            return result;
+        }
+
+        public async Task<decimal> GetSellerTotalEarningsAsync(int sellerId)
+        {
+            return await _context.Items
+                .Where(i => i.SellerId == sellerId && i.Status == "S" && i.CurrentPrice.HasValue)
+                .SumAsync(i => i.CurrentPrice.Value);
+        }
+
+        public async Task<List<SellerBidViewModel>> GetSellerRecentBidsAsync(int sellerId, int count)
+        {
+            var bids = await _context.Bids
+                .Where(b => b.Item.SellerId == sellerId)
+                .Include(b => b.Item)
+                .ThenInclude(i => i.ItemImages)
+                .Include(b => b.Bidder)
+                .OrderByDescending(b => b.BidTime)
+                .Take(count)
+                .Select(b => new SellerBidViewModel
+                {
+                    BidId = b.BidId,
+                    ItemId = b.ItemId,
+                    ItemTitle = b.Item.Title,
+                    BidderId = b.BidderId,
+                    BidderName = b.Bidder.FullName,
+                    Amount = b.Amount,
+                    BidTime = b.BidTime,
+                    IsWinning = b.Item.CurrentBidId == b.BidId,
+                    ItemImageUrl = b.Item.ItemImages.FirstOrDefault(img => img.IsPrimary) != null
+                        ? b.Item.ItemImages.FirstOrDefault(img => img.IsPrimary)!.Url
+                        : b.Item.ItemImages.FirstOrDefault() != null
+                            ? b.Item.ItemImages.FirstOrDefault()!.Url
+                            : ""
+                })
+                .ToListAsync();
+
+            return bids;
+        }
+
+        public async Task<List<ItemViewModel>> GetSellerItemsAsync(int sellerId, string status, int page, int pageSize)
+        {
+            var query = _context.Items
+                .Where(i => i.SellerId == sellerId)
+                .Include(i => i.Category)
+                .Include(i => i.Seller)
+                .Include(i => i.ItemImages)
+                .Include(i => i.Bids)
+                .AsQueryable();
+
+            if (status != "all")
+            {
+                query = status switch
+                {
+                    "active" => query.Where(i => i.Status == "A"),
+                    "pending" => query.Where(i => i.Status == "P"),
+                    "sold" => query.Where(i => i.Status == "S"),
+                    "expired" => query.Where(i => i.Status == "E"),
+                    _ => query
+                };
+            }
+
+            var items = await query
+                .OrderByDescending(i => i.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var result = new List<ItemViewModel>();
+            foreach (var item in items)
+            {
+                var viewModel = await MapToViewModelAsync(item);
+                result.Add(viewModel);
+            }
+            return result;
+        }
+
+        public async Task<int> GetSellerItemsCountAsync(int sellerId, string status)
+        {
+            var query = _context.Items.Where(i => i.SellerId == sellerId);
+
+            if (status != "all")
+            {
+                query = status switch
+                {
+                    "active" => query.Where(i => i.Status == "A"),
+                    "pending" => query.Where(i => i.Status == "P"),
+                    "sold" => query.Where(i => i.Status == "S"),
+                    "expired" => query.Where(i => i.Status == "E"),
+                    _ => query
+                };
+            }
+
+            return await query.CountAsync();
+        }
+
+        public async Task<int> GetSellerTotalListingsAsync(int sellerId)
+        {
+            return await _context.Items.CountAsync(i => i.SellerId == sellerId);
+        }
+
+        public async Task<int> GetSellerActiveListingsCountAsync(int sellerId)
+        {
+            return await _context.Items.CountAsync(i => i.SellerId == sellerId && i.Status == "A");
+        }
+
+        public async Task<int> GetSellerSoldItemsCountAsync(int sellerId)
+        {
+            return await _context.Items.CountAsync(i => i.SellerId == sellerId && i.Status == "S");
+        }
+
+        public async Task<decimal> GetSellerAverageSellingPriceAsync(int sellerId)
+        {
+            var soldItems = await _context.Items
+                .Where(i => i.SellerId == sellerId && i.Status == "S" && i.CurrentPrice.HasValue)
+                .ToListAsync();
+
+            return soldItems.Any() ? soldItems.Average(i => i.CurrentPrice.Value) : 0;
+        }
+
+        public async Task<List<MonthlyEarningsViewModel>> GetSellerMonthlyEarningsAsync(int sellerId, int months)
+        {
+            var startDate = DateTime.UtcNow.AddMonths(-months);
+            
+            var earnings = await _context.Items
+                .Where(i => i.SellerId == sellerId && i.Status == "S" && i.EndDate >= startDate && i.CurrentPrice.HasValue)
+                .GroupBy(i => new { i.EndDate.Year, i.EndDate.Month })
+                .Select(g => new MonthlyEarningsViewModel
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    Earnings = g.Sum(i => i.CurrentPrice.Value),
+                    ItemsSold = g.Count()
+                })
+                .OrderBy(e => e.Year)
+                .ThenBy(e => e.Month)
+                .ToListAsync();
+
+            return earnings;
+        }
+
+        public async Task<List<CategoryStatsViewModel>> GetSellerTopCategoriesAsync(int sellerId, int count)
+        {
+            var categories = await _context.Items
+                .Where(i => i.SellerId == sellerId && i.CategoryId.HasValue)
+                .Include(i => i.Category)
+                .GroupBy(i => new { i.CategoryId, i.Category!.Name })
+                .Select(g => new CategoryStatsViewModel
+                {
+                    CategoryId = g.Key.CategoryId!.Value,
+                    CategoryName = g.Key.Name,
+                    ItemCount = g.Count(),
+                    AveragePrice = g.Where(i => i.CurrentPrice.HasValue).Average(i => i.CurrentPrice.Value)
+                })
+                .OrderByDescending(c => c.ItemCount)
+                .Take(count)
+                .ToListAsync();
+
+            return categories;
+        }
+
+        public async Task<List<ItemViewModel>> GetSellerRecentSalesAsync(int sellerId, int count)
+        {
+            var items = await _context.Items
+                .Where(i => i.SellerId == sellerId && i.Status == "S")
+                .Include(i => i.Category)
+                .Include(i => i.Seller)
+                .Include(i => i.ItemImages)
+                .Include(i => i.Bids)
+                .OrderByDescending(i => i.EndDate)
+                .Take(count)
+                .ToListAsync();
+
+            var result = new List<ItemViewModel>();
+            foreach (var item in items)
+            {
+                var viewModel = await MapToViewModelAsync(item);
+                result.Add(viewModel);
+            }
+            return result;
         }
     }
 }

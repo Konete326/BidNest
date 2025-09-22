@@ -1,16 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace BidNest.Services
 {
     public class ImageService : IImageService
     {
         private readonly IWebHostEnvironment _environment;
         private readonly ILogger<ImageService> _logger;
+        private readonly BidNest.Models.BidnestContext _context;
         private readonly string[] _allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
         private readonly long _maxFileSize = 5 * 1024 * 1024; // 5MB
 
-        public ImageService(IWebHostEnvironment environment, ILogger<ImageService> logger)
+        public ImageService(IWebHostEnvironment environment, ILogger<ImageService> logger, BidNest.Models.BidnestContext context)
         {
             _environment = environment;
             _logger = logger;
+            _context = context;
         }
 
         public async Task<string> UploadImageAsync(IFormFile file, string folder = "items")
@@ -139,6 +143,90 @@ namespace BidNest.Services
             // In a production app, you'd implement image resizing using ImageSharp or similar
             await Task.CompletedTask;
             return imagePath;
+        }
+
+        public async Task<List<(bool Success, string Message)>> SaveItemImagesAsync(int itemId, List<IFormFile> images)
+        {
+            var results = new List<(bool Success, string Message)>();
+            
+            try
+            {
+                // Use injected context
+                bool isFirstImage = true;
+
+                foreach (var image in images)
+                {
+                    if (!IsValidImageFile(image))
+                    {
+                        results.Add((false, $"Invalid image file: {image.FileName}"));
+                        continue;
+                    }
+
+                    try
+                    {
+                        var imagePath = await UploadImageAsync(image, "items");
+                        
+                        // Save to database
+                        var itemImage = new BidNest.Models.ItemImage
+                        {
+                            ItemId = itemId,
+                            Url = imagePath,
+                            IsPrimary = isFirstImage, // First image is primary
+                            CreatedAt = DateTime.UtcNow
+                        };
+
+                        _context.ItemImages.Add(itemImage);
+                        isFirstImage = false; // Only first image is primary
+                        
+                        results.Add((true, $"Successfully uploaded: {image.FileName}"));
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error uploading image {FileName}", image.FileName);
+                        results.Add((false, $"Error uploading {image.FileName}: {ex.Message}"));
+                    }
+                }
+
+                if (results.Any(r => r.Success))
+                {
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in SaveItemImagesAsync");
+                results.Add((false, $"General error: {ex.Message}"));
+            }
+
+            return results;
+        }
+
+        public async Task<bool> DeleteItemImagesAsync(List<int> imageIds)
+        {
+            try
+            {
+                // Get the images to delete
+                var imagesToDelete = await _context.ItemImages
+                    .Where(img => imageIds.Contains(img.ImageId))
+                    .ToListAsync();
+
+                foreach (var image in imagesToDelete)
+                {
+                    // Delete physical file
+                    await DeleteImageAsync(image.Url);
+                    
+                    // Remove from database
+                    _context.ItemImages.Remove(image);
+                }
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting item images");
+                return false;
+            }
         }
     }
 }

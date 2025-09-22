@@ -1,0 +1,378 @@
+@model BidNest.ViewModels.SearchViewModel
+@{
+    ViewData["Title"] = "Search Results";
+    var hasResults = Model.Results.Any();
+    var categoryName = ViewBag.CategoryName as string;
+}
+
+<div class="container my-4">
+    <!-- Search Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">
+                        @if (!string.IsNullOrEmpty(categoryName))
+                        {
+                            <span>@categoryName</span>
+                        }
+                        else
+                        {
+                            <span>Search Results</span>
+                        }
+                    </h2>
+                    <p class="text-muted mb-0">
+                        @if (Model.TotalResults > 0)
+                        {
+                            <span>@Model.TotalResults.ToString("N0") items found</span>
+                            @if (Model.HasFilters)
+                            {
+                                <span> for "@Model.SearchSummary"</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>No items found</span>
+                            @if (Model.HasFilters)
+                            {
+                                <span> matching your criteria</span>
+                            }
+                        }
+                    </p>
+                </div>
+                <div>
+                    <a href="@Url.Action("Advanced")" class="btn btn-outline-primary">
+                        <i class="fas fa-sliders-h"></i> Advanced Search
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Filters Sidebar -->
+        <div class="col-lg-3 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter me-2"></i>Filters
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" id="search-form">
+                        <!-- Keyword Search -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Keywords</label>
+                            <input type="text" name="Query" class="form-control" value="@Model.Query" 
+                                   placeholder="Search items...">
+                        </div>
+
+                        <!-- Category Filter -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Category</label>
+                            <select name="CategoryId" class="form-select">
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category.Value" selected="@category.Selected">@category.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Price Range</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="number" name="MinPrice" class="form-control" 
+                                           value="@Model.MinPrice" placeholder="Min $" step="0.01">
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" name="MaxPrice" class="form-control" 
+                                           value="@Model.MaxPrice" placeholder="Max $" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status Filter -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Status</label>
+                            <select name="Status" class="form-select">
+                                @foreach (var status in Model.StatusOptions)
+                                {
+                                    <option value="@status.Value" selected="@status.Selected">@status.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Has Bids Filter -->
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" name="HasBids" value="true" class="form-check-input" 
+                                       @(Model.HasBids == true ? "checked" : "")>
+                                <label class="form-check-label">Items with bids only</label>
+                            </div>
+                        </div>
+
+                        <!-- Hidden fields for pagination -->
+                        <input type="hidden" name="Page" value="1">
+                        <input type="hidden" name="SortBy" value="@Model.SortBy">
+                        <input type="hidden" name="SortOrder" value="@Model.SortOrder">
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                                <i class="fas fa-times"></i> Clear All
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Search Statistics -->
+            @if (hasResults)
+            {
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h6 class="mb-0">Search Statistics</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6 mb-2">
+                                <div class="fw-bold text-primary">@Model.Stats.ActiveAuctions</div>
+                                <small class="text-muted">Active</small>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <div class="fw-bold text-warning">@Model.Stats.EndingSoon</div>
+                                <small class="text-muted">Ending Soon</small>
+                            </div>
+                            @if (Model.Stats.TotalBids > 0)
+                            {
+                                <div class="col-6">
+                                    <div class="fw-bold text-success">$@Model.Stats.AverageBid.ToString("N0")</div>
+                                    <small class="text-muted">Avg Bid</small>
+                                </div>
+                                <div class="col-6">
+                                    <div class="fw-bold text-info">@Model.Stats.TotalBids</div>
+                                    <small class="text-muted">Total Bids</small>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Search Results -->
+        <div class="col-lg-9">
+            @if (hasResults)
+            {
+                <!-- Sort and View Options -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        <span class="me-3">Sort by:</span>
+                        <form method="get" class="d-flex align-items-center" id="sort-form">
+                            <!-- Preserve all current search parameters -->
+                            <input type="hidden" name="Query" value="@Model.Query">
+                            <input type="hidden" name="CategoryId" value="@Model.CategoryId">
+                            <input type="hidden" name="MinPrice" value="@Model.MinPrice">
+                            <input type="hidden" name="MaxPrice" value="@Model.MaxPrice">
+                            <input type="hidden" name="Status" value="@Model.Status">
+                            <input type="hidden" name="HasBids" value="@Model.HasBids">
+                            <input type="hidden" name="Page" value="1">
+
+                            <select name="SortBy" class="form-select form-select-sm me-2" style="width: auto;" onchange="this.form.submit()">
+                                @foreach (var sort in Model.SortOptions)
+                                {
+                                    <option value="@sort.Value" selected="@sort.Selected">@sort.Text</option>
+                                }
+                            </select>
+                            <select name="SortOrder" class="form-select form-select-sm" style="width: auto;" onchange="this.form.submit()">
+                                <option value="asc" selected="@(Model.SortOrder == "asc")">Ascending</option>
+                                <option value="desc" selected="@(Model.SortOrder == "desc")">Descending</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="text-muted">
+                        Showing @((Model.Page - 1) * Model.PageSize + 1) - @Math.Min(Model.Page * Model.PageSize, Model.TotalResults) 
+                        of @Model.TotalResults results
+                    </div>
+                </div>
+
+                <!-- Results Grid -->
+                <div class="row">
+                    @foreach (var item in Model.Results)
+                    {
+                        <div class="col-md-6 col-xl-4 mb-4">
+                            <div class="card h-100 auction-card">
+                                <div class="position-relative">
+                                    @if (!string.IsNullOrEmpty(item.PrimaryImageUrl))
+                                    {
+                                        <img src="@item.PrimaryImageUrl" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                                    }
+                                    else
+                                    {
+                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                            <i class="fas fa-image fa-3x text-muted"></i>
+                                        </div>
+                                    }
+                                    
+                                    <!-- Status Badge -->
+                                    <span class="badge @item.StatusBadgeClass position-absolute top-0 end-0 m-2">
+                                        @item.StatusDisplay
+                                    </span>
+                                    
+                                    <!-- Category Badge -->
+                                    @if (!string.IsNullOrEmpty(item.CategoryName))
+                                    {
+                                        <span class="badge bg-secondary position-absolute top-0 start-0 m-2">
+                                            @item.CategoryName
+                                        </span>
+                                    }
+                                </div>
+                                
+                                <div class="card-body d-flex flex-column">
+                                    <h6 class="card-title">
+                                        <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
+                                           class="text-decoration-none text-dark">
+                                            @item.Title
+                                        </a>
+                                    </h6>
+                                    
+                                    <p class="card-text text-muted small flex-grow-1">
+                                        @(item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)
+                                    </p>
+                                    
+                                    <div class="mt-auto">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div>
+                                                <div class="fw-bold text-primary fs-5">$@item.CurrentPrice.ToString("N2")</div>
+                                                <small class="text-muted">@item.BidCount bid(s)</small>
+                                            </div>
+                                            <div class="text-end">
+                                                <div class="fw-bold @(item.IsEnding ? "text-warning" : "text-success")">
+                                                    @item.TimeRemainingDisplay
+                                                </div>
+                                                <small class="text-muted">remaining</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-grid">
+                                            @if (item.IsActive)
+                                            {
+                                                <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
+                                                   class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-gavel"></i> Bid Now
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
+                                                   class="btn btn-outline-secondary btn-sm">
+                                                    <i class="fas fa-eye"></i> View Details
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Pagination -->
+                @if (Model.TotalPages > 1)
+                {
+                    <nav aria-label="Search results pagination" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            @if (Model.Page > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", new { 
+                                        Query = Model.Query, CategoryId = Model.CategoryId, MinPrice = Model.MinPrice, 
+                                        MaxPrice = Model.MaxPrice, Status = Model.Status, HasBids = Model.HasBids,
+                                        SortBy = Model.SortBy, SortOrder = Model.SortOrder, Page = Model.Page - 1 })">
+                                        Previous
+                                    </a>
+                                </li>
+                            }
+
+                            @for (int i = Math.Max(1, Model.Page - 2); i <= Math.Min(Model.TotalPages, Model.Page + 2); i++)
+                            {
+                                <li class="page-item @(i == Model.Page ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Index", new { 
+                                        Query = Model.Query, CategoryId = Model.CategoryId, MinPrice = Model.MinPrice, 
+                                        MaxPrice = Model.MaxPrice, Status = Model.Status, HasBids = Model.HasBids,
+                                        SortBy = Model.SortBy, SortOrder = Model.SortOrder, Page = i })">
+                                        @i
+                                    </a>
+                                </li>
+                            }
+
+                            @if (Model.Page < Model.TotalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", new { 
+                                        Query = Model.Query, CategoryId = Model.CategoryId, MinPrice = Model.MinPrice, 
+                                        MaxPrice = Model.MaxPrice, Status = Model.Status, HasBids = Model.HasBids,
+                                        SortBy = Model.SortBy, SortOrder = Model.SortOrder, Page = Model.Page + 1 })">
+                                        Next
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                }
+            }
+            else
+            {
+                <!-- No Results -->
+                <div class="text-center py-5">
+                    <i class="fas fa-search fa-4x text-muted mb-3"></i>
+                    <h4 class="text-muted">No items found</h4>
+                    @if (Model.HasFilters)
+                    {
+                        <p class="text-muted mb-4">Try adjusting your search criteria or browse all categories.</p>
+                        <div>
+                            <a href="@Url.Action("Index")" class="btn btn-primary me-2">
+                                <i class="fas fa-times"></i> Clear Filters
+                            </a>
+                            <a href="@Url.Action("Categories")" class="btn btn-outline-primary">
+                                <i class="fas fa-th-large"></i> Browse Categories
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-4">There are currently no active auctions.</p>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
+                            <i class="fas fa-home"></i> Go Home
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .auction-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .auction-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .card-img-top {
+            transition: opacity 0.2s;
+        }
+        
+        .auction-card:hover .card-img-top {
+            opacity: 0.9;
+        }
+    </style>
+}

@@ -1,0 +1,182 @@
+@model BidNest.ViewModels.PlaceBidViewModel
+@{
+    ViewData["Title"] = "Place Bid - " + Model.ItemName;
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bx bx-gavel"></i> Place Your Bid
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @if (!Model.IsAuctionActive)
+                    {
+                        <div class="alert alert-warning">
+                            <i class="bx bx-info-circle"></i> This auction has ended.
+                        </div>
+                        <a href="@Url.Action("Details", new { id = Model.ItemId })" class="btn btn-secondary">
+                            Back to Item
+                        </a>
+                        return;
+                    }
+
+                    <!-- Item Summary -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            @if (!string.IsNullOrEmpty(Model.ItemImageUrl))
+                            {
+                                <img src="@Model.ItemImageUrl" class="img-fluid rounded" alt="@Model.ItemName">
+                            }
+                            else
+                            {
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                    <i class="bx bx-image text-muted" style="font-size: 3rem;"></i>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-8">
+                            <h5>@Model.ItemName</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Current Bid:</strong><br>
+                                    <span class="text-success fs-4">
+                                        @if (Model.CurrentHighestBid > 0)
+                                        {
+                                            <span>$@Model.CurrentHighestBid.ToString("N2")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No bids yet</span>
+                                        }
+                                    </span>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Time Remaining:</strong><br>
+                                    <span class="text-warning fs-5" id="time-remaining">
+                                        @if (Model.TimeRemaining.TotalDays >= 1)
+                                        {
+                                            <span>@((int)Model.TimeRemaining.TotalDays)d @Model.TimeRemaining.Hours h @Model.TimeRemaining.Minutes m</span>
+                                        }
+                                        else if (Model.TimeRemaining.TotalHours >= 1)
+                                        {
+                                            <span>@Model.TimeRemaining.Hours h @Model.TimeRemaining.Minutes m</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@Model.TimeRemaining.Minutes m @Model.TimeRemaining.Seconds s</span>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bid Form -->
+                    <form asp-action="Bid" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <input asp-for="ItemId" type="hidden">
+
+                        <div class="mb-4">
+                            <label asp-for="BidAmount" class="form-label">Your Bid Amount</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="BidAmount" class="form-control" type="number" step="0.01" 
+                                       min="@Model.NextMinimumBid" placeholder="@Model.NextMinimumBid.ToString("N2")">
+                            </div>
+                            <span asp-validation-for="BidAmount" class="text-danger"></span>
+                            <div class="form-text">
+                                <strong>Minimum bid: $@Model.NextMinimumBid.ToString("N2")</strong>
+                            </div>
+                        </div>
+
+                        <!-- Quick Bid Options -->
+                        <div class="mb-4">
+                            <label class="form-label">Quick Bid Options:</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach (var suggestedBid in Model.SuggestedBids)
+                                {
+                                    <button type="button" class="btn btn-outline-primary quick-bid-btn" 
+                                            data-amount="@suggestedBid">
+                                        $@suggestedBid.ToString("N2")
+                                    </button>
+                                }
+                            </div>
+                        </div>
+
+                       
+                        <div class="alert alert-info">
+                            <h6><i class="bx bx-info-circle"></i> Bid Information</h6>
+                            <ul class="mb-0">
+                                <li>Your bid is binding and cannot be retracted</li>
+                                <li>You will be notified if you are outbid</li>
+                                <li>Payment is required within 48 hours if you win</li>
+                            </ul>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="@Url.Action("Details", new { id = Model.ItemId })" class="btn btn-outline-secondary me-md-2">
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bx bx-gavel"></i> Place Bid
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Quick bid button functionality
+        document.querySelectorAll('.quick-bid-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const amount = this.getAttribute('data-amount');
+                document.getElementById('BidAmount').value = amount;
+                
+                // Highlight selected button
+                document.querySelectorAll('.quick-bid-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Real-time timer update
+        let auctionEndTime = new Date('@Model.AuctionEndTime.ToString("yyyy-MM-ddTHH:mm:ssZ")');
+        
+        function updateTimer() {
+            const now = new Date();
+            const timeLeft = auctionEndTime - now;
+            
+            if (timeLeft <= 0) {
+                document.getElementById('time-remaining').innerHTML = '<span class="text-danger">Auction Ended</span>';
+                // Disable form
+                document.querySelector('form').style.display = 'none';
+                document.querySelector('.card-body').innerHTML += '<div class="alert alert-warning">This auction has ended.</div>';
+                return;
+            }
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            let display = '';
+            if (days > 0) display += `${days}d `;
+            if (hours > 0) display += `${hours}h `;
+            display += `${minutes}m ${seconds}s`;
+
+            document.getElementById('time-remaining').textContent = display;
+        }
+
+        // Update timer every second
+        setInterval(updateTimer, 1000);
+    </script>
+}
