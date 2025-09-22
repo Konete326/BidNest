@@ -25,8 +25,8 @@
                 </div>
 
                 <div class="card-body">
-                    <form asp-controller="Admin" asp-action="EditItem" method="post" enctype="multipart/form-data" id="editItemForm">
-                        @Html.AntiForgeryToken()
+                    <form  asp-action="EditItem" method="post" enctype="multipart/form-data" id="editItemForm">
+                        @* @Html.AntiForgeryToken() *@
                         <input asp-for="ItemId" type="hidden">
                         @if (TempData["ErrorMessage"] != null)
                         {
@@ -89,14 +89,14 @@
                                 }
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Buy Now Price ($) - Optional</label>
-                                <input class="form-control" type="number" step="0.01" min="0.01" disabled placeholder="Feature not available">
-                                <div class="form-text text-muted">
-                                    <i class="bx bx-info-circle"></i> Buy Now feature is not currently implemented in the database schema.
-                                </div>
-                            </div>
-                        </div>
+                        @*     <div class="col-md-6 mb-3"> *@
+                        @*         <label class="form-label">Buy Now Price ($) - Optional</label> *@
+                        @*         <input class="form-control" type="number" step="0.01" min="0.01" disabled placeholder="Feature not available"> *@
+                        @*         <div class="form-text text-muted"> *@
+                        @*             <i class="bx bx-info-circle"></i> Buy Now feature is not currently implemented in the database schema. *@
+                        @*         </div> *@
+                        @*     </div> *@
+                        @* </div> *@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">

@@ -1,0 +1,1117 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\BidNest.bundle.scp.css",
+      "PackagePath": "staticwebassets\\BidNest.a65cg4quz5.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\css\\demo.css",
+      "PackagePath": "staticwebassets\\admin\\css\\demo.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\avatars\\1.png",
+      "PackagePath": "staticwebassets\\admin\\img\\avatars\\1.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\avatars\\5.png",
+      "PackagePath": "staticwebassets\\admin\\img\\avatars\\5.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\avatars\\6.png",
+      "PackagePath": "staticwebassets\\admin\\img\\avatars\\6.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\avatars\\7.png",
+      "PackagePath": "staticwebassets\\admin\\img\\avatars\\7.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\backgrounds\\18.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\backgrounds\\18.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\1.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\11.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\11.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\12.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\12.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\13.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\13.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\17.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\17.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\18.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\18.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\19.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\19.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\2.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\20.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\20.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\3.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\4.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\5.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\elements\\7.jpg",
+      "PackagePath": "staticwebassets\\admin\\img\\elements\\7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\favicon\\favicon.ico",
+      "PackagePath": "staticwebassets\\admin\\img\\favicon\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\brands\\asana.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\brands\\asana.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\brands\\behance.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\brands\\behance.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\brands\\dribbble.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\brands\\dribbble.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\brands\\facebook.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\brands\\facebook.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\brands\\github.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\brands\\github.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\brands\\google.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\brands\\google.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\brands\\instagram.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\brands\\instagram.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\brands\\mailchimp.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\brands\\mailchimp.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\brands\\slack.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\brands\\slack.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\brands\\twitter.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\brands\\twitter.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\unicons\\cc-primary.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\unicons\\cc-primary.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\unicons\\cc-success.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\unicons\\cc-success.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\unicons\\cc-warning.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\unicons\\cc-warning.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\unicons\\chart-success.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\unicons\\chart-success.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\unicons\\chart.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\unicons\\chart.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\unicons\\paypal.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\unicons\\paypal.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\unicons\\wallet-info.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\unicons\\wallet-info.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\icons\\unicons\\wallet.png",
+      "PackagePath": "staticwebassets\\admin\\img\\icons\\unicons\\wallet.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\illustrations\\girl-doing-yoga-light.png",
+      "PackagePath": "staticwebassets\\admin\\img\\illustrations\\girl-doing-yoga-light.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\illustrations\\man-with-laptop-light.png",
+      "PackagePath": "staticwebassets\\admin\\img\\illustrations\\man-with-laptop-light.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\illustrations\\page-misc-error-light.png",
+      "PackagePath": "staticwebassets\\admin\\img\\illustrations\\page-misc-error-light.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\layouts\\layout-container-light.png",
+      "PackagePath": "staticwebassets\\admin\\img\\layouts\\layout-container-light.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\layouts\\layout-fluid-light.png",
+      "PackagePath": "staticwebassets\\admin\\img\\layouts\\layout-fluid-light.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\layouts\\layout-without-menu-light.png",
+      "PackagePath": "staticwebassets\\admin\\img\\layouts\\layout-without-menu-light.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\img\\layouts\\layout-without-navbar-light.png",
+      "PackagePath": "staticwebassets\\admin\\img\\layouts\\layout-without-navbar-light.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\js\\config.js",
+      "PackagePath": "staticwebassets\\admin\\js\\config.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\js\\dashboards-analytics.js",
+      "PackagePath": "staticwebassets\\admin\\js\\dashboards-analytics.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\js\\extended-ui-perfect-scrollbar.js",
+      "PackagePath": "staticwebassets\\admin\\js\\extended-ui-perfect-scrollbar.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\js\\form-basic-inputs.js",
+      "PackagePath": "staticwebassets\\admin\\js\\form-basic-inputs.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\js\\main.js",
+      "PackagePath": "staticwebassets\\admin\\js\\main.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\js\\pages-account-settings-account.js",
+      "PackagePath": "staticwebassets\\admin\\js\\pages-account-settings-account.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\js\\ui-modals.js",
+      "PackagePath": "staticwebassets\\admin\\js\\ui-modals.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\js\\ui-popover.js",
+      "PackagePath": "staticwebassets\\admin\\js\\ui-popover.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\js\\ui-toasts.js",
+      "PackagePath": "staticwebassets\\admin\\js\\ui-toasts.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\css\\core.css",
+      "PackagePath": "staticwebassets\\admin\\vendor\\css\\core.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\css\\pages\\page-account-settings.css",
+      "PackagePath": "staticwebassets\\admin\\vendor\\css\\pages\\page-account-settings.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\css\\pages\\page-auth.css",
+      "PackagePath": "staticwebassets\\admin\\vendor\\css\\pages\\page-auth.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\css\\pages\\page-icons.css",
+      "PackagePath": "staticwebassets\\admin\\vendor\\css\\pages\\page-icons.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\css\\pages\\page-misc.css",
+      "PackagePath": "staticwebassets\\admin\\vendor\\css\\pages\\page-misc.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\css\\theme-default.css",
+      "PackagePath": "staticwebassets\\admin\\vendor\\css\\theme-default.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\fonts\\boxicons.css",
+      "PackagePath": "staticwebassets\\admin\\vendor\\fonts\\boxicons.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\fonts\\boxicons\\boxicons.eot",
+      "PackagePath": "staticwebassets\\admin\\vendor\\fonts\\boxicons\\boxicons.eot"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\fonts\\boxicons\\boxicons.svg",
+      "PackagePath": "staticwebassets\\admin\\vendor\\fonts\\boxicons\\boxicons.svg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\fonts\\boxicons\\boxicons.ttf",
+      "PackagePath": "staticwebassets\\admin\\vendor\\fonts\\boxicons\\boxicons.ttf"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\fonts\\boxicons\\boxicons.woff",
+      "PackagePath": "staticwebassets\\admin\\vendor\\fonts\\boxicons\\boxicons.woff"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\fonts\\boxicons\\boxicons.woff2",
+      "PackagePath": "staticwebassets\\admin\\vendor\\fonts\\boxicons\\boxicons.woff2"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\admin\\vendor\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\js\\helpers.js",
+      "PackagePath": "staticwebassets\\admin\\vendor\\js\\helpers.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\js\\menu.js",
+      "PackagePath": "staticwebassets\\admin\\vendor\\js\\menu.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\libs\\apex-charts\\apex-charts.css",
+      "PackagePath": "staticwebassets\\admin\\vendor\\libs\\apex-charts\\apex-charts.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\libs\\apex-charts\\apexcharts.js",
+      "PackagePath": "staticwebassets\\admin\\vendor\\libs\\apex-charts\\apexcharts.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\libs\\highlight\\highlight-github.css",
+      "PackagePath": "staticwebassets\\admin\\vendor\\libs\\highlight\\highlight-github.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\libs\\highlight\\highlight.css",
+      "PackagePath": "staticwebassets\\admin\\vendor\\libs\\highlight\\highlight.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\libs\\highlight\\highlight.js",
+      "PackagePath": "staticwebassets\\admin\\vendor\\libs\\highlight\\highlight.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\libs\\jquery\\jquery.js",
+      "PackagePath": "staticwebassets\\admin\\vendor\\libs\\jquery\\jquery.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\libs\\masonry\\masonry.js",
+      "PackagePath": "staticwebassets\\admin\\vendor\\libs\\masonry\\masonry.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\libs\\perfect-scrollbar\\perfect-scrollbar.css",
+      "PackagePath": "staticwebassets\\admin\\vendor\\libs\\perfect-scrollbar\\perfect-scrollbar.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\libs\\perfect-scrollbar\\perfect-scrollbar.js",
+      "PackagePath": "staticwebassets\\admin\\vendor\\libs\\perfect-scrollbar\\perfect-scrollbar.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\admin\\vendor\\libs\\popper\\popper.js",
+      "PackagePath": "staticwebassets\\admin\\vendor\\libs\\popper\\popper.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\0d00c583-b0e6-4c84-9a63-42626235597e.png",
+      "PackagePath": "staticwebassets\\uploads\\items\\0d00c583-b0e6-4c84-9a63-42626235597e.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\1318473a-beb0-4021-8b24-fb527e65c7b4.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\items\\1318473a-beb0-4021-8b24-fb527e65c7b4.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\3af253e2-d7a3-416f-8e34-b972448986e5.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\items\\3af253e2-d7a3-416f-8e34-b972448986e5.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\3ebfea38-b6c4-434e-b14e-e933a86aa3f5.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\items\\3ebfea38-b6c4-434e-b14e-e933a86aa3f5.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\4af2456a-6e61-44d9-b84c-7bae8449ea8a.png",
+      "PackagePath": "staticwebassets\\uploads\\items\\4af2456a-6e61-44d9-b84c-7bae8449ea8a.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\6a966045-138d-4e7e-8254-4a44f8a17481.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\items\\6a966045-138d-4e7e-8254-4a44f8a17481.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\8176dacc-0fbc-4ce7-b146-306173e22fee.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\items\\8176dacc-0fbc-4ce7-b146-306173e22fee.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\88813ca5-3020-4b90-8117-fd4e69ae6f49.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\items\\88813ca5-3020-4b90-8117-fd4e69ae6f49.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\8f2663d2-7c24-4a33-997e-1c60d35715de.png",
+      "PackagePath": "staticwebassets\\uploads\\items\\8f2663d2-7c24-4a33-997e-1c60d35715de.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\9bd88138-156a-434a-9b0b-e5f805151b0b.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\items\\9bd88138-156a-434a-9b0b-e5f805151b0b.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\9f096c54-c0b5-4513-ad95-cac50719105c.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\items\\9f096c54-c0b5-4513-ad95-cac50719105c.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\uploads\\items\\aa426e44-3739-47de-bffa-35d652f86eee.jpeg",
+      "PackagePath": "staticwebassets\\uploads\\items\\aa426e44-3739-47de-bffa-35d652f86eee.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\about.css",
+      "PackagePath": "staticwebassets\\user\\css\\about.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\auction.css",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\auction.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\16170_map_wall_clock.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\16170_map_wall_clock.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p10.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p10.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p11.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p11.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p12.webp",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p12.webp"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p13.png",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p13.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p14.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p14.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p15.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p15.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p16.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p16.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p17.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p17.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p18.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p18.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p19.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p19.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p2.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p20.png",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p20.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p21.png",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p21.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p22.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p22.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p23.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p23.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p24.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p24.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p25.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p25.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p26.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p26.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p27.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p27.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p28.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p28.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p29.jpeg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p29.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p3.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p30.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p30.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p31.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p31.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p32.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p32.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p4.png",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p4.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p5.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p6.webp",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p6.webp"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p7.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p8.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\auction\\products\\tab1\\p9.jpg",
+      "PackagePath": "staticwebassets\\user\\css\\auction\\products\\tab1\\p9.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\contact.css",
+      "PackagePath": "staticwebassets\\user\\css\\contact.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\home.css",
+      "PackagePath": "staticwebassets\\user\\css\\home.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\menu.css",
+      "PackagePath": "staticwebassets\\user\\css\\menu.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\css\\scrollbar.css",
+      "PackagePath": "staticwebassets\\user\\css\\scrollbar.css"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\about\\about.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\about\\about.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\about\\bg-1.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\about\\bg-1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\about\\home-7.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\about\\home-7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\about\\home-8.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\about\\home-8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\bg\\Funiture.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\bg\\Funiture.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\bg\\background.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\bg\\background.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\bg\\counter.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\bg\\counter.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\bg\\home-1.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\bg\\home-1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\bg\\home-2.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\bg\\home-2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\bg\\home-3.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\bg\\home-3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\bg\\home-5.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\bg\\home-5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\bg\\home-6.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\bg\\home-6.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\bg\\home-7.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\bg\\home-7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\bg\\home-8.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\bg\\home-8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\blog\\1.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\blog\\1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\blog\\2.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\blog\\2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\blog\\3.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\blog\\3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\blog\\4.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\blog\\4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\blog\\blog-author.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\blog\\blog-author.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\blog\\bt-1.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\blog\\bt-1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\blog\\bt-2.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\blog\\bt-2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\blog\\bt-3.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\blog\\bt-3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\blog\\test1.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\blog\\test1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\blog\\test2.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\blog\\test2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\content\\store Dec. 31, 2011 036.JPG",
+      "PackagePath": "staticwebassets\\user\\images\\content\\store Dec. 31, 2011 036.JPG"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\favicon.png",
+      "PackagePath": "staticwebassets\\user\\images\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\gallery\\425880-Kycb_3840x2400.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\gallery\\425880-Kycb_3840x2400.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\gallery\\antiqu_gramo-1.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\gallery\\antiqu_gramo-1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\gallery\\art2.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\gallery\\art2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\gallery\\desk.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\gallery\\desk.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\gallery\\furniture.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\gallery\\furniture.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\gallery\\painting.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\gallery\\painting.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\logo.png",
+      "PackagePath": "staticwebassets\\user\\images\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\logo\\Black Gold Elegant Jewelry Logo (1).png",
+      "PackagePath": "staticwebassets\\user\\images\\logo\\Black Gold Elegant Jewelry Logo (1).png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\logo\\Black Gold Elegant Jewelry Logo (2).png",
+      "PackagePath": "staticwebassets\\user\\images\\logo\\Black Gold Elegant Jewelry Logo (2).png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\logo\\Black Gold Elegant Jewelry Logo.png",
+      "PackagePath": "staticwebassets\\user\\images\\logo\\Black Gold Elegant Jewelry Logo.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\logo\\dark grey.png",
+      "PackagePath": "staticwebassets\\user\\images\\logo\\dark grey.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\logo\\grey.png",
+      "PackagePath": "staticwebassets\\user\\images\\logo\\grey.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\logo\\sideways.png",
+      "PackagePath": "staticwebassets\\user\\images\\logo\\sideways.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\logo\\sideways2.png",
+      "PackagePath": "staticwebassets\\user\\images\\logo\\sideways2.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\logo\\single.png",
+      "PackagePath": "staticwebassets\\user\\images\\logo\\single.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\logo\\white backgroung2.png",
+      "PackagePath": "staticwebassets\\user\\images\\logo\\white backgroung2.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\marker.png",
+      "PackagePath": "staticwebassets\\user\\images\\marker.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\dealer_lvs_highres_1502987496215-6370036228.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\dealer_lvs_highres_1502987496215-6370036228.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p10.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p10.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p11.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p11.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p12.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p12.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p13.png",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p13.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p14.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p14.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p15.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p15.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p16.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p16.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p17.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p17.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p18.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p18.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p19.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p19.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p2.webp",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p2.webp"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p20.png",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p20.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p21.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p21.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p22.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p22.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p23.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p23.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p24.png",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p24.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p3.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p4.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p5.png",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p5.png"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p6.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p6.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p7.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p8.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\menu\\p9.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\menu\\p9.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\portfolio\\1.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\portfolio\\1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\portfolio\\2.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\portfolio\\2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\portfolio\\3.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\portfolio\\3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\portfolio\\4.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\portfolio\\4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\portfolio\\5.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\portfolio\\5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\portfolio\\6.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\portfolio\\6.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\products\\tab1\\16170_map_wall_clock.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\products\\tab1\\16170_map_wall_clock.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\services\\801ce433f5f2fe4198812298fa4e6d8c.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\services\\801ce433f5f2fe4198812298fa4e6d8c.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\services\\88540161-colored-and-isolated-vintage-hotel-staff-icon-set-with-attributes-and-elements-of-tools-in-hotel.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\services\\88540161-colored-and-isolated-vintage-hotel-staff-icon-set-with-attributes-and-elements-of-tools-in-hotel.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\services\\antique-auction-isometric-composition_1284-22062.avif",
+      "PackagePath": "staticwebassets\\user\\images\\services\\antique-auction-isometric-composition_1284-22062.avif"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\images\\services\\b3176b36562479.5720d547ba6c5.jpg",
+      "PackagePath": "staticwebassets\\user\\images\\services\\b3176b36562479.5720d547ba6c5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\js\\about.js",
+      "PackagePath": "staticwebassets\\user\\js\\about.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\js\\home.js",
+      "PackagePath": "staticwebassets\\user\\js\\home.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\js\\menu.js",
+      "PackagePath": "staticwebassets\\user\\js\\menu.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\js\\script.js",
+      "PackagePath": "staticwebassets\\user\\js\\script.js"
+    },
+    {
+      "Id": "C:\\Users\\asp\\Desktop\\shahneel\\eproject\\BidNest\\BidNest\\BidNest\\wwwroot\\user\\js\\script1.js",
+      "PackagePath": "staticwebassets\\user\\js\\script1.js"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BidNest.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BidNest.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.BidNest.props",
+      "PackagePath": "build\\BidNest.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.BidNest.props",
+      "PackagePath": "buildMultiTargeting\\BidNest.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.BidNest.props",
+      "PackagePath": "buildTransitive\\BidNest.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

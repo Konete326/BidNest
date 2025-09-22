@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,18 +36,14 @@ public partial class BidnestContext : DbContext
     public virtual DbSet<Watchlist> Watchlists { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=bidnest;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
-        }
-    }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("data source=.;initial catalog=bidnest;user id=sa;password=aptech; TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Bid>(entity =>
         {
-            entity.HasKey(e => e.BidId).HasName("PK__Bids__4A733D929C3D2A61");
+            entity.HasKey(e => e.BidId).HasName("PK__Bids__4A733D92794230F9");
 
             entity.HasIndex(e => e.BidderId, "IX_Bids_BidderId");
 
@@ -69,7 +65,7 @@ public partial class BidnestContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0B62F65AE0");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0BAF8B299E");
 
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.Name).HasMaxLength(150);
@@ -81,7 +77,7 @@ public partial class BidnestContext : DbContext
 
         modelBuilder.Entity<Item>(entity =>
         {
-            entity.HasKey(e => e.ItemId).HasName("PK__Items__727E838BFE5ED6FF");
+            entity.HasKey(e => e.ItemId).HasName("PK__Items__727E838B3AC14E32");
 
             entity.HasIndex(e => e.CategoryId, "IX_Items_CategoryId");
 
@@ -108,7 +104,7 @@ public partial class BidnestContext : DbContext
 
         modelBuilder.Entity<ItemDocument>(entity =>
         {
-            entity.HasKey(e => e.DocId).HasName("PK__ItemDocu__3EF188AD7F7C0691");
+            entity.HasKey(e => e.DocId).HasName("PK__ItemDocu__3EF188ADCD444913");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.FileName).HasMaxLength(255);
@@ -122,7 +118,7 @@ public partial class BidnestContext : DbContext
 
         modelBuilder.Entity<ItemImage>(entity =>
         {
-            entity.HasKey(e => e.ImageId).HasName("PK__ItemImag__7516F70CECED0A3C");
+            entity.HasKey(e => e.ImageId).HasName("PK__ItemImag__7516F70CEC17CA6D");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.Url).HasMaxLength(1000);
@@ -135,7 +131,7 @@ public partial class BidnestContext : DbContext
 
         modelBuilder.Entity<Notification>(entity =>
         {
-            entity.HasKey(e => e.NotificationId).HasName("PK__Notifica__20CF2E124A75115D");
+            entity.HasKey(e => e.NotificationId).HasName("PK__Notifica__20CF2E122C1FFA71");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.Title).HasMaxLength(200);
@@ -148,7 +144,7 @@ public partial class BidnestContext : DbContext
 
         modelBuilder.Entity<Rating>(entity =>
         {
-            entity.HasKey(e => e.RatingId).HasName("PK__Ratings__FCCDF87C88A928AF");
+            entity.HasKey(e => e.RatingId).HasName("PK__Ratings__FCCDF87CA4CA4C0A");
 
             entity.Property(e => e.Comment).HasMaxLength(1000);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
@@ -166,18 +162,18 @@ public partial class BidnestContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1A46DC2993");
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1A42B187CE");
 
-            entity.HasIndex(e => e.Name, "UQ__Roles__737584F69F1C1B83").IsUnique();
+            entity.HasIndex(e => e.Name, "UQ__Roles__737584F651096ADD").IsUnique();
 
             entity.Property(e => e.Name).HasMaxLength(50);
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C8164E669");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CF2296309");
 
-            entity.HasIndex(e => e.Username, "UQ__Users__536C85E43FFC8DBD").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__Users__536C85E4E537EC4A").IsUnique();
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.Email).HasMaxLength(255);
@@ -194,7 +190,7 @@ public partial class BidnestContext : DbContext
 
         modelBuilder.Entity<Watchlist>(entity =>
         {
-            entity.HasKey(e => e.WatchId).HasName("PK__Watchlis__3BA3DAA30DCF5D24");
+            entity.HasKey(e => e.WatchId).HasName("PK__Watchlis__3BA3DAA3319DF3E3");
 
             entity.ToTable("Watchlist");
 

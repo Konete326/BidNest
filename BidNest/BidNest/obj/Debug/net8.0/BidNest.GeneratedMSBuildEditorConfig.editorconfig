@@ -17,185 +17,185 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = BidNest
 build_property.RootNamespace = BidNest
-build_property.ProjectDir = D:\.net\BidNest\BidNest\BidNest\
+build_property.ProjectDir = C:\Users\asp\Desktop\shahneel\eproject\BidNest\BidNest\BidNest\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\.net\BidNest\BidNest\BidNest
+build_property.MSBuildProjectDirectory = C:\Users\asp\Desktop\shahneel\eproject\BidNest\BidNest\BidNest
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Account/AccessDenied.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Account/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Account/Login.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Account/MyBids.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Account/MyBids.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxNeUJpZHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Account/Register.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/Bids.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/Bids.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQmlkcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/Categories.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/Categories.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2F0ZWdvcmllcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/CategoryDetails.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/CategoryDetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2F0ZWdvcnlEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/CategoryHierarchy.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/CategoryHierarchy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2F0ZWdvcnlIaWVyYXJjaHkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/CreateCategory.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/CreateCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlQ2F0ZWdvcnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/CreateItem.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/CreateItem.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlSXRlbS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/DeleteCategory.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/DeleteCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlQ2F0ZWdvcnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/DeleteItem.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/DeleteItem.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlSXRlbS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/EditCategory.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/EditCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdENhdGVnb3J5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/EditItem.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/EditItem.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdEl0ZW0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/Index.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/ItemDetails.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/ItemDetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSXRlbURldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/Items.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/Items.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSXRlbXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/MergeCategories.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/MergeCategories.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWVyZ2VDYXRlZ29yaWVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/PendingApprovals.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/PendingApprovals.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUGVuZGluZ0FwcHJvdmFscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/UserDetails.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/UserDetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlckRldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Admin/Users.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Admin/Users.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Auction/Active.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Auction/Active.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVjdGlvblxBY3RpdmUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Auction/Bid.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Auction/Bid.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVjdGlvblxCaWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Auction/Details.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Auction/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVjdGlvblxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Auction/History.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Auction/History.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVjdGlvblxIaXN0b3J5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Auction/MyBids.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Auction/MyBids.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVjdGlvblxNeUJpZHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Home/Index.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Search/Advanced.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Search/Advanced.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VhcmNoXEFkdmFuY2VkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Search/Categories.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Search/Categories.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VhcmNoXENhdGVnb3JpZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Search/Index.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Search/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VhcmNoXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Seller/Analytics.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Seller/Analytics.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VsbGVyXEFuYWx5dGljcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Seller/Create.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Seller/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VsbGVyXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Seller/Dashboard.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Seller/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VsbGVyXERhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Seller/Edit.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Seller/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VsbGVyXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Seller/MyItems.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Seller/MyItems.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VsbGVyXE15SXRlbXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Shared/Error.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Shared/_AdminLayout.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Shared/_AdminLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Shared/_BidListPartial.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Shared/_BidListPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9CaWRMaXN0UGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Shared/_CategoryTreeNode.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Shared/_CategoryTreeNode.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DYXRlZ29yeVRyZWVOb2RlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/_ViewImports.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/_ViewStart.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/.net/BidNest/BidNest/BidNest/Views/Shared/_Layout.cshtml]
+[C:/Users/asp/Desktop/shahneel/eproject/BidNest/BidNest/BidNest/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-al6daydaxz

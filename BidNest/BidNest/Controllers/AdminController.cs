@@ -1,4 +1,4 @@
-using BidNest.Models;
+﻿using BidNest.Models;
 using BidNest.Services;
 using BidNest.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -649,7 +649,7 @@ namespace BidNest.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> EditItem(ItemEditViewModel model)
         {
             _logger.LogInformation("=== ADMIN EDIT ITEM POST METHOD CALLED ===");
