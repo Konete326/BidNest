@@ -1,5 +1,6 @@
+@model BidNest.ViewModels.AdminDashboardViewModel
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Admin Dashboard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -11,8 +12,8 @@
                     <div class="card-body">
                         <h5 class="card-title text-primary">Welcome @User.FindFirst("FullName")?.Value! 🎉</h5>
                         <p class="mb-4">
-                            You have managed <span class="fw-bold">@ViewBag.Stats.TotalUsers users</span> and <span class="fw-bold">@ViewBag.Stats.TotalItems items</span> successfully.
-                            Check your dashboard overview.
+                            You have managed <span class="fw-bold">@Model.Stats.TotalUsers users</span> and <span class="fw-bold">@Model.Stats.TotalItems items</span> successfully.
+                            Today: <span class="fw-bold">@Model.Stats.NewUsersToday new users</span> and <span class="fw-bold">@Model.Stats.BidsToday bids</span>.
                         </p>
                         <a href="@Url.Action("Users", "Admin")" class="btn btn-sm btn-outline-primary">View Users</a>
                     </div>
@@ -36,7 +37,7 @@
                             </div>
                         </div>
                         <span class="fw-semibold d-block mb-1">Total Bids</span>
-                        <h3 class="card-title mb-2">@ViewBag.Stats.TotalBids</h3>
+                        <h3 class="card-title mb-2">@Model.Stats.TotalBids</h3>
                     </div>
                 </div>
             </div>
@@ -49,7 +50,7 @@
                             </div>
                         </div>
                         <span>Active Auctions</span>
-                        <h3 class="card-title text-nowrap mb-1">@ViewBag.Stats.ActiveAuctions</h3>
+                        <h3 class="card-title text-nowrap mb-1">@Model.Stats.ActiveAuctions</h3>
                     </div>
                 </div>
             </div>
@@ -68,7 +69,7 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex flex-column align-items-center gap-1">
-                        <h2 class="mb-2">@ViewBag.Stats.TotalUsers</h2>
+                        <h2 class="mb-2">@Model.Stats.TotalUsers</h2>
                         <span>Total Users</span>
                     </div>
                     <div id="orderStatisticsChart"></div>
@@ -84,7 +85,7 @@
                                 <small class="text-muted">Users who can access the system</small>
                             </div>
                             <div class="user-progress">
-                                <small class="fw-semibold">@ViewBag.Stats.ActiveUsers</small>
+                                <small class="fw-semibold">@Model.Stats.ActiveUsers</small>
                             </div>
                         </div>
                     </li>
@@ -98,7 +99,7 @@
                                 <small class="text-muted">Users who are blocked</small>
                             </div>
                             <div class="user-progress">
-                                <small class="fw-semibold">@ViewBag.Stats.BlockedUsers</small>
+                                <small class="fw-semibold">@Model.Stats.BlockedUsers</small>
                             </div>
                         </div>
                     </li>
@@ -124,7 +125,7 @@
                                 <small class="text-muted">All auction items</small>
                             </div>
                             <div class="user-progress">
-                                <small class="fw-semibold">@ViewBag.Stats.TotalItems</small>
+                                <small class="fw-semibold">@Model.Stats.TotalItems</small>
                             </div>
                         </div>
                     </li>
@@ -138,7 +139,7 @@
                                 <small class="text-muted">Currently running</small>
                             </div>
                             <div class="user-progress">
-                                <small class="fw-semibold">@ViewBag.Stats.ActiveAuctions</small>
+                                <small class="fw-semibold">@Model.Stats.ActiveAuctions</small>
                             </div>
                         </div>
                     </li>
@@ -152,7 +153,7 @@
                                 <small class="text-muted">Active categories</small>
                             </div>
                             <div class="user-progress">
-                                <small class="fw-semibold">@ViewBag.Stats.TotalCategories</small>
+                                <small class="fw-semibold">@Model.Stats.TotalCategories</small>
                             </div>
                         </div>
                     </li>

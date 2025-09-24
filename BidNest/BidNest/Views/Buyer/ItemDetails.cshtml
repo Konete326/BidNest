@@ -1,0 +1,391 @@
+@model BidNest.ViewModels.ItemDetailsViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Dashboard", "Buyer")">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Browse", "Buyer")">Browse</a></li>
+            <li class="breadcrumb-item active">@Model.Title</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Images Section -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    @if (Model.Images.Any())
+                    {
+                        <div id="itemCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                @for (int i = 0; i < Model.Images.Count; i++)
+                                {
+                                    <button type="button" data-bs-target="#itemCarousel" data-bs-slide-to="@i" 
+                                            class="@(i == 0 ? "active" : "")" aria-label="Slide @(i + 1)"></button>
+                                }
+                            </div>
+                            <div class="carousel-inner">
+                                @for (int i = 0; i < Model.Images.Count; i++)
+                                {
+                                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                                        <img src="@Model.Images[i]" class="d-block w-100" alt="@Model.Title" style="height: 400px; object-fit: contain;">
+                                    </div>
+                                }
+                            </div>
+                            @if (Model.Images.Count > 1)
+                            {
+                                <button class="carousel-control-prev" type="button" data-bs-target="#itemCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#itemCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="/images/no-image.jpg" class="img-fluid" alt="No image available">
+                    }
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="mb-0">Description</h5>
+                </div>
+                <div class="card-body">
+                    <p>@(Model.Description ?? "No description available.")</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <small class="text-muted">Category:</small>
+                            <p class="mb-2"><strong>@Model.CategoryName</strong></p>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">Seller:</small>
+                            <p class="mb-2"><strong>@Model.SellerName</strong></p>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">Auction Started:</small>
+                            <p class="mb-2"><strong>@Model.StartDate.ToString("MMM dd, yyyy HH:mm")</strong></p>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">Auction Ends:</small>
+                            <p class="mb-2"><strong>@Model.EndDate.ToString("MMM dd, yyyy HH:mm")</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bidding Section -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">@Model.Title</h3>
+                    
+                    <!-- Auction Status -->
+                    <div class="alert @(Model.CanBid ? "alert-success" : "alert-danger") mb-3">
+                        @if (Model.CanBid)
+                        {
+                            <h5 class="mb-1">
+                                <i class="bi bi-clock"></i> Time Remaining: 
+                                <span id="countdown" data-end="@Model.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")">
+                                    @Model.TimeRemainingDisplay
+                                </span>
+                            </h5>
+                            <small>Auction is active and accepting bids</small>
+                        }
+                        else
+                        {
+                            <h5 class="mb-0">
+                                <i class="bi bi-x-circle"></i> Auction has ended
+                            </h5>
+                        }
+                    </div>
+
+                    <!-- Current Price -->
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <small class="text-muted">Current Bid</small>
+                            <h3 class="text-primary mb-0">$<span id="currentPrice">@Model.CurrentPrice.ToString("N2")</span></h3>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted">Total Bids</small>
+                            <h3 class="mb-0"><span id="bidCount">@Model.BidCount</span></h3>
+                        </div>
+                    </div>
+
+                    <!-- User's Bid Status -->
+                    @if (Model.UserHighestBid > 0)
+                    {
+                        <div class="alert @(Model.IsWinning ? "alert-success" : "alert-warning") mb-3">
+                            @if (Model.IsWinning)
+                            {
+                                <i class="bi bi-trophy"></i> <strong>You are winning this auction!</strong>
+                            }
+                            else
+                            {
+                                <i class="bi bi-exclamation-triangle"></i> <strong>You've been outbid!</strong>
+                            }
+                            <br>
+                            Your highest bid: $@Model.UserHighestBid.ToString("N2")
+                        </div>
+                    }
+
+                    <!-- Bidding Form -->
+                    @if (Model.CanBid)
+                    {
+                        <div class="card bg-light mb-3">
+                            <div class="card-body">
+                                <form id="bidForm" method="post" action="@Url.Action("PlaceBid", "Buyer")">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="itemId" value="@Model.ItemId" />
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Minimum Bid Required</label>
+                                        <h4 class="text-success">$<span id="nextMinBid">@Model.NextMinimumBid.ToString("N2")</span></h4>
+                                        <small class="text-muted">Bid increment: $@Model.BidIncrement.ToString("N2")</small>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="bidAmount" class="form-label">Your Bid Amount</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" class="form-control form-control-lg" id="bidAmount" name="bidAmount" 
+                                                   min="@Model.NextMinimumBid" step="0.01" value="@Model.NextMinimumBid" required>
+                                        </div>
+                                        <div class="form-text">Enter your maximum bid amount</div>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary btn-lg w-100" id="placeBidBtn">
+                                        <i class="bi bi-gavel"></i> Place Bid
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Watchlist Button -->
+                    <button class="btn btn-outline-secondary w-100 mb-3" onclick="toggleWatchlist(@Model.ItemId)">
+                        <i class="bi @(Model.IsInWatchlist ? "bi-heart-fill" : "bi-heart")"></i>
+                        <span id="watchlistText">@(Model.IsInWatchlist ? "Remove from Watchlist" : "Add to Watchlist")</span>
+                    </button>
+
+                    <!-- Quick Bid Buttons -->
+                    @if (Model.CanBid)
+                    {
+                        <div class="d-grid gap-2 d-md-flex mb-3">
+                            <button class="btn btn-outline-primary flex-fill" onclick="quickBid(@Model.NextMinimumBid)">
+                                Min: $@Model.NextMinimumBid.ToString("N2")
+                            </button>
+                            <button class="btn btn-outline-primary flex-fill" onclick="quickBid(@(Model.NextMinimumBid + 10))">
+                                +$10: $@((Model.NextMinimumBid + 10).ToString("N2"))
+                            </button>
+                            <button class="btn btn-outline-primary flex-fill" onclick="quickBid(@(Model.NextMinimumBid + 25))">
+                                +$25: $@((Model.NextMinimumBid + 25).ToString("N2"))
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Bid History -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="mb-0">Bid History</h5>
+                </div>
+                <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                    @if (Model.BidHistory.Any())
+                    {
+                        <div class="list-group list-group-flush" id="bidHistory">
+                            @foreach (var bid in Model.BidHistory)
+                            {
+                                <div class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong class="@(bid.IsYourBid ? "text-primary" : "")">
+                                                @bid.BidderName
+                                            </strong>
+                                            <small class="text-muted d-block">@bid.TimeAgo</small>
+                                        </div>
+                                        <h5 class="mb-0 @(bid.IsYourBid ? "text-primary" : "")">
+                                            $@bid.Amount.ToString("N2")
+                                        </h5>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center mb-0">No bids yet. Be the first to bid!</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+    <script>
+        // Countdown timer
+        function updateCountdown() {
+            const countdownEl = document.getElementById('countdown');
+            if (!countdownEl) return;
+            
+            const endDate = new Date(countdownEl.dataset.end + 'Z');
+            const now = new Date();
+            const diff = endDate - now;
+            
+            if (diff <= 0) {
+                countdownEl.textContent = 'Auction ended';
+                clearInterval(countdownInterval);
+                location.reload();
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            let display = '';
+            if (days > 0) display += `${days} days ${hours} hours`;
+            else if (hours > 0) display += `${hours} hours ${minutes} minutes`;
+            else if (minutes > 0) display += `${minutes} minutes ${seconds} seconds`;
+            else display += `${seconds} seconds`;
+            
+            countdownEl.textContent = display;
+        }
+        
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // Quick bid buttons
+        function quickBid(amount) {
+            document.getElementById('bidAmount').value = amount.toFixed(2);
+        }
+        
+        // Place bid
+        document.getElementById('bidForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('placeBidBtn');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Placing bid...';
+            
+            try {
+                const formData = new FormData(this);
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Update UI
+                    document.getElementById('currentPrice').textContent = result.newPrice.toFixed(2);
+                    document.getElementById('nextMinBid').textContent = result.nextMinimumBid.toFixed(2);
+                    document.getElementById('bidAmount').min = result.nextMinimumBid;
+                    document.getElementById('bidAmount').value = result.nextMinimumBid;
+                    
+                    // Show success message
+                    showAlert('success', result.message);
+                    
+                    // Reload bid history
+                    setTimeout(() => location.reload(), 2000);
+                } else {
+                    showAlert('danger', result.message);
+                }
+            } catch (error) {
+                showAlert('danger', 'An error occurred. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        });
+        
+        // Toggle watchlist
+        async function toggleWatchlist(itemId) {
+            try {
+                const response = await fetch('@Url.Action("ToggleWatchlist", "Buyer")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]').value
+                    },
+                    body: `itemId=${itemId}`
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const icon = document.querySelector('.bi-heart, .bi-heart-fill');
+                    const text = document.getElementById('watchlistText');
+                    
+                    if (result.isWatching) {
+                        icon.classList.remove('bi-heart');
+                        icon.classList.add('bi-heart-fill');
+                        text.textContent = 'Remove from Watchlist';
+                    } else {
+                        icon.classList.remove('bi-heart-fill');
+                        icon.classList.add('bi-heart');
+                        text.textContent = 'Add to Watchlist';
+                    }
+                    
+                    showAlert('success', result.message);
+                }
+            } catch (error) {
+                showAlert('danger', 'An error occurred. Please try again.');
+            }
+        }
+        
+        // Show alert message
+        function showAlert(type, message) {
+            const alertHtml = `
+                <div class="alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 9999;">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', alertHtml);
+            
+            setTimeout(() => {
+                document.querySelector('.alert')?.remove();
+            }, 5000);
+        }
+        
+        // SignalR for real-time updates
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/auctionHub")
+            .build();
+        
+        connection.on("BidPlaced", function (itemId, newPrice, bidCount) {
+            if (itemId === @Model.ItemId) {
+                document.getElementById('currentPrice').textContent = newPrice.toFixed(2);
+                document.getElementById('bidCount').textContent = bidCount;
+                document.getElementById('nextMinBid').textContent = (newPrice + @Model.BidIncrement).toFixed(2);
+                document.getElementById('bidAmount').min = newPrice + @Model.BidIncrement;
+                document.getElementById('bidAmount').value = newPrice + @Model.BidIncrement;
+                
+                // Show notification
+                showAlert('info', 'New bid placed! Price updated.');
+            }
+        });
+        
+        connection.start().catch(function (err) {
+            console.error(err.toString());
+        });
+    </script>
+}

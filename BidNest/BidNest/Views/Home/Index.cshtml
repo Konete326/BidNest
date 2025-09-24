@@ -3,6 +3,39 @@
     ViewData["Title"] = "Home";
 }
 
+@section Styles {
+    <style>
+        .category-card {
+            transition: transform 0.2s ease-in-out;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        .featured-carousel {
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+        .featured-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+        .featured-carousel::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .featured-carousel::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .featured-carousel::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .carousel-item-card {
+            min-width: 280px;
+            flex: 0 0 auto;
+        }
+    </style>
+}
+
 <div class="hero-section bg-primary text-white py-5 mb-5">
     <div class="container">
         <div class="row align-items-center">
@@ -11,7 +44,13 @@
                 <p class="lead">Your trusted online auction platform where you can bid on amazing items and sell your treasures.</p>
                 <div class="mt-4">
                     <a href="@Url.Action("Active", "Auction")" class="btn btn-light btn-lg me-3">Browse Auctions</a>
-                    @if (User.Identity?.IsAuthenticated != true)
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a href="@Url.Action("Create", "Seller")" class="btn btn-warning btn-lg me-3">
+                            <i class="fas fa-plus me-2"></i>Sell an Item
+                        </a>
+                    }
+                    else
                     {
                         <a href="@Url.Action("Register", "Account")" class="btn btn-outline-light btn-lg">Join Now</a>
                     }
@@ -25,23 +64,52 @@
 </div>
 
 <div class="container">
+    <!-- Category Navigation -->
+    @if (ViewBag.CategoriesWithCounts != null && ((IEnumerable<dynamic>)ViewBag.CategoriesWithCounts).Any())
+    {
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3 class="mb-4 text-center">Browse by Category</h3>
+                <div class="row">
+                    @foreach (var category in (IEnumerable<dynamic>)ViewBag.CategoriesWithCounts)
+                    {
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                            <a href="@Url.Action("Category", "Search", new { id = category.CategoryId })" class="text-decoration-none">
+                                <div class="card h-100 border-0 shadow-sm category-card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-th-large fa-2x text-primary mb-3"></i>
+                                        <h6 class="card-title">@category.Name</h6>
+                                        <span class="badge bg-primary">@category.ItemCount items</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+                <div class="text-center mt-3">
+                    <a href="@Url.Action("Categories", "Search")" class="btn btn-outline-primary">View All Categories</a>
+                </div>
+            </div>
+        </div>
+    }
+
     <div class="row mb-5">
         <div class="col-12 text-center">
             <h2 class="mb-4">Featured Auctions</h2>
-            <p class="text-muted">Discover amazing items up for auction right now</p>
+            <p class="text-muted">Discover amazing items ending soon</p>
         </div>
     </div>
 
     @if (Model.Any())
     {
-        <div class="row">
+        <div class="featured-carousel d-flex gap-3 pb-3" style="overflow-x: auto;">
             @foreach (var item in Model)
             {
-                <div class="col-lg-3 col-md-6 mb-4">
+                <div class="carousel-item-card">
                     <div class="card h-100 shadow-sm">
                         @if (item.ItemImages.Any())
                         {
-                            <img src="~/user/images/menu/p1.jpg" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                            <img src="@item.ItemImages.First().Url" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
                         }
                         else
                         {
@@ -50,8 +118,8 @@
                             </div>
                         }
                         <div class="card-body">
-                            <h5 class="card-title">@item.Title</h5>
-                            <p class="card-text text-muted small">@(item.Description?.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)</p>
+                            <h6 class="card-title">@item.Title</h6>
+                            <p class="card-text text-muted small">@(item.Description?.Length > 80 ? item.Description.Substring(0, 80) + "..." : item.Description)</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <small class="text-muted">Current Bid</small>
@@ -88,6 +156,53 @@
             <a href="@Url.Action("Active", "Auction")" class="btn btn-outline-primary btn-lg">View All Auctions</a>
         </div>
     </div>
+
+    <!-- Recent Auctions Section -->
+    @if (ViewBag.RecentAuctions != null && ((IEnumerable<BidNest.Models.Item>)ViewBag.RecentAuctions).Any())
+    {
+        <div class="row mt-5 mb-5">
+            <div class="col-12 text-center mb-4">
+                <h2>Recently Listed</h2>
+                <p class="text-muted">Fresh items just added to our auction platform</p>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in (IEnumerable<BidNest.Models.Item>)ViewBag.RecentAuctions)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        @if (item.ItemImages.Any())
+                        {
+                            <img src="@item.ItemImages.First().Url" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                            </div>
+                        }
+                        <div class="card-body">
+                            <h6 class="card-title">@item.Title</h6>
+                            <p class="card-text text-muted small">@(item.Description?.Length > 80 ? item.Description.Substring(0, 80) + "..." : item.Description)</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-muted">Starting Bid</small>
+                                    <h6 class="text-success mb-0">$@((item.CurrentPrice ?? item.MinBid).ToString("N2"))</h6>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">@(item.Category?.Name ?? "No category")</small>
+                                    <div class="small text-primary">New!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" class="btn btn-outline-primary btn-sm w-100">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
 </div>
 
 <div class="bg-light py-5 mt-5">

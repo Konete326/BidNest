@@ -1,4 +1,4 @@
-﻿using BidNest.Models;
+using BidNest.Models;
 using BidNest.Services;
 using BidNest.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -26,19 +26,40 @@ namespace BidNest.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var stats = new
+            var today = DateTime.Today;
+            var thirtyDaysAgo = today.AddDays(-30);
+
+            var dashboardModel = new AdminDashboardViewModel
             {
-                TotalUsers = await _context.Users.CountAsync(),
-                ActiveUsers = await _context.Users.CountAsync(u => !u.IsBlocked),
-                BlockedUsers = await _context.Users.CountAsync(u => u.IsBlocked),
-                TotalItems = await _context.Items.CountAsync(),
-                ActiveAuctions = await _context.Items.CountAsync(i => i.Status == "A"),
-                TotalBids = await _context.Bids.CountAsync(),
-                TotalCategories = await _context.Categories.CountAsync(c => c.IsActive)
+                Stats = new AdminDashboardStatsViewModel
+                {
+                    TotalUsers = await _context.Users.CountAsync(),
+                    ActiveUsers = await _context.Users.CountAsync(u => !u.IsBlocked),
+                    BlockedUsers = await _context.Users.CountAsync(u => u.IsBlocked),
+                    TotalItems = await _context.Items.CountAsync(),
+                    ActiveAuctions = await _context.Items.CountAsync(i => i.Status == "A"),
+                    CompletedAuctions = await _context.Items.CountAsync(i => i.Status == "S"),
+                    TotalBids = await _context.Bids.CountAsync(),
+                    TotalCategories = await _context.Categories.CountAsync(c => c.IsActive),
+                    TotalRevenue = await _context.Items
+                        .Where(i => i.Status == "S" && i.CurrentPrice.HasValue)
+                        .SumAsync(i => i.CurrentPrice.Value),
+                    TodayRevenue = await _context.Items
+                        .Where(i => i.Status == "S" && i.EndDate.Date == today && i.CurrentPrice.HasValue)
+                        .SumAsync(i => i.CurrentPrice.Value),
+                    NewUsersToday = await _context.Users.CountAsync(u => u.CreatedAt.Date == today),
+                    NewItemsToday = await _context.Items.CountAsync(i => i.CreatedAt.Date == today),
+                    BidsToday = await _context.Bids.CountAsync(b => b.BidTime.Date == today)
+                },
+
+                RecentActivities = await GetRecentActivitiesAsync(),
+                EndingSoonAuctions = await GetEndingSoonAuctionsAsync(),
+                TopBidders = await GetTopBiddersAsync(),
+                TopCategories = await GetTopCategoriesAsync(),
+                SystemHealth = GetSystemHealth()
             };
 
-            ViewBag.Stats = stats;
-            return View();
+            return View(dashboardModel);
         }
 
         public async Task<IActionResult> Users()
@@ -1038,6 +1059,166 @@ namespace BidNest.Controllers
                 _logger.LogError(ex, "Error rejecting item {ItemId}", itemId);
                 return Json(new { success = false, message = "Error rejecting item. Please try again." });
             }
+        }
+
+        private async Task<List<AdminRecentActivityViewModel>> GetRecentActivitiesAsync()
+        {
+            var activities = new List<AdminRecentActivityViewModel>();
+
+            // Recent bids
+            var recentBids = await _context.Bids
+                .Include(b => b.Item)
+                .Include(b => b.Bidder)
+                .OrderByDescending(b => b.BidTime)
+                .Take(10)
+                .ToListAsync();
+
+            foreach (var bid in recentBids)
+            {
+                activities.Add(new AdminRecentActivityViewModel
+                {
+                    ActivityType = "bid",
+                    Description = $"New bid placed on {bid.Item.Title}",
+                    Timestamp = bid.BidTime,
+                    UserName = bid.Bidder.Username,
+                    ItemName = bid.Item.Title,
+                    Amount = bid.Amount,
+                    Icon = "bi-gavel",
+                    BadgeClass = "badge bg-success"
+                });
+            }
+
+            // Recent user registrations
+            var recentUsers = await _context.Users
+                .OrderByDescending(u => u.CreatedAt)
+                .Take(5)
+                .ToListAsync();
+
+            foreach (var user in recentUsers)
+            {
+                activities.Add(new AdminRecentActivityViewModel
+                {
+                    ActivityType = "user_registered",
+                    Description = $"New user registered",
+                    Timestamp = user.CreatedAt,
+                    UserName = user.Username,
+                    Icon = "bi-person-plus",
+                    BadgeClass = "badge bg-info"
+                });
+            }
+
+            // Recent item creations
+            var recentItems = await _context.Items
+                .Include(i => i.Seller)
+                .OrderByDescending(i => i.CreatedAt)
+                .Take(5)
+                .ToListAsync();
+
+            foreach (var item in recentItems)
+            {
+                activities.Add(new AdminRecentActivityViewModel
+                {
+                    ActivityType = "item_created",
+                    Description = $"New item listed: {item.Title}",
+                    Timestamp = item.CreatedAt,
+                    UserName = item.Seller.Username,
+                    ItemName = item.Title,
+                    Icon = "bi-plus-circle",
+                    BadgeClass = "badge bg-primary"
+                });
+            }
+
+            return activities.OrderByDescending(a => a.Timestamp).Take(15).ToList();
+        }
+
+        private async Task<List<AuctionItemViewModel>> GetEndingSoonAuctionsAsync()
+        {
+            return await _context.Items
+                .Include(i => i.Category)
+                .Include(i => i.ItemImages)
+                .Include(i => i.Seller)
+                .Where(i => i.Status == "A" && i.EndDate > DateTime.UtcNow)
+                .OrderBy(i => i.EndDate)
+                .Take(8)
+                .Select(i => new AuctionItemViewModel
+                {
+                    ItemId = i.ItemId,
+                    Title = i.Title,
+                    Description = i.Description,
+                    CategoryName = i.Category != null ? i.Category.Name : "Uncategorized",
+                    CurrentPrice = i.CurrentPrice ?? i.MinBid,
+                    MinBid = i.MinBid,
+                    EndDate = i.EndDate,
+                    BidCount = i.Bids.Count(),
+                    SellerName = i.Seller.FullName ?? i.Seller.Username,
+                    ImageUrl = i.ItemImages.FirstOrDefault() != null ? 
+                              i.ItemImages.First().Url : "/images/no-image.jpg",
+                    TimeRemaining = i.EndDate - DateTime.UtcNow
+                })
+                .ToListAsync();
+        }
+
+        private async Task<List<AdminUserActivityViewModel>> GetTopBiddersAsync()
+        {
+            return await _context.Users
+                .Include(u => u.Bids)
+                .Where(u => !u.IsBlocked)
+                .OrderByDescending(u => u.Bids.Count())
+                .Take(5)
+                .Select(u => new AdminUserActivityViewModel
+                {
+                    UserId = u.UserId,
+                    Username = u.Username,
+                    FullName = u.FullName,
+                    BidsCount = u.Bids.Count(),
+                    ItemsCount = u.Items.Count(),
+                    WonAuctions = u.Bids.Count(b => b.Item.Status == "S" && b.Item.CurrentBidId == b.BidId),
+                    TotalSpent = u.Bids
+                        .Where(b => b.Item.Status == "S" && b.Item.CurrentBidId == b.BidId)
+                        .Sum(b => b.Amount),
+                    LastActivity = u.Bids.Any() ? u.Bids.Max(b => b.BidTime) : u.CreatedAt
+                })
+                .ToListAsync();
+        }
+
+        private async Task<List<AdminCategoryStatsViewModel>> GetTopCategoriesAsync()
+        {
+            return await _context.Categories
+                .Include(c => c.Items)
+                .Where(c => c.IsActive)
+                .OrderByDescending(c => c.Items.Count())
+                .Take(5)
+                .Select(c => new AdminCategoryStatsViewModel
+                {
+                    CategoryId = c.CategoryId,
+                    Name = c.Name,
+                    ItemCount = c.Items.Count(),
+                    ActiveItemCount = c.Items.Count(i => i.Status == "A"),
+                    TotalBids = c.Items.SelectMany(i => i.Bids).Count(),
+                    TotalValue = c.Items
+                        .Where(i => i.Status == "S" && i.CurrentPrice.HasValue)
+                        .Sum(i => i.CurrentPrice.Value),
+                    AverageItemPrice = c.Items
+                        .Where(i => i.Status == "S" && i.CurrentPrice.HasValue)
+                        .Any() ? c.Items
+                        .Where(i => i.Status == "S" && i.CurrentPrice.HasValue)
+                        .Average(i => i.CurrentPrice.Value) : 0
+                })
+                .ToListAsync();
+        }
+
+        private AdminSystemHealthViewModel GetSystemHealth()
+        {
+            return new AdminSystemHealthViewModel
+            {
+                DatabaseConnections = 1, // This would come from actual monitoring
+                CpuUsage = Random.Shared.NextDouble() * 100,
+                MemoryUsage = Random.Shared.NextDouble() * 100,
+                ActiveSessions = Random.Shared.Next(10, 100),
+                LastBackup = DateTime.UtcNow.AddHours(-6),
+                IsHealthy = true,
+                Warnings = new List<string>()
+            };
         }
 
         private int GetCurrentUserId()

@@ -18,14 +18,42 @@ namespace BidNest.Controllers
 
         public async Task<IActionResult> Index()
         {
-           
+            // Featured Items (ending soon)
             var featuredItems = await _context.Items
                 .Include(i => i.ItemImages)
                 .Include(i => i.Seller)
+                .Include(i => i.Category)
                 .Where(i => i.Status == "A" && i.EndDate > DateTime.UtcNow)
                 .OrderBy(i => i.EndDate)
                 .Take(8)
                 .ToListAsync();
+
+            // Recent Auctions (newly listed)
+            var recentAuctions = await _context.Items
+                .Include(i => i.ItemImages)
+                .Include(i => i.Seller)
+                .Include(i => i.Category)
+                .Where(i => i.Status == "A" && i.EndDate > DateTime.UtcNow)
+                .OrderByDescending(i => i.CreatedAt)
+                .Take(6)
+                .ToListAsync();
+
+            // Categories with item counts
+            var categoriesWithCounts = await _context.Categories
+                .Where(c => c.IsActive)
+                .Select(c => new
+                {
+                    c.CategoryId,
+                    c.Name,
+                    ItemCount = c.Items.Count(i => i.Status == "A" && i.EndDate > DateTime.UtcNow)
+                })
+                .Where(c => c.ItemCount > 0)
+                .OrderByDescending(c => c.ItemCount)
+                .Take(8)
+                .ToListAsync();
+
+            ViewBag.RecentAuctions = recentAuctions;
+            ViewBag.CategoriesWithCounts = categoriesWithCounts;
 
             return View(featuredItems);
         }

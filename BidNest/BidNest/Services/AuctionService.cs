@@ -15,7 +15,7 @@ namespace BidNest.Services
         {
             _context = context;
             _logger = logger;
-            _hubContext = hubContext;
+            _hubContext = hubContext; 
         }
 
         public async Task<(bool Success, string Message, BidViewModel? Bid)> PlaceBidAsync(int itemId, int bidderId, decimal bidAmount)
@@ -228,6 +228,7 @@ namespace BidNest.Services
                 .Include(b => b.Bidder)
                 .Where(b => b.ItemId == itemId)
                 .OrderByDescending(b => b.Amount)
+                .ThenBy(b => b.BidTime) // Earlier bid wins in case of tie
                 .FirstOrDefaultAsync();
 
             if (bid == null) return null;

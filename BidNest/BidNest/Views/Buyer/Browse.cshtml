@@ -1,0 +1,229 @@
+@model BidNest.ViewModels.BrowseViewModel
+@{
+    ViewData["Title"] = "Browse Auctions";
+    var categories = ViewBag.Categories as List<BidNest.Models.Category> ?? new List<BidNest.Models.Category>();
+}
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="mb-3">Browse Active Auctions</h2>
+            
+            <!-- Search and Filter Bar -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="get" action="@Url.Action("Browse", "Buyer")" class="row g-3">
+                        <div class="col-md-4">
+                            <input type="text" name="search" class="form-control" placeholder="Search items..." value="@Model.SearchTerm">
+                        </div>
+                        <div class="col-md-3">
+                            <select name="categoryId" class="form-select">
+                                <option value="">All Categories</option>
+                                @foreach (var category in categories)
+                                {
+                                    @if (Model.CategoryId == category.CategoryId)
+                                    {
+                                        <option value="@category.CategoryId" selected>@category.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@category.CategoryId">@category.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select name="sortBy" class="form-select">
+                                @if (Model.SortBy == "ending")
+                                {
+                                    <option value="ending" selected>Ending Soon</option>
+                                }
+                                else
+                                {
+                                    <option value="ending">Ending Soon</option>
+                                }
+                                
+                                @if (Model.SortBy == "newest")
+                                {
+                                    <option value="newest" selected>Newly Listed</option>
+                                }
+                                else
+                                {
+                                    <option value="newest">Newly Listed</option>
+                                }
+                                
+                                @if (Model.SortBy == "price_low")
+                                {
+                                    <option value="price_low" selected>Price: Low to High</option>
+                                }
+                                else
+                                {
+                                    <option value="price_low">Price: Low to High</option>
+                                }
+                                
+                                @if (Model.SortBy == "price_high")
+                                {
+                                    <option value="price_high" selected>Price: High to Low</option>
+                                }
+                                else
+                                {
+                                    <option value="price_high">Price: High to Low</option>
+                                }
+                                
+                                @if (Model.SortBy == "popular")
+                                {
+                                    <option value="popular" selected>Most Popular</option>
+                                }
+                                else
+                                {
+                                    <option value="popular">Most Popular</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-search"></i> Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Count -->
+            @if (!string.IsNullOrEmpty(Model.SearchTerm))
+            {
+                <p class="text-muted mb-3">
+                    Search results for "<strong>@Model.SearchTerm</strong>"
+                    @if (Model.CategoryId.HasValue)
+                    {
+                        <span> in @categories.FirstOrDefault(c => c.CategoryId == Model.CategoryId)?.Name</span>
+                    }
+                </p>
+            }
+        </div>
+    </div>
+
+    <!-- Items Grid -->
+    <div class="row">
+        @if (Model.Items.Any())
+        {
+            @foreach (var item in Model.Items)
+            {
+                <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+                    <div class="card h-100 auction-card">
+                        <div class="position-relative">
+                            <img src="@item.ImageUrl" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge bg-dark">@item.CategoryName</span>
+                            </div>
+                            @if (item.TimeRemaining.TotalHours < 24)
+                            {
+                                <div class="position-absolute bottom-0 start-0 m-2">
+                                    <span class="badge bg-danger">Ending Soon</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate">
+                                <a href="@Url.Action("ItemDetails", "Buyer", new { id = item.ItemId })" class="text-decoration-none text-dark">
+                                    @item.Title
+                                </a>
+                            </h5>
+                            <p class="card-text small text-muted text-truncate">@item.Description</p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <p class="mb-0 text-muted small">Current Bid</p>
+                                    <h5 class="mb-0 text-primary">$@item.CurrentPrice.ToString("N2")</h5>
+                                </div>
+                                <div class="text-end">
+                                    <p class="mb-0 text-muted small">@item.BidCount bids</p>
+                                    <p class="mb-0 small @item.StatusClass">
+                                        <i class="bi bi-clock"></i> @item.TimeRemainingDisplay
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="bi bi-person"></i> @item.SellerName
+                                </small>
+                                <a href="@Url.Action("ItemDetails", "Buyer", new { id = item.ItemId })" class="btn btn-sm btn-primary">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <h4>No auctions found</h4>
+                    <p>Try adjusting your search criteria or browse all auctions.</p>
+                    <a href="@Url.Action("Browse", "Buyer")" class="btn btn-primary">Browse All</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination -->
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Browse", "Buyer", new { 
+                        search = Model.SearchTerm, 
+                        categoryId = Model.CategoryId, 
+                        sortBy = Model.SortBy, 
+                        page = Model.CurrentPage - 1 
+                    })">Previous</a>
+                </li>
+                
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    if (i == 1 || i == Model.TotalPages || (i >= Model.CurrentPage - 2 && i <= Model.CurrentPage + 2))
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Browse", "Buyer", new { 
+                                search = Model.SearchTerm, 
+                                categoryId = Model.CategoryId, 
+                                sortBy = Model.SortBy, 
+                                page = i 
+                            })">@i</a>
+                        </li>
+                    }
+                    else if (i == Model.CurrentPage - 3 || i == Model.CurrentPage + 3)
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    }
+                }
+                
+                <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Browse", "Buyer", new { 
+                        search = Model.SearchTerm, 
+                        categoryId = Model.CategoryId, 
+                        sortBy = Model.SortBy, 
+                        page = Model.CurrentPage + 1 
+                    })">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>
+
+<style>
+    .auction-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .auction-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+</style>

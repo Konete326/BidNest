@@ -44,10 +44,14 @@ namespace BidNest.Services
         {
             using var scope = _serviceProvider.CreateScope();
             var auctionService = scope.ServiceProvider.GetRequiredService<IAuctionService>();
+            var itemStatusService = scope.ServiceProvider.GetRequiredService<IItemStatusService>();
             var hubContext = scope.ServiceProvider.GetService<IHubContext<AuctionHub>>();
 
             try
             {
+                // Process expired items and determine winners
+                await itemStatusService.ProcessExpiredItemsAsync();
+                
                 // Process ended auctions
                 await auctionService.ProcessEndingAuctionsAsync();
 

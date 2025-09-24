@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,175 +36,131 @@ public partial class BidnestContext : DbContext
     public virtual DbSet<Watchlist> Watchlists { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("data source=.;initial catalog=bidnest;user id=sa;password=aptech; TrustServerCertificate=True");
+    {
+        // Connection string is configured in Program.cs via dependency injection
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=bidnest;Integrated Security=true;TrustServerCertificate=True;");
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Bid>(entity =>
         {
-            entity.HasKey(e => e.BidId).HasName("PK__Bids__4A733D92794230F9");
+            entity.HasKey(e => e.BidId).HasName("PK__Bids__4A733D921C26896C");
 
-            entity.HasIndex(e => e.BidderId, "IX_Bids_BidderId");
-
-            entity.HasIndex(e => new { e.ItemId, e.Amount }, "IX_Bids_ItemId_Amount").IsDescending(false, true);
-
-            entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.BidTime).HasDefaultValueSql("(sysutcdatetime())");
 
             entity.HasOne(d => d.Bidder).WithMany(p => p.Bids)
-                .HasForeignKey(d => d.BidderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Bids_Bidder");
 
             entity.HasOne(d => d.Item).WithMany(p => p.Bids)
-                .HasForeignKey(d => d.ItemId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Bids_Item");
         });
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0BAF8B299E");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0BD9D06A82");
 
             entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.Name).HasMaxLength(150);
 
-            entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
-                .HasForeignKey(d => d.ParentId)
-                .HasConstraintName("FK_Categories_Parent");
+            entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent).HasConstraintName("FK_Categories_Parent");
         });
 
         modelBuilder.Entity<Item>(entity =>
         {
-            entity.HasKey(e => e.ItemId).HasName("PK__Items__727E838B3AC14E32");
+            entity.HasKey(e => e.ItemId).HasName("PK__Items__727E838B91E67C2E");
 
-            entity.HasIndex(e => e.CategoryId, "IX_Items_CategoryId");
-
-            entity.Property(e => e.BidIncrement)
-                .HasDefaultValue(1.00m)
-                .HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.BidIncrement).HasDefaultValue(1.00m);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
-            entity.Property(e => e.CurrentPrice).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.MinBid).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Status)
-                .HasMaxLength(1)
-                .HasDefaultValue("A");
-            entity.Property(e => e.Title).HasMaxLength(200);
+            entity.Property(e => e.Status).HasDefaultValue("A");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.Items)
-                .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK_Items_Category");
+            entity.HasOne(d => d.Category).WithMany(p => p.Items).HasConstraintName("FK_Items_Category");
 
             entity.HasOne(d => d.Seller).WithMany(p => p.Items)
-                .HasForeignKey(d => d.SellerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Items_Seller");
         });
 
         modelBuilder.Entity<ItemDocument>(entity =>
         {
-            entity.HasKey(e => e.DocId).HasName("PK__ItemDocu__3EF188ADCD444913");
+            entity.HasKey(e => e.DocId).HasName("PK__ItemDocu__3EF188AD9F3CEFF2");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
-            entity.Property(e => e.FileName).HasMaxLength(255);
-            entity.Property(e => e.Url).HasMaxLength(1000);
 
             entity.HasOne(d => d.Item).WithMany(p => p.ItemDocuments)
-                .HasForeignKey(d => d.ItemId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ItemDocs_Item");
         });
 
         modelBuilder.Entity<ItemImage>(entity =>
         {
-            entity.HasKey(e => e.ImageId).HasName("PK__ItemImag__7516F70CEC17CA6D");
+            entity.HasKey(e => e.ImageId).HasName("PK__ItemImag__7516F70CB5D0AEBB");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
-            entity.Property(e => e.Url).HasMaxLength(1000);
 
             entity.HasOne(d => d.Item).WithMany(p => p.ItemImages)
-                .HasForeignKey(d => d.ItemId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ItemImages_Item");
         });
 
         modelBuilder.Entity<Notification>(entity =>
         {
-            entity.HasKey(e => e.NotificationId).HasName("PK__Notifica__20CF2E122C1FFA71");
+            entity.HasKey(e => e.NotificationId).HasName("PK__Notifica__20CF2E12403DC1C9");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
-            entity.Property(e => e.Title).HasMaxLength(200);
 
             entity.HasOne(d => d.User).WithMany(p => p.Notifications)
-                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Notifications_User");
         });
 
         modelBuilder.Entity<Rating>(entity =>
         {
-            entity.HasKey(e => e.RatingId).HasName("PK__Ratings__FCCDF87CA4CA4C0A");
+            entity.HasKey(e => e.RatingId).HasName("PK__Ratings__FCCDF87CCFAF5197");
 
-            entity.Property(e => e.Comment).HasMaxLength(1000);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
 
             entity.HasOne(d => d.RatedUser).WithMany(p => p.RatingRatedUsers)
-                .HasForeignKey(d => d.RatedUserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Ratings_Rated");
 
             entity.HasOne(d => d.Rater).WithMany(p => p.RatingRaters)
-                .HasForeignKey(d => d.RaterId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Ratings_Rater");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1A42B187CE");
-
-            entity.HasIndex(e => e.Name, "UQ__Roles__737584F651096ADD").IsUnique();
-
-            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1A68C8D4EB");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CF2296309");
-
-            entity.HasIndex(e => e.Username, "UQ__Users__536C85E4E537EC4A").IsUnique();
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C3DC8A39B");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
-            entity.Property(e => e.Email).HasMaxLength(255);
-            entity.Property(e => e.FullName).HasMaxLength(200);
-            entity.Property(e => e.PasswordHash).HasMaxLength(512);
             entity.Property(e => e.RoleId).HasDefaultValue(2);
-            entity.Property(e => e.Username).HasMaxLength(100);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
-                .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Users_Roles");
         });
 
         modelBuilder.Entity<Watchlist>(entity =>
         {
-            entity.HasKey(e => e.WatchId).HasName("PK__Watchlis__3BA3DAA3319DF3E3");
-
-            entity.ToTable("Watchlist");
-
-            entity.HasIndex(e => new { e.UserId, e.ItemId }, "UQ_Watch").IsUnique();
+            entity.HasKey(e => e.WatchId).HasName("PK__Watchlis__3BA3DAA33AB7D631");
 
             entity.Property(e => e.AddedAt).HasDefaultValueSql("(sysutcdatetime())");
 
             entity.HasOne(d => d.Item).WithMany(p => p.Watchlists)
-                .HasForeignKey(d => d.ItemId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Watch_Item");
 
             entity.HasOne(d => d.User).WithMany(p => p.Watchlists)
-                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Watch_User");
         });

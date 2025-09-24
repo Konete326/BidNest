@@ -1,0 +1,266 @@
+@model BidNest.ViewModels.BuyerDashboardViewModel
+@{
+    ViewData["Title"] = "Buyer Dashboard";
+}
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="mb-0">Welcome to Your Dashboard</h2>
+            <p class="text-muted">Track your bids, watch auctions, and discover new items</p>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Active Bids</h5>
+                    <h2 class="mb-0">@Model.MyActiveBids.Count</h2>
+                    <small>Currently bidding on</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Winning</h5>
+                    <h2 class="mb-0">@Model.MyActiveBids.Count(b => b.IsWinning)</h2>
+                    <small>Leading auctions</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Watchlist</h5>
+                    <h2 class="mb-0">@Model.WatchlistItems.Count</h2>
+                    <small>Items watching</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Won Recently</h5>
+                    <h2 class="mb-0">@Model.RecentlyWon.Count</h2>
+                    <small>Auctions won</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Active Bids -->
+    @if (Model.MyActiveBids.Any())
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">My Active Bids</h5>
+                        <a href="@Url.Action("MyBids", "Buyer")" class="btn btn-sm btn-outline-primary">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Category</th>
+                                        <th>My Bid</th>
+                                        <th>Current Price</th>
+                                        <th>Status</th>
+                                        <th>Time Remaining</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var bid in Model.MyActiveBids)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="@bid.ImageUrl" alt="@bid.ItemName" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                                    <div class="ms-3">
+                                                        <a href="@Url.Action("ItemDetails", "Buyer", new { id = bid.ItemId })" class="text-decoration-none">
+                                                            @bid.ItemName
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>@bid.CategoryName</td>
+                                            <td>$@bid.MyBidAmount.ToString("N2")</td>
+                                            <td>$@bid.CurrentPrice.ToString("N2")</td>
+                                            <td>
+                                                <span class="@bid.StatusClass">@bid.StatusDisplay</span>
+                                            </td>
+                                            <td>
+                                                <span class="@(bid.TimeRemaining.TotalHours < 1 ? "text-danger" : "")">
+                                                    @if (bid.TimeRemaining.TotalDays >= 1)
+                                                    {
+                                                        @($"{(int)bid.TimeRemaining.TotalDays}d {bid.TimeRemaining.Hours}h")
+                                                    }
+                                                    else if (bid.TimeRemaining.TotalHours >= 1)
+                                                    {
+                                                        @($"{(int)bid.TimeRemaining.TotalHours}h {bid.TimeRemaining.Minutes}m")
+                                                    }
+                                                    else
+                                                    {
+                                                        @($"{(int)bid.TimeRemaining.TotalMinutes}m")
+                                                    }
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("ItemDetails", "Buyer", new { id = bid.ItemId })" class="btn btn-sm btn-primary">
+                                                    @(bid.IsWinning ? "View" : "Bid Again")
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Featured Auctions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Featured Auctions</h5>
+                    <a href="@Url.Action("Browse", "Buyer")" class="btn btn-sm btn-outline-primary">Browse All</a>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var item in Model.FeaturedAuctions.Take(6))
+                        {
+                            <div class="col-md-4 col-lg-2 mb-3">
+                                <div class="card h-100">
+                                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Title" style="height: 150px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-truncate">
+                                            <a href="@Url.Action("ItemDetails", "Buyer", new { id = item.ItemId })" class="text-decoration-none">
+                                                @item.Title
+                                            </a>
+                                        </h6>
+                                        <p class="mb-1">
+                                            <strong>$@item.CurrentPrice.ToString("N2")</strong>
+                                        </p>
+                                        <p class="mb-1 small text-muted">@item.BidCount bids</p>
+                                        <p class="mb-0 small @item.StatusClass">
+                                            @item.TimeRemainingDisplay
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Watchlist Items -->
+    @if (Model.WatchlistItems.Any())
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Your Watchlist</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach (var item in Model.WatchlistItems.Take(4))
+                            {
+                                <div class="col-md-3 mb-3">
+                                    <div class="card h-100">
+                                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.Title" style="height: 150px; object-fit: cover;">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                <a href="@Url.Action("ItemDetails", "Buyer", new { id = item.ItemId })" class="text-decoration-none">
+                                                    @item.Title
+                                                </a>
+                                            </h6>
+                                            <p class="mb-1">
+                                                <strong>$@item.CurrentPrice.ToString("N2")</strong>
+                                            </p>
+                                            <p class="mb-1 small text-muted">@item.BidCount bids</p>
+                                            <p class="mb-2 small @item.StatusClass">
+                                                @item.TimeRemainingDisplay
+                                            </p>
+                                            <a href="@Url.Action("ItemDetails", "Buyer", new { id = item.ItemId })" class="btn btn-sm btn-primary w-100">Place Bid</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Recently Won -->
+    @if (Model.RecentlyWon.Any())
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Recently Won Auctions</h5>
+                        <a href="@Url.Action("WonAuctions", "Buyer")" class="btn btn-sm btn-outline-primary">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Winning Bid</th>
+                                        <th>Won Date</th>
+                                        <th>Payment Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.RecentlyWon)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="@item.ImageUrl" alt="@item.ItemName" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                                    <span class="ms-3">@item.ItemName</span>
+                                                </div>
+                                            </td>
+                                            <td>$@item.WinningBid.ToString("N2")</td>
+                                            <td>@item.EndDate.ToString("MMM dd, yyyy")</td>
+                                            <td>
+                                                <span class="@item.PaymentStatusClass">@item.PaymentStatus</span>
+                                            </td>
+                                            <td>
+                                                @if (item.PaymentStatus == "Pending")
+                                                {
+                                                    <a href="@Url.Action("Payment", "Buyer", new { itemId = item.ItemId })" class="btn btn-sm btn-success">Pay Now</a>
+                                                }
+                                                else
+                                                {
+                                                    <button class="btn btn-sm btn-secondary" disabled>Paid</button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

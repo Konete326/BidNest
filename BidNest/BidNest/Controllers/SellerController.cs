@@ -98,6 +98,14 @@ namespace BidNest.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            // Check if user is blocked
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.IsBlocked)
+            {
+                TempData["ErrorMessage"] = "Your account has been blocked or is invalid.";
+                return RedirectToAction("Dashboard");
+            }
+
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
