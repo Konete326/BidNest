@@ -1,0 +1,295 @@
+@model BidNest.ViewModels.UserProfileViewModel
+@{
+    ViewData["Title"] = $"User Profile - {Model.FullName}";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-user me-2"></i>User Profile
+            </h1>
+        </div>
+        <div class="col-auto">
+            <a href="@Url.Action("Users", "Admin")" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Users
+            </a>
+            @if (!Model.IsBlocked)
+            {
+                <form method="post" action="@Url.Action("ToggleUserBlock", "Admin", new { id = Model.UserId })" class="d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to block this user?')">
+                        <i class="fas fa-ban me-2"></i>Block User
+                    </button>
+                </form>
+            }
+            else
+            {
+                <form method="post" action="@Url.Action("ToggleUserBlock", "Admin", new { id = Model.UserId })" class="d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to unblock this user?')">
+                        <i class="fas fa-check me-2"></i>Unblock User
+                    </button>
+                </form>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <!-- Profile Card -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">User Information</h6>
+                </div>
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="avatar-circle mx-auto">
+                            <span class="initials">@Model.FullName?.Substring(0, Math.Min(2, Model.FullName.Length)).ToUpper()</span>
+                        </div>
+                    </div>
+                    <h4 class="card-title">@Model.FullName</h4>
+                    <p class="text-muted">@@@Model.Username</p>
+                    @if (Model.IsBlocked)
+                    {
+                        <span class="badge bg-danger mb-2">Account Blocked</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success mb-2">Active Account</span>
+                    }
+                    <hr>
+                    <div class="text-left">
+                        <p><strong>Email:</strong> @Model.Email</p>
+                        <p><strong>Role:</strong> 
+                            <span class="badge @(Model.Role == "Admin" ? "bg-danger" : "bg-primary")">
+                                @Model.Role
+                            </span>
+                        </p>
+                        <p><strong>Member Since:</strong> @Model.JoinDate.ToString("MMMM dd, yyyy")</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">User Statistics</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6 border-end">
+                            <h5 class="text-primary">@ViewBag.TotalBids</h5>
+                            <small class="text-muted">Total Bids</small>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="text-success">@ViewBag.WonAuctions</h5>
+                            <small class="text-muted">Won Auctions</small>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row text-center">
+                        <div class="col-6 border-end">
+                            <h5 class="text-info">@ViewBag.ActiveBids</h5>
+                            <small class="text-muted">Active Bids</small>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="text-warning">@ViewBag.WatchlistCount</h5>
+                            <small class="text-muted">Watchlist</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <!-- Recent Bids -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Recent Bidding Activity</h6>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.RecentBids != null && ViewBag.RecentBids.Count > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Bid Amount</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var bid in ViewBag.RecentBids)
+                                    {
+                                        <tr>
+                                            <td>@bid.ItemTitle</td>
+                                            <td>$@bid.Amount.ToString("N2")</td>
+                                            <td>@bid.BidTime.ToString("MMM dd, yyyy HH:mm")</td>
+                                            <td>
+                                                @if (bid.IsWinning)
+                                                {
+                                                    <span class="badge bg-success">Winning</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Outbid</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Details", "Auction", new { id = bid.ItemId })" 
+                                                   class="btn btn-sm btn-info" target="_blank">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center mb-0">No bidding activity found</p>
+                    }
+                </div>
+            </div>
+
+            <!-- User's Items (if seller) -->
+            @if (ViewBag.UserItems != null && ViewBag.UserItems.Count > 0)
+            {
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">User's Listed Items</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Status</th>
+                                        <th>Current Price</th>
+                                        <th>End Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.UserItems)
+                                    {
+                                        <tr>
+                                            <td>@item.Title</td>
+                                            <td>
+                                                @switch(item.Status)
+                                                {
+                                                    case "A":
+                                                        <span class="badge bg-success">Active</span>
+                                                        break;
+                                                    case "S":
+                                                        <span class="badge bg-info">Sold</span>
+                                                        break;
+                                                    case "E":
+                                                        <span class="badge bg-warning">Expired</span>
+                                                        break;
+                                                    default:
+                                                        <span class="badge bg-secondary">@item.Status</span>
+                                                        break;
+                                                }
+                                            </td>
+                                            <td>$@item.CurrentPrice.ToString("N2")</td>
+                                            <td>@item.EndDate.ToString("MMM dd, yyyy")</td>
+                                            <td>
+                                                <a href="@Url.Action("ItemDetails", "Admin", new { id = item.ItemId })" 
+                                                   class="btn btn-sm btn-info">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Admin Actions -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-warning">
+                    <h6 class="m-0 font-weight-bold text-dark">Admin Actions</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="@Url.Action("UserDetails", "Admin", new { id = Model.UserId })" class="btn btn-primary btn-block mb-2">
+                                <i class="fas fa-info-circle me-2"></i>View Full Details
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="@Url.Action("Messages", "Admin", new { userId = Model.UserId })" class="btn btn-info btn-block mb-2">
+                                <i class="fas fa-envelope me-2"></i>View Messages
+                            </a>
+                        </div>
+                    </div>
+                    @if (Model.Role != "Admin")
+                    {
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <button class="btn btn-warning btn-block" onclick="resetPassword(@Model.UserId)">
+                                    <i class="fas fa-key me-2"></i>Reset Password
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-danger btn-block" onclick="deleteUser(@Model.UserId)">
+                                    <i class="fas fa-trash me-2"></i>Delete User
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .avatar-circle {
+            width: 100px;
+            height: 100px;
+            background-color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        .avatar-circle .initials {
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        function resetPassword(userId) {
+            if (confirm('Are you sure you want to reset this user\'s password?')) {
+                // Implement password reset
+                alert('Password reset functionality to be implemented');
+            }
+        }
+        
+        function deleteUser(userId) {
+            if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                // Implement user deletion
+                alert('User deletion functionality to be implemented');
+            }
+        }
+    </script>
+}

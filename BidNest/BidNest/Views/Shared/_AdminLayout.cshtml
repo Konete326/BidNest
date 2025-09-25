@@ -21,6 +21,8 @@
 
     <script src="~/admin/vendor/js/helpers.js"></script>
     <script src="~/admin/js/config.js"></script>
+    
+    @RenderSection("Styles", required: false)
 </head>
 
 <body>
@@ -107,6 +109,12 @@
                         <a href="@Url.Action("Bids", "Admin")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-money"></i>
                             <div data-i18n="Support">Bids</div>
+                        </a>
+                    </li>
+                    <li class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Messages" || ViewContext.RouteData.Values["action"]?.ToString() == "MessageDetails" ? "active" : "")">
+                        <a href="@Url.Action("Messages", "Admin")" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-envelope"></i>
+                            <div data-i18n="Messages">Contact Messages</div>
                         </a>
                     </li>
                 </ul>

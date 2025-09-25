@@ -25,7 +25,22 @@ CREATE TABLE dbo.Users (
     CreatedAt     DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
     CONSTRAINT FK_Users_Roles FOREIGN KEY (RoleId) REFERENCES dbo.Roles(RoleId)
 );
-
+-- New ContactMessages table
+CREATE TABLE ContactMessages (
+    MessageId INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(255) NOT NULL,
+    Subject NVARCHAR(200) NOT NULL,
+    Message NVARCHAR(2000) NOT NULL,
+    NewsletterSubscription BIT NOT NULL,
+    Status NVARCHAR(20) NOT NULL,
+    AdminReply NVARCHAR(2000),
+    RepliedAt DATETIME2,
+    RepliedByUserId INT,
+    CreatedAt DATETIME2 NOT NULL,
+    ReadAt DATETIME2,
+    FOREIGN KEY (RepliedByUserId) REFERENCES Users(UserId)
+)
 
 CREATE TABLE dbo.Categories (
     CategoryId INT IDENTITY(1,1) PRIMARY KEY,

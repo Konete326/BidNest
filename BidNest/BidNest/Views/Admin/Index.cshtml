@@ -58,6 +58,32 @@
     </div>
 </div>
 
+<!-- Messages Quick Access Row -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h5 class="card-title mb-2">
+                            <i class="fas fa-envelope text-primary me-2"></i>Contact Messages
+                        </h5>
+                        <p class="mb-0">
+                            You have <span class="badge bg-danger">@Model.Stats.NewMessages</span> new messages out of 
+                            <span class="badge bg-secondary">@Model.Stats.TotalMessages</span> total messages
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <a href="@Url.Action("Messages", "Admin")" class="btn btn-primary">
+                            <i class="fas fa-inbox me-2"></i>View Messages
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
         <div class="card h-100">

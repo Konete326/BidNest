@@ -49,7 +49,9 @@ namespace BidNest.Controllers
                         .SumAsync(i => i.CurrentPrice.Value),
                     NewUsersToday = await _context.Users.CountAsync(u => u.CreatedAt.Date == today),
                     NewItemsToday = await _context.Items.CountAsync(i => i.CreatedAt.Date == today),
-                    BidsToday = await _context.Bids.CountAsync(b => b.BidTime.Date == today)
+                    BidsToday = await _context.Bids.CountAsync(b => b.BidTime.Date == today),
+                    TotalMessages = await _context.ContactMessages.CountAsync(),
+                    NewMessages = await _context.ContactMessages.CountAsync(m => m.Status == "New")
                 },
 
                 RecentActivities = await GetRecentActivitiesAsync(),
@@ -84,6 +86,80 @@ namespace BidNest.Controllers
             }
 
             return View(user);
+        }
+
+        // GET: Admin/ViewUserProfile/5
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ViewUserProfile(int id)
+        {
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.UserId == id);
+
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "User not found.";
+                return RedirectToAction(nameof(Users));
+            }
+
+            var viewModel = new UserProfileViewModel
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email,
+                FullName = user.FullName,
+                JoinDate = user.CreatedAt,
+                Role = user.Role.Name,
+                IsBlocked = user.IsBlocked
+            };
+
+            // Get stats
+            ViewBag.TotalBids = await _context.Bids.CountAsync(b => b.BidderId == id);
+            ViewBag.WonAuctions = await _context.Items
+                .Where(i => i.Status == "S" && i.CurrentBidId != null)
+                .Join(_context.Bids, i => i.CurrentBidId, b => b.BidId, (i, b) => b)
+                .CountAsync(b => b.BidderId == id);
+            ViewBag.ActiveBids = await _context.Bids
+                .Where(b => b.BidderId == id && b.Item.Status == "A")
+                .CountAsync();
+            ViewBag.WatchlistCount = await _context.Watchlists.CountAsync(w => w.UserId == id);
+            
+            // Get recent bids
+            ViewBag.RecentBids = await _context.Bids
+                .Where(b => b.BidderId == id)
+                .Include(b => b.Item)
+                .OrderByDescending(b => b.BidTime)
+                .Take(5)
+                .Select(b => new
+                {
+                    ItemId = b.ItemId,
+                    ItemTitle = b.Item.Title,
+                    Amount = b.Amount,
+                    BidTime = b.BidTime,
+                    IsWinning = b.IsWinning
+                })
+                .ToListAsync();
+
+            // Get user's items if they are a seller
+            ViewBag.UserItems = await _context.Items
+                .Where(i => i.SellerId == id)
+                .OrderByDescending(i => i.CreatedAt)
+                .Take(5)
+                .Select(i => new
+                {
+                    ItemId = i.ItemId,
+                    Title = i.Title,
+                    Status = i.Status,
+                    CurrentPrice = i.CurrentPrice ?? i.MinBid,
+                    EndDate = i.EndDate,
+                    CreatedAt = i.CreatedAt
+                })
+                .ToListAsync();
+
+            ViewBag.IsAdminView = true;
+            ViewBag.ViewedUserId = id;
+
+            return View("ViewUserProfile", viewModel);
         }
 
         [HttpPost]
@@ -1225,6 +1301,244 @@ namespace BidNest.Controllers
         {
             var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             return userIdClaim != null ? int.Parse(userIdClaim.Value) : 1; // Default to admin user
+        }
+
+        // ================== CONTACT MESSAGE MANAGEMENT ==================
+
+        // GET: Admin/Messages
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Messages(string status = "all", int page = 1, int pageSize = 20)
+        {
+            var query = _context.ContactMessages
+                .Include(m => m.User)
+                .Include(m => m.RepliedByUser)
+                .AsQueryable();
+
+            // Filter by status
+            if (status != "all")
+            {
+                query = status switch
+                {
+                    "new" => query.Where(m => m.Status == "New"),
+                    "read" => query.Where(m => m.Status == "Read"),
+                    "replied" => query.Where(m => m.Status == "Replied"),
+                    "archived" => query.Where(m => m.Status == "Archived"),
+                    _ => query
+                };
+            }
+
+            var totalMessages = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalMessages / (double)pageSize);
+
+            var messages = await query
+                .OrderByDescending(m => m.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.CurrentStatus = status;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.PageSize = pageSize;
+
+            // Get message counts for badges
+            ViewBag.NewCount = await _context.ContactMessages.CountAsync(m => m.Status == "New");
+            ViewBag.ReadCount = await _context.ContactMessages.CountAsync(m => m.Status == "Read");
+            ViewBag.RepliedCount = await _context.ContactMessages.CountAsync(m => m.Status == "Replied");
+            ViewBag.ArchivedCount = await _context.ContactMessages.CountAsync(m => m.Status == "Archived");
+            ViewBag.TotalCount = await _context.ContactMessages.CountAsync();
+
+            return View(messages);
+        }
+
+        // GET: Admin/MessageDetails/5
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> MessageDetails(int id)
+        {
+            var message = await _context.ContactMessages
+                .Include(m => m.User)
+                .Include(m => m.RepliedByUser)
+                .FirstOrDefaultAsync(m => m.MessageId == id);
+
+            if (message == null)
+            {
+                TempData["ErrorMessage"] = "Message not found.";
+                return RedirectToAction(nameof(Messages));
+            }
+
+            // Mark as read if it's new
+            if (message.Status == "New")
+            {
+                message.Status = "Read";
+                message.ReadAt = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+            }
+
+            return View(message);
+        }
+
+        // POST: Admin/ReplyMessage
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ReplyMessage(int messageId, string replyContent)
+        {
+            var message = await _context.ContactMessages.FindAsync(messageId);
+            if (message == null)
+            {
+                return Json(new { success = false, message = "Message not found." });
+            }
+
+            if (string.IsNullOrWhiteSpace(replyContent))
+            {
+                return Json(new { success = false, message = "Reply content cannot be empty." });
+            }
+
+            try
+            {
+                var adminUserId = GetCurrentUserId();
+                
+                message.AdminReply = replyContent;
+                message.Status = "Replied";
+                message.RepliedAt = DateTime.UtcNow;
+                message.RepliedByUserId = adminUserId;
+
+                await _context.SaveChangesAsync();
+
+                // TODO: In production, send email to the user with the reply
+
+                _logger.LogInformation("Admin {AdminId} replied to message {MessageId}", adminUserId, messageId);
+
+                return Json(new { success = true, message = "Reply sent successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error replying to message {MessageId}", messageId);
+                return Json(new { success = false, message = "An error occurred while sending the reply." });
+            }
+        }
+
+        // POST: Admin/UpdateMessageStatus
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateMessageStatus(int messageId, string status)
+        {
+            var message = await _context.ContactMessages.FindAsync(messageId);
+            if (message == null)
+            {
+                return Json(new { success = false, message = "Message not found." });
+            }
+
+            var validStatuses = new[] { "New", "Read", "Replied", "Archived" };
+            if (!validStatuses.Contains(status))
+            {
+                return Json(new { success = false, message = "Invalid status." });
+            }
+
+            try
+            {
+                message.Status = status;
+                if (status == "Read" && !message.ReadAt.HasValue)
+                {
+                    message.ReadAt = DateTime.UtcNow;
+                }
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Message {MessageId} status updated to {Status}", messageId, status);
+
+                return Json(new { success = true, message = $"Message marked as {status}." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating message {MessageId} status", messageId);
+                return Json(new { success = false, message = "An error occurred while updating the message status." });
+            }
+        }
+
+        // POST: Admin/DeleteMessage
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteMessage(int messageId)
+        {
+            var message = await _context.ContactMessages.FindAsync(messageId);
+            if (message == null)
+            {
+                return Json(new { success = false, message = "Message not found." });
+            }
+
+            try
+            {
+                _context.ContactMessages.Remove(message);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Message {MessageId} deleted by admin", messageId);
+
+                TempData["SuccessMessage"] = "Message deleted successfully.";
+                return Json(new { success = true, message = "Message deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting message {MessageId}", messageId);
+                return Json(new { success = false, message = "An error occurred while deleting the message." });
+            }
+        }
+
+        // POST: Admin/BulkUpdateMessages
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BulkUpdateMessages(int[] messageIds, string action)
+        {
+            if (messageIds == null || messageIds.Length == 0)
+            {
+                return Json(new { success = false, message = "No messages selected." });
+            }
+
+            try
+            {
+                var messages = await _context.ContactMessages
+                    .Where(m => messageIds.Contains(m.MessageId))
+                    .ToListAsync();
+
+                switch (action.ToLower())
+                {
+                    case "markread":
+                        foreach (var message in messages)
+                        {
+                            if (message.Status == "New")
+                            {
+                                message.Status = "Read";
+                                message.ReadAt = DateTime.UtcNow;
+                            }
+                        }
+                        break;
+                    case "archive":
+                        foreach (var message in messages)
+                        {
+                            message.Status = "Archived";
+                        }
+                        break;
+                    case "delete":
+                        _context.ContactMessages.RemoveRange(messages);
+                        break;
+                    default:
+                        return Json(new { success = false, message = "Invalid action." });
+                }
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Bulk action {Action} performed on {Count} messages", action, messages.Count);
+
+                return Json(new { success = true, message = $"Successfully {action} {messages.Count} messages." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error performing bulk action {Action} on messages", action);
+                return Json(new { success = false, message = "An error occurred while processing the messages." });
+            }
         }
     }
 }

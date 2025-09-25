@@ -1,0 +1,116 @@
+@{
+    ViewData["Title"] = "About BidNest";
+}
+
+<div class="hero-section bg-primary text-white py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold">About BidNest</h1>
+                <p class="lead">Your trusted online auction platform connecting buyers and sellers worldwide</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="mb-4">Our Story</h2>
+            <p class="lead">BidNest was founded with a simple mission: to create a secure, user-friendly platform where people can discover unique items and sellers can reach a global audience.</p>
+            
+            <p>Since our inception, we've been committed to providing a transparent and fair marketplace where every auction is conducted with integrity. Our platform combines cutting-edge technology with time-tested auction principles to deliver an exceptional experience for both buyers and sellers.</p>
+            
+            <p>Whether you're looking for rare collectibles, everyday items, or want to sell your own treasures, BidNest provides the tools and security you need to participate in online auctions with confidence.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-5">Why Choose BidNest?</h2>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <div class="text-center">
+                <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                    <i class="fas fa-shield-alt fa-2x"></i>
+                </div>
+                <h4>Secure & Safe</h4>
+                <p class="text-muted">Advanced security measures protect your personal information and transactions. All auctions are monitored for fraudulent activity.</p>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <div class="text-center">
+                <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                    <i class="fas fa-users fa-2x"></i>
+                </div>
+                <h4>Trusted Community</h4>
+                <p class="text-muted">Join thousands of verified buyers and sellers in our growing community. User ratings and reviews ensure transparency.</p>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <div class="text-center">
+                <div class="feature-icon bg-info text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                    <i class="fas fa-clock fa-2x"></i>
+                </div>
+                <h4>24/7 Availability</h4>
+                <p class="text-muted">Bid and sell anytime, anywhere. Our platform is available around the clock with real-time auction updates.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-lg-6 mb-4">
+            <h3>For Buyers</h3>
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Discover unique and rare items</li>
+                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Competitive bidding environment</li>
+                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Advanced search and filtering</li>
+                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Watchlist and bid tracking</li>
+                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Secure payment processing</li>
+                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Real-time auction notifications</li>
+            </ul>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <h3>For Sellers</h3>
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Easy item listing process</li>
+                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Global marketplace reach</li>
+                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Flexible auction durations</li>
+                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Detailed sales analytics</li>
+                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Seller dashboard and tools</li>
+                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Commission-competitive fees</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="mb-4">Our Commitment</h2>
+            <p>At BidNest, we're committed to:</p>
+            <ul>
+                <li><strong>Transparency:</strong> Clear auction rules and processes</li>
+                <li><strong>Security:</strong> Protecting user data and preventing fraud</li>
+                <li><strong>Innovation:</strong> Continuously improving our platform</li>
+                <li><strong>Support:</strong> Providing excellent customer service</li>
+                <li><strong>Community:</strong> Building a trusted marketplace for all</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="bg-light rounded p-5 text-center">
+        <h3 class="mb-3">Ready to Get Started?</h3>
+        <p class="mb-4">Join our community of buyers and sellers today!</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a href="@Url.Action("Active", "Auction")" class="btn btn-primary btn-lg">Browse Auctions</a>
+                <a href="@Url.Action("Create", "Seller")" class="btn btn-success btn-lg">Sell an Item</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-lg">Sign Up Now</a>
+                <a href="@Url.Action("Active", "Auction")" class="btn btn-outline-primary btn-lg">Browse Auctions</a>
+            }
+        </div>
+    </div>
+</div>

@@ -28,6 +28,8 @@ namespace BidNest.ViewModels
         public int NewUsersToday { get; set; }
         public int NewItemsToday { get; set; }
         public int BidsToday { get; set; }
+        public int TotalMessages { get; set; }
+        public int NewMessages { get; set; }
     }
 
     public class AdminRecentActivityViewModel

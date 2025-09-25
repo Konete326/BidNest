@@ -415,7 +415,7 @@ namespace BidNest.Controllers
             {
                 _context.Watchlists.Remove(existingWatch);
                 await _context.SaveChangesAsync();
-                return Json(new { success = true, isWatching = false, message = "Removed from watchlist" });
+                return Json(new { success = true, isInWatchlist = false, message = "Removed from watchlist" });
             }
             else
             {
@@ -427,8 +427,21 @@ namespace BidNest.Controllers
                 };
                 _context.Watchlists.Add(watchlist);
                 await _context.SaveChangesAsync();
-                return Json(new { success = true, isWatching = true, message = "Added to watchlist" });
+                return Json(new { success = true, isInWatchlist = true, message = "Added to watchlist" });
             }
+        }
+
+        // Check if item is in watchlist
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> IsInWatchlist(int itemId)
+        {
+            var userId = GetCurrentUserId();
+            
+            var isInWatchlist = await _context.Watchlists
+                .AnyAsync(w => w.UserId == userId && w.ItemId == itemId);
+                
+            return Json(new { isInWatchlist = isInWatchlist });
         }
 
         // View my bids

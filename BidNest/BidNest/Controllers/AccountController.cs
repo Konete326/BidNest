@@ -258,7 +258,185 @@ namespace BidNest.Controllers
                 IsBlocked = user.IsBlocked
             };
 
+            // Get stats
+            ViewBag.TotalBids = await _context.Bids.CountAsync(b => b.BidderId == userId);
+            ViewBag.WonAuctions = await _context.Items
+                .Where(i => i.Status == "S" && i.CurrentBidId != null)
+                .Join(_context.Bids, i => i.CurrentBidId, b => b.BidId, (i, b) => b)
+                .CountAsync(b => b.BidderId == userId);
+            ViewBag.ActiveBids = await _context.Bids
+                .Where(b => b.BidderId == userId && b.Item.Status == "A")
+                .CountAsync();
+            ViewBag.WatchlistCount = await _context.Watchlists.CountAsync(w => w.UserId == userId);
+
+            // Get recent bids
+            ViewBag.RecentBids = await _context.Bids
+                .Where(b => b.BidderId == userId)
+                .Include(b => b.Item)
+                .OrderByDescending(b => b.BidTime)
+                .Take(5)
+                .Select(b => new
+                {
+                    ItemId = b.ItemId,
+                    ItemTitle = b.Item.Title,
+                    Amount = b.Amount,
+                    BidTime = b.BidTime,
+                    IsWinning = b.IsWinning
+                })
+                .ToListAsync();
+
             return View(viewModel);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> EditProfile()
+        {
+            var userId = GetCurrentUserId();
+            if (userId == 0)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var viewModel = new EditProfileViewModel
+            {
+                FullName = user.FullName ?? string.Empty,
+                Username = user.Username,
+                Email = user.Email
+            };
+
+            ViewBag.Role = user.Role.Name;
+            ViewBag.JoinDate = user.CreatedAt.ToString("MMMM dd, yyyy");
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfile(EditProfileViewModel model)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == 0)
+            {
+                return RedirectToAction("Login");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var user = await _context.Users
+                    .Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => u.UserId == userId);
+                
+                if (user != null)
+                {
+                    ViewBag.Role = user.Role.Name;
+                    ViewBag.JoinDate = user.CreatedAt.ToString("MMMM dd, yyyy");
+                }
+                return View(model);
+            }
+
+            var userToUpdate = await _context.Users.FindAsync(userId);
+            if (userToUpdate == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            // Check if email is already taken by another user
+            var emailExists = await _context.Users
+                .AnyAsync(u => u.Email == model.Email && u.UserId != userId);
+            
+            if (emailExists)
+            {
+                ModelState.AddModelError("Email", "This email is already in use by another account.");
+                ViewBag.Role = userToUpdate.Role?.Name ?? "User";
+                ViewBag.JoinDate = userToUpdate.CreatedAt.ToString("MMMM dd, yyyy");
+                return View(model);
+            }
+
+            // Update user information
+            userToUpdate.FullName = model.FullName;
+            userToUpdate.Email = model.Email;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Your profile has been updated successfully!";
+                return RedirectToAction("Profile");
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "An error occurred while updating your profile. Please try again.";
+                return RedirectToAction("Profile");
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var userId = GetCurrentUserId();
+            if (userId == 0)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            // Verify current password
+            if (!BCrypt.Net.BCrypt.Verify(model.CurrentPassword, user.PasswordHash))
+            {
+                ModelState.AddModelError("CurrentPassword", "Current password is incorrect.");
+                return View(model);
+            }
+
+            // Check if new password is same as current
+            if (BCrypt.Net.BCrypt.Verify(model.NewPassword, user.PasswordHash))
+            {
+                ModelState.AddModelError("NewPassword", "New password cannot be the same as your current password.");
+                return View(model);
+            }
+
+            // Update password
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Your password has been changed successfully!";
+                return RedirectToAction("Profile");
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "An error occurred while changing your password. Please try again.";
+                return View(model);
+            }
         }
 
         [HttpGet]
@@ -271,23 +449,72 @@ namespace BidNest.Controllers
                 return RedirectToAction("Login");
             }
 
-            // For now, return empty watchlist - this would need a Watchlist table in the database
+            // Get total count of watchlist items
+            var totalItems = await _context.Watchlists
+                .Where(w => w.UserId == userId)
+                .CountAsync();
+
+            // Get watchlist items with pagination
+            var watchlistItems = await _context.Watchlists
+                .Where(w => w.UserId == userId)
+                .Include(w => w.Item)
+                    .ThenInclude(i => i.Category)
+                .Include(w => w.Item)
+                    .ThenInclude(i => i.ItemImages)
+                .OrderByDescending(w => w.AddedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(w => new ItemViewModel
+                {
+                    ItemId = w.Item.ItemId,
+                    Name = w.Item.Title,
+                    Description = w.Item.Description,
+                    CurrentBid = w.Item.CurrentPrice,
+                    MinimumBid = w.Item.MinBid,
+                    EndDate = w.Item.EndDate,
+                    Status = w.Item.Status,
+                    CategoryName = w.Item.Category != null ? w.Item.Category.Name : "Uncategorized",
+                    CategoryId = w.Item.CategoryId ?? 0,
+                    SellerId = w.Item.SellerId,
+                    CreatedAt = w.Item.CreatedAt
+                })
+                .ToListAsync();
+
             var viewModel = new WatchlistViewModel
             {
-                Items = new List<ItemViewModel>(),
+                Items = watchlistItems,
                 CurrentPage = page,
                 PageSize = pageSize,
-                TotalItems = 0,
-                TotalPages = 0
+                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling((double)totalItems / pageSize)
             };
 
             return View(viewModel);
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> MyMessages()
+        {
+            var userId = GetCurrentUserId();
+            if (userId == 0)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var messages = await _context.ContactMessages
+                .Include(m => m.RepliedByUser)
+                .Where(m => m.UserId == userId)
+                .OrderByDescending(m => m.CreatedAt)
+                .ToListAsync();
+
+            return View(messages);
+        }
+
         private int GetCurrentUserId()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            return int.TryParse(userIdClaim, out var userId) ? userId : 0;
+            return int.TryParse(userIdClaim, out int userId) ? userId : 0;
         }
     }
 }

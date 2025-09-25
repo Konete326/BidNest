@@ -1,0 +1,226 @@
+@model BidNest.ViewModels.UserProfileViewModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-4">
+            <!-- Profile Card -->
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <div class="avatar-circle mx-auto">
+                            <span class="initials">@Model.FullName?.Substring(0, 2).ToUpper()</span>
+                        </div>
+                    </div>
+                    <h4 class="card-title">@Model.FullName</h4>
+                    <p class="text-muted">@@@Model.Username</p>
+                    @if (Model.IsBlocked)
+                    {
+                        <span class="badge bg-danger mb-2">Account Blocked</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success mb-2">Active Account</span>
+                    }
+                    <div class="d-grid gap-2 mt-3">
+                        <a href="@Url.Action("EditProfile", "Account")" class="btn btn-primary">
+                            <i class="fas fa-edit me-2"></i>Edit Profile
+                        </a>
+                        <a href="@Url.Action("ChangePassword", "Account")" class="btn btn-outline-secondary">
+                            <i class="fas fa-key me-2"></i>Change Password
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card shadow-sm mt-3">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Quick Stats</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6 border-end">
+                            <h5 class="text-primary">@ViewBag.TotalBids</h5>
+                            <small class="text-muted">Total Bids</small>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="text-success">@ViewBag.WonAuctions</h5>
+                            <small class="text-muted">Won Auctions</small>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row text-center">
+                        <div class="col-6 border-end">
+                            <h5 class="text-info">@ViewBag.ActiveBids</h5>
+                            <small class="text-muted">Active Bids</small>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="text-warning">@ViewBag.WatchlistCount</h5>
+                            <small class="text-muted">Watchlist</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <!-- Profile Information -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-user me-2"></i>Profile Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Full Name</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @Model.FullName
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Username</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @Model.Username
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Email</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @Model.Email
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Account Type</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <span class="badge @(Model.Role == "Admin" ? "bg-danger" : "bg-primary")">
+                                @Model.Role
+                            </span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Member Since</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @Model.JoinDate.ToString("MMMM dd, yyyy")
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Account Status</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @if (Model.IsBlocked)
+                            {
+                                <span class="text-danger"><i class="fas fa-ban me-1"></i>Blocked</span>
+                            }
+                            else
+                            {
+                                <span class="text-success"><i class="fas fa-check-circle me-1"></i>Active</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card shadow-sm mt-3">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.RecentBids != null && ViewBag.RecentBids.Count > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Bid Amount</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var bid in ViewBag.RecentBids)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="@Url.Action("Details", "Auction", new { id = bid.ItemId })">
+                                                    @bid.ItemTitle
+                                                </a>
+                                            </td>
+                                            <td>$@bid.Amount.ToString("N2")</td>
+                                            <td>@bid.BidTime.ToString("MMM dd, HH:mm")</td>
+                                            <td>
+                                                @if (bid.IsWinning)
+                                                {
+                                                    <span class="badge bg-success">Winning</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Outbid</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="@Url.Action("MyBids", "Account")" class="btn btn-sm btn-outline-primary">
+                                View All Bids <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center mb-0">No recent activity to display</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .avatar-circle {
+            width: 100px;
+            height: 100px;
+            background-color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        .avatar-circle .initials {
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+        }
+        .card-header {
+            border-radius: 10px 10px 0 0 !important;
+        }
+    </style>
+}

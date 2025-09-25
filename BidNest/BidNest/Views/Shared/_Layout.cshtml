@@ -68,9 +68,6 @@
                         <li class="nav-item">
                             <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")" href="@Url.Action("About", "Home")">About</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Contact" ? "active" : "")" href="@Url.Action("Contact", "Home")">Contact</a>
-                        </li>
                     </ul>
                     
                     <!-- Search Bar -->
@@ -103,6 +100,9 @@
                                     <li><a class="dropdown-item" href="@Url.Action("Profile", "Account")"><i class="fas fa-user me-2"></i>My Profile</a></li>
                                     <li><a class="dropdown-item" href="@Url.Action("MyBids", "Account")"><i class="fas fa-gavel me-2"></i>My Bids</a></li>
                                     <li><a class="dropdown-item" href="@Url.Action("Watchlist", "Account")"><i class="fas fa-heart me-2"></i>Watchlist</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("MyMessages", "Account")"><i class="fas fa-envelope me-2"></i>My Messages</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Contact", "Home")"><i class="fas fa-question-circle me-2"></i>Contact Support</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><h6 class="dropdown-header">Selling</h6></li>
                                     <li><a class="dropdown-item" href="@Url.Action("Dashboard", "Seller")"><i class="fas fa-store me-2"></i>Seller Dashboard</a></li>

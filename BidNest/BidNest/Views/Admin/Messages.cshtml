@@ -1,0 +1,309 @@
+@model IEnumerable<BidNest.Models.ContactMessage>
+@{
+    ViewData["Title"] = "Contact Messages";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h3 mb-0 text-gray-800">
+                <i class="fas fa-envelope me-2"></i>Contact Messages
+            </h1>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-danger" id="bulkDeleteBtn" style="display: none;">
+                <i class="fas fa-trash me-2"></i>Delete Selected
+            </button>
+            <button class="btn btn-info" id="bulkArchiveBtn" style="display: none;">
+                <i class="fas fa-archive me-2"></i>Archive Selected
+            </button>
+        </div>
+    </div>
+
+    <!-- Status Filter Cards -->
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <a href="@Url.Action("Messages", new { status = "all" })" class="text-decoration-none">
+                <div class="card @(ViewBag.CurrentStatus == "all" ? "bg-primary text-white" : "")">
+                    <div class="card-body text-center">
+                        <h3>@ViewBag.TotalCount</h3>
+                        <p class="mb-0">All Messages</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("Messages", new { status = "new" })" class="text-decoration-none">
+                <div class="card @(ViewBag.CurrentStatus == "new" ? "bg-danger text-white" : "")">
+                    <div class="card-body text-center">
+                        <h3>@ViewBag.NewCount</h3>
+                        <p class="mb-0">New</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("Messages", new { status = "read" })" class="text-decoration-none">
+                <div class="card @(ViewBag.CurrentStatus == "read" ? "bg-info text-white" : "")">
+                    <div class="card-body text-center">
+                        <h3>@ViewBag.ReadCount</h3>
+                        <p class="mb-0">Read</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("Messages", new { status = "replied" })" class="text-decoration-none">
+                <div class="card @(ViewBag.CurrentStatus == "replied" ? "bg-success text-white" : "")">
+                    <div class="card-body text-center">
+                        <h3>@ViewBag.RepliedCount</h3>
+                        <p class="mb-0">Replied</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("Messages", new { status = "archived" })" class="text-decoration-none">
+                <div class="card @(ViewBag.CurrentStatus == "archived" ? "bg-secondary text-white" : "")">
+                    <div class="card-body text-center">
+                        <h3>@ViewBag.ArchivedCount</h3>
+                        <p class="mb-0">Archived</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Messages Table -->
+    <div class="card shadow">
+        <div class="card-body">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th width="30">
+                                    <input type="checkbox" id="selectAll" class="form-check-input">
+                                </th>
+                                <th>Status</th>
+                                <th>From</th>
+                                <th>Subject</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var message in Model)
+                            {
+                                <tr class="@(message.Status == "New" ? "table-warning" : "")">
+                                    <td>
+                                        <input type="checkbox" class="form-check-input message-checkbox" 
+                                               value="@message.MessageId">
+                                    </td>
+                                    <td>
+                                        @switch (message.Status)
+                                        {
+                                            case "New":
+                                                <span class="badge bg-danger">New</span>
+                                                break;
+                                            case "Read":
+                                                <span class="badge bg-primary">Read</span>
+                                                break;
+                                            case "Replied":
+                                                <span class="badge bg-success">Replied</span>
+                                                break;
+                                            case "Archived":
+                                                <span class="badge bg-secondary">Archived</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td>
+                                        <strong>@message.Name</strong><br>
+                                        <small class="text-muted">@message.Email</small>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("MessageDetails", new { id = message.MessageId })" 
+                                           class="text-decoration-none">
+                                            @(message.Subject.Length > 50 ? message.Subject.Substring(0, 50) + "..." : message.Subject)
+                                        </a>
+                                        @if (message.NewsletterSubscription)
+                                        {
+                                            <span class="badge bg-info ms-2">Newsletter</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <small>@message.CreatedAt.ToString("MMM dd, yyyy HH:mm")</small>
+                                        @if (message.RepliedAt.HasValue)
+                                        {
+                                            <br>
+                                            <small class="text-success">
+                                                Replied: @message.RepliedAt.Value.ToString("MMM dd, yyyy")
+                                            </small>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="@Url.Action("MessageDetails", new { id = message.MessageId })" 
+                                               class="btn btn-outline-primary" title="View">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            @if (message.Status != "Archived")
+                                            {
+                                                <button class="btn btn-outline-info archive-btn" 
+                                                        data-id="@message.MessageId" title="Archive">
+                                                    <i class="fas fa-archive"></i>
+                                                </button>
+                                            }
+                                            <button class="btn btn-outline-danger delete-btn" 
+                                                    data-id="@message.MessageId" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                @if (ViewBag.TotalPages > 1)
+                {
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                                <a class="page-link" href="@Url.Action("Messages", new { status = ViewBag.CurrentStatus, page = ViewBag.CurrentPage - 1 })">
+                                    Previous
+                                </a>
+                            </li>
+                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                            {
+                                <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Messages", new { status = ViewBag.CurrentStatus, page = i })">@i</a>
+                                </li>
+                            }
+                            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                                <a class="page-link" href="@Url.Action("Messages", new { status = ViewBag.CurrentStatus, page = ViewBag.CurrentPage + 1 })">
+                                    Next
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>No messages found.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Select all checkbox
+            $('#selectAll').change(function() {
+                $('.message-checkbox').prop('checked', $(this).prop('checked'));
+                toggleBulkButtons();
+            });
+
+            // Individual checkbox change
+            $('.message-checkbox').change(function() {
+                toggleBulkButtons();
+            });
+
+            function toggleBulkButtons() {
+                var checkedCount = $('.message-checkbox:checked').length;
+                if (checkedCount > 0) {
+                    $('#bulkDeleteBtn, #bulkArchiveBtn').show();
+                } else {
+                    $('#bulkDeleteBtn, #bulkArchiveBtn').hide();
+                }
+            }
+
+            // Archive single message
+            $('.archive-btn').click(function() {
+                var messageId = $(this).data('id');
+                if (confirm('Are you sure you want to archive this message?')) {
+                    updateMessageStatus(messageId, 'Archived');
+                }
+            });
+
+            // Delete single message
+            $('.delete-btn').click(function() {
+                var messageId = $(this).data('id');
+                if (confirm('Are you sure you want to delete this message? This action cannot be undone.')) {
+                    deleteMessage(messageId);
+                }
+            });
+
+            // Bulk delete
+            $('#bulkDeleteBtn').click(function() {
+                var selectedIds = $('.message-checkbox:checked').map(function() {
+                    return $(this).val();
+                }).get();
+
+                if (selectedIds.length > 0 && confirm('Are you sure you want to delete ' + selectedIds.length + ' messages? This action cannot be undone.')) {
+                    bulkUpdateMessages(selectedIds, 'delete');
+                }
+            });
+
+            // Bulk archive
+            $('#bulkArchiveBtn').click(function() {
+                var selectedIds = $('.message-checkbox:checked').map(function() {
+                    return $(this).val();
+                }).get();
+
+                if (selectedIds.length > 0) {
+                    bulkUpdateMessages(selectedIds, 'archive');
+                }
+            });
+
+            function updateMessageStatus(messageId, status) {
+                $.post('@Url.Action("UpdateMessageStatus")', {
+                    messageId: messageId,
+                    status: status,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                }).done(function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                });
+            }
+
+            function deleteMessage(messageId) {
+                $.post('@Url.Action("DeleteMessage")', {
+                    messageId: messageId,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                }).done(function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                });
+            }
+
+            function bulkUpdateMessages(messageIds, action) {
+                $.post('@Url.Action("BulkUpdateMessages")', {
+                    messageIds: messageIds,
+                    action: action,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                }).done(function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                });
+            }
+        });
+    </script>
+}

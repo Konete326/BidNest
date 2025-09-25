@@ -65,10 +65,21 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title mb-0">@Model.Name</h3>
-                    <span class="badge @(auctionStatus?.StatusBadgeClass ?? "bg-secondary") fs-6">
-                        @(auctionStatus?.StatusDisplay ?? "Unknown")
-                    </span>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="card-title mb-0 d-inline">@Model.Name</h3>
+                            <span class="badge @(auctionStatus?.StatusBadgeClass ?? "bg-secondary") fs-6 ms-2">
+                                @(auctionStatus?.StatusDisplay ?? "Unknown")
+                            </span>
+                        </div>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <button class="btn btn-outline-danger" id="watchlist-btn" data-item-id="@Model.ItemId" title="Add to Watchlist">
+                                <i class="fas fa-heart" id="watchlist-icon"></i>
+                                <span id="watchlist-text">Add to Watchlist</span>
+                            </button>
+                        }
+                    </div>
                 </div>
                 <div class="card-body">
                     
@@ -88,13 +99,6 @@
                         </div>
                     }
 
-                    <!-- Debug Information (for development) -->
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <div class="alert alert-info mb-4">
-                            <small><strong>Debug Info:</strong> @auctionStatus?.DebugInfo</small>
-                        </div>
-                    }
 
                     <!-- Seller Actions -->
                     @if (User.Identity?.IsAuthenticated == true && Model.SellerId.ToString() == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value)
@@ -151,6 +155,7 @@
                     <!-- Bidding Section -->
                     @if (User.Identity?.IsAuthenticated == true)
                     {
+                        @Html.AntiForgeryToken()
                         @if (auctionStatus?.IsActive == true)
                         {
                             <div class="card bg-primary bg-opacity-10 mb-4">
@@ -197,12 +202,6 @@
                                 {
                                     <p>Auction is not currently active.</p>
                                 }
-                                
-                                <!-- Debug Info (remove in production) -->
-                                <small class="text-muted">
-                                    Debug: auctionStatus = @(auctionStatus?.ToString() ?? "null"), 
-                                    IsActive = @(auctionStatus?.IsActive.ToString() ?? "null")
-                                </small>
                             </div>
                         }
                     }
@@ -481,6 +480,105 @@
             updateQuickBids();
         });
 
+        // Update bid display
+        function updateBidDisplay(bid) {
+            $('#current-bid').html('$' + bid.amount.toFixed(2));
+            $('#total-bids').text(bid.totalBids || '1');
+            currentMinimumBid = bid.amount + 1;
+            $('#next-minimum').text(currentMinimumBid.toFixed(2));
+        }
+
+        // Add bid to history
+        function addBidToHistory(bid) {
+            // Implementation for bid history if needed
+        }
+
+        // Update quick bid buttons
+        function updateQuickBids() {
+            const container = document.getElementById('quick-bids');
+            if (container) {
+                container.innerHTML = '';
+                const increments = [5, 10, 25, 50];
+                increments.forEach(inc => {
+                    const amount = currentMinimumBid + inc;
+                    const btn = document.createElement('button');
+                    btn.className = 'btn btn-outline-primary btn-sm me-2 mb-2 quick-bid-btn';
+                    btn.setAttribute('data-amount', amount);
+                    btn.textContent = '$' + amount.toFixed(2);
+                    container.appendChild(btn);
+                });
+            }
+        }
+
+        // Initialize quick bids on page load
+        updateQuickBids();
+
+        // Show notification function
+        function showNotification(message, type) {
+            var alertClass = 'alert-info';
+            if (type === 'success') alertClass = 'alert-success';
+            else if (type === 'error') alertClass = 'alert-danger';
+            
+            var notification = $('<div class="alert ' + alertClass + ' alert-dismissible fade show position-fixed top-0 end-0 m-3" style="z-index: 9999;">' +
+                '<i class="fas fa-info-circle me-2"></i>' + message +
+                '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                '</div>');
+            
+            $('body').append(notification);
+            
+            setTimeout(function() {
+                notification.fadeOut(function() {
+                    notification.remove();
+                });
+            }, 3000);
+        }
+
+        // Watchlist functionality
+        $('#watchlist-btn').click(function() {
+            var button = $(this);
+            var itemId = button.data('item-id');
+            var icon = $('#watchlist-icon');
+            var text = $('#watchlist-text');
+            
+            button.prop('disabled', true);
+            
+            $.post('@Url.Action("ToggleWatchlist", "Buyer")', {
+                itemId: itemId,
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+            }).done(function(response) {
+                if (response.success) {
+                    if (response.isInWatchlist) {
+                        icon.removeClass('far').addClass('fas');
+                        text.text('Remove from Watchlist');
+                        button.removeClass('btn-outline-danger').addClass('btn-danger');
+                        showNotification('Item added to your watchlist!', 'success');
+                    } else {
+                        icon.removeClass('fas').addClass('far');
+                        text.text('Add to Watchlist');
+                        button.removeClass('btn-danger').addClass('btn-outline-danger');
+                        showNotification('Item removed from your watchlist!', 'info');
+                    }
+                } else {
+                    showNotification(response.message || 'An error occurred', 'error');
+                }
+            }).fail(function() {
+                showNotification('An error occurred. Please try again.', 'error');
+            }).always(function() {
+                button.prop('disabled', false);
+            });
+        });
+        
+        // Check if item is already in watchlist on page load
+        $.get('@Url.Action("IsInWatchlist", "Buyer")', {
+            itemId: @Model.ItemId
+        }).done(function(response) {
+            if (response.isInWatchlist) {
+                $('#watchlist-icon').removeClass('far').addClass('fas');
+                $('#watchlist-text').text('Remove from Watchlist');
+                $('#watchlist-btn').removeClass('btn-outline-danger').addClass('btn-danger');
+            }
+        });
+
         connection.on("AuctionEnding", function (data) {
             showAuctionEndingAlert(data.TimeRemaining);
         });
@@ -488,6 +586,23 @@
         connection.on("AuctionEnded", function (data) {
             showAuctionEndedAlert(data.WinningBid);
         });
+
+        // Show auction ending alert
+        function showAuctionEndingAlert(timeRemaining) {
+            showNotification('Auction ending soon! ' + timeRemaining + ' remaining', 'warning');
+        }
+
+        // Show auction ended alert
+        function showAuctionEndedAlert(winningBid) {
+            if (winningBid) {
+                showNotification('Auction ended! Winning bid: $' + winningBid.toFixed(2), 'info');
+            } else {
+                showNotification('Auction ended!', 'info');
+            }
+            // Disable bidding
+            $('#open-bid-modal-btn').prop('disabled', true);
+            $('#quick-bid-amount').prop('disabled', true);
+        }
 
         // Auction timer
         function updateTimer() {
