@@ -13,7 +13,7 @@ namespace BidNest.ViewModels
         public string? SortOrder { get; set; } = "asc"; // asc or desc
         public int Page { get; set; } = 1;
         public int PageSize { get; set; } = 12;
-
+        
         // Search filters
         public DateTime? StartDateFrom { get; set; }
         public DateTime? StartDateTo { get; set; }

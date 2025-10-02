@@ -7,11 +7,11 @@
 
 <div class="container my-4">
     <!-- Search Header -->
-    <div class="row mb-4">
+    <div class="row mb-4 animate__animated animate__fadeIn"> @* Changed to general fadeIn *@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h2 class="mb-1">
+                    <h2 class="mb-1 title-gradient"> @* Added title-gradient class *@
                         @if (!string.IsNullOrEmpty(categoryName))
                         {
                             <span>@categoryName</span>
@@ -27,7 +27,7 @@
                             <span>@Model.TotalResults.ToString("N0") items found</span>
                             @if (Model.HasFilters)
                             {
-                                <span> for "@Model.SearchSummary"</span>
+                                <span> for "<strong class="text-dark">@Model.SearchSummary</strong>"</span> @* Highlighted search summary *@
                             }
                         }
                         else
@@ -41,8 +41,8 @@
                     </p>
                 </div>
                 <div>
-                    <a href="@Url.Action("Advanced")" class="btn btn-outline-primary">
-                        <i class="fas fa-sliders-h"></i> Advanced Search
+                    <a href="@Url.Action("Advanced")" class="btn btn-primary btn-hover-scale"> @* Added btn-hover-scale class *@
+                        <i class="fas fa-sliders-h me-2"></i> Advanced Search
                     </a>
                 </div>
             </div>
@@ -52,8 +52,8 @@
     <div class="row">
         <!-- Filters Sidebar -->
         <div class="col-lg-3 mb-4">
-            <div class="card">
-                <div class="card-header">
+            <div class="card shadow-sm animate__animated animate__fadeInUp"> @* Changed to fadeInUp *@
+                <div class="card-header bg-primary text-white"> @* Changed header style *@
                     <h5 class="mb-0">
                         <i class="fas fa-filter me-2"></i>Filters
                     </h5>
@@ -61,14 +61,14 @@
                 <div class="card-body">
                     <form method="get" id="search-form">
                         <!-- Keyword Search -->
-                        <div class="mb-3">
+                        <div class="mb-3 form-group-animated"> @* Added form-group-animated class *@
                             <label class="form-label fw-bold">Keywords</label>
                             <input type="text" name="Query" class="form-control" value="@Model.Query" 
                                    placeholder="Search items...">
                         </div>
 
                         <!-- Category Filter -->
-                        <div class="mb-3">
+                        <div class="mb-3 form-group-animated"> @* Added form-group-animated class *@
                             <label class="form-label fw-bold">Category</label>
                             <select name="CategoryId" class="form-select">
                                 @foreach (var category in Model.Categories)
@@ -79,7 +79,7 @@
                         </div>
 
                         <!-- Price Range -->
-                        <div class="mb-3">
+                        <div class="mb-3 form-group-animated"> @* Added form-group-animated class *@
                             <label class="form-label fw-bold">Price Range</label>
                             <div class="row">
                                 <div class="col-6">
@@ -94,7 +94,7 @@
                         </div>
 
                         <!-- Status Filter -->
-                        <div class="mb-3">
+                        <div class="mb-3 form-group-animated"> @* Added form-group-animated class *@
                             <label class="form-label fw-bold">Status</label>
                             <select name="Status" class="form-select">
                                 @foreach (var status in Model.StatusOptions)
@@ -105,7 +105,7 @@
                         </div>
 
                         <!-- Has Bids Filter -->
-                        <div class="mb-3">
+                        <div class="mb-3 form-group-animated"> @* Added form-group-animated class *@
                             <div class="form-check">
                                 <input type="checkbox" name="HasBids" value="true" class="form-check-input" 
                                        @(Model.HasBids == true ? "checked" : "")>
@@ -118,12 +118,12 @@
                         <input type="hidden" name="SortBy" value="@Model.SortBy">
                         <input type="hidden" name="SortOrder" value="@Model.SortOrder">
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-search"></i> Search
+                        <div class="d-grid gap-2 mt-4"> @* Added mt-4 for spacing *@
+                            <button type="submit" class="btn btn-primary btn-animated"> @* Added btn-animated class *@
+                                <i class="fas fa-search me-2"></i> Search
                             </button>
-                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
-                                <i class="fas fa-times"></i> Clear All
+                            <a href="@Url.Action("Index")" class="btn btn-outline-secondary btn-animated"> @* Added btn-animated class *@
+                                <i class="fas fa-times me-2"></i> Clear All
                             </a>
                         </div>
                     </form>
@@ -133,28 +133,28 @@
             <!-- Search Statistics -->
             @if (hasResults)
             {
-                <div class="card mt-3">
-                    <div class="card-header">
+                <div class="card mt-3 shadow-sm animate__animated animate__fadeInUp animate__delay-1s"> @* Changed to fadeInUp, with delay *@
+                    <div class="card-header bg-info text-white"> @* Changed header style *@
                         <h6 class="mb-0">Search Statistics</h6>
                     </div>
                     <div class="card-body">
                         <div class="row text-center">
-                            <div class="col-6 mb-2">
-                                <div class="fw-bold text-primary">@Model.Stats.ActiveAuctions</div>
-                                <small class="text-muted">Active</small>
+                            <div class="col-6 mb-2 stat-item"> @* Added stat-item class *@
+                                <div class="fw-bold text-primary display-6">@Model.Stats.ActiveAuctions</div> @* Larger text *@
+                                <small class="text-muted">Active Auctions</small> @* More descriptive text *@
                             </div>
-                            <div class="col-6 mb-2">
-                                <div class="fw-bold text-warning">@Model.Stats.EndingSoon</div>
+                            <div class="col-6 mb-2 stat-item"> @* Added stat-item class *@
+                                <div class="fw-bold text-warning display-6">@Model.Stats.EndingSoon</div> @* Larger text *@
                                 <small class="text-muted">Ending Soon</small>
                             </div>
                             @if (Model.Stats.TotalBids > 0)
                             {
-                                <div class="col-6">
-                                    <div class="fw-bold text-success">$@Model.Stats.AverageBid.ToString("N0")</div>
+                                <div class="col-6 stat-item"> @* Added stat-item class *@
+                                    <div class="fw-bold text-success display-6">$@Model.Stats.AverageBid.ToString("N0")</div> @* Larger text *@
                                     <small class="text-muted">Avg Bid</small>
                                 </div>
-                                <div class="col-6">
-                                    <div class="fw-bold text-info">@Model.Stats.TotalBids</div>
+                                <div class="col-6 stat-item"> @* Added stat-item class *@
+                                    <div class="fw-bold text-info display-6">@Model.Stats.TotalBids</div> @* Larger text *@
                                     <small class="text-muted">Total Bids</small>
                                 </div>
                             }
@@ -169,9 +169,9 @@
             @if (hasResults)
             {
                 <!-- Sort and View Options -->
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 animate__animated animate__fadeIn"> @* Changed to general fadeIn *@
                     <div class="d-flex align-items-center">
-                        <span class="me-3">Sort by:</span>
+                        <span class="me-3 text-dark fw-bold">Sort by:</span> @* Highlighted text *@
                         <form method="get" class="d-flex align-items-center" id="sort-form">
                             <!-- Preserve all current search parameters -->
                             <input type="hidden" name="Query" value="@Model.Query">
@@ -182,21 +182,21 @@
                             <input type="hidden" name="HasBids" value="@Model.HasBids">
                             <input type="hidden" name="Page" value="1">
 
-                            <select name="SortBy" class="form-select form-select-sm me-2" style="width: auto;" onchange="this.form.submit()">
+                            <select name="SortBy" class="form-select form-select-sm me-2 hover-shadow-sm" style="width: auto;" onchange="this.form.submit()"> @* Added hover-shadow-sm *@
                                 @foreach (var sort in Model.SortOptions)
                                 {
                                     <option value="@sort.Value" selected="@sort.Selected">@sort.Text</option>
                                 }
                             </select>
-                            <select name="SortOrder" class="form-select form-select-sm" style="width: auto;" onchange="this.form.submit()">
+                            <select name="SortOrder" class="form-select form-select-sm hover-shadow-sm" style="width: auto;" onchange="this.form.submit()"> @* Added hover-shadow-sm *@
                                 <option value="asc" selected="@(Model.SortOrder == "asc")">Ascending</option>
                                 <option value="desc" selected="@(Model.SortOrder == "desc")">Descending</option>
                             </select>
                         </form>
                     </div>
-                    <div class="text-muted">
-                        Showing @((Model.Page - 1) * Model.PageSize + 1) - @Math.Min(Model.Page * Model.PageSize, Model.TotalResults) 
-                        of @Model.TotalResults results
+                    <div class="text-muted small"> @* Adjusted size *@
+                        Showing <span class="fw-bold text-dark">@((Model.Page - 1) * Model.PageSize + 1) - @Math.Min(Model.Page * Model.PageSize, Model.TotalResults)</span> 
+                        of <span class="fw-bold text-dark">@Model.TotalResults</span> results
                     </div>
                 </div>
 
@@ -205,53 +205,53 @@
                     @foreach (var item in Model.Results)
                     {
                         <div class="col-md-6 col-xl-4 mb-4">
-                            <div class="card h-100 auction-card">
-                                <div class="position-relative">
+                            <div class="card h-100 auction-card fade-in-section"> @* Added fade-in-section class for scroll animation *@
+                                <div class="position-relative overflow-hidden"> @* Added overflow-hidden for image zoom *@
                                     @if (!string.IsNullOrEmpty(item.PrimaryImageUrl))
                                     {
-                                        <img src="@item.PrimaryImageUrl" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                                        <img src="@item.PrimaryImageUrl" class="card-img-top auction-image" alt="@item.Title"> @* Added auction-image class *@
                                     }
                                     else
                                     {
                                         <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                            <i class="fas fa-image fa-3x text-muted"></i>
+                                            <i class="fas fa-image fa-4x text-muted icon-pulse"></i> @* Larger icon, added pulse effect *@
                                         </div>
                                     }
                                     
                                     <!-- Status Badge -->
-                                    <span class="badge @item.StatusBadgeClass position-absolute top-0 end-0 m-2">
+                                    <span class="badge @item.StatusBadgeClass position-absolute top-0 end-0 m-2 badge-animated"> @* Added badge-animated *@
                                         @item.StatusDisplay
                                     </span>
                                     
                                     <!-- Category Badge -->
                                     @if (!string.IsNullOrEmpty(item.CategoryName))
                                     {
-                                        <span class="badge bg-secondary position-absolute top-0 start-0 m-2">
+                                        <span class="badge bg-secondary position-absolute top-0 start-0 m-2 badge-animated"> @* Added badge-animated *@
                                             @item.CategoryName
                                         </span>
                                     }
                                 </div>
                                 
                                 <div class="card-body d-flex flex-column">
-                                    <h6 class="card-title">
+                                    <h5 class="card-title mb-2"> @* Changed to h5, added mb-2 *@
                                         <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
-                                           class="text-decoration-none text-dark">
+                                           class="text-decoration-none text-dark hover-underline"> @* Added hover-underline *@
                                             @item.Title
                                         </a>
-                                    </h6>
+                                    </h5>
                                     
-                                    <p class="card-text text-muted small flex-grow-1">
+                                    <p class="card-text text-muted small flex-grow-1 auction-description"> @* Added auction-description class *@
                                         @(item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)
                                     </p>
                                     
-                                    <div class="mt-auto">
+                                    <div class="mt-auto pt-3 border-top"> @* Added pt-3 and border-top *@
                                         <div class="d-flex justify-content-between align-items-center mb-2">
                                             <div>
-                                                <div class="fw-bold text-primary fs-5">$@item.CurrentPrice.ToString("N2")</div>
+                                                <div class="fw-bold text-primary fs-4 price-highlight">$@item.CurrentPrice.ToString("N2")</div> @* Larger price, added price-highlight *@
                                                 <small class="text-muted">@item.BidCount bid(s)</small>
                                             </div>
                                             <div class="text-end">
-                                                <div class="fw-bold @(item.IsEnding ? "text-warning" : "text-success")">
+                                                <div class="fw-bold @(item.IsEnding ? "text-danger animate__animated animate__pulse animate__infinite" : "text-success") fs-5"> @* Changed to text-danger for ending, added pulse animation *@
                                                     @item.TimeRemainingDisplay
                                                 </div>
                                                 <small class="text-muted">remaining</small>
@@ -262,15 +262,15 @@
                                             @if (item.IsActive)
                                             {
                                                 <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
-                                                   class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-gavel"></i> Bid Now
+                                                   class="btn btn-primary btn-sm btn-bid-animated"> @* Added btn-bid-animated *@
+                                                    <i class="fas fa-gavel me-2"></i> Bid Now
                                                 </a>
                                             }
                                             else
                                             {
                                                 <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
-                                                   class="btn btn-outline-secondary btn-sm">
-                                                    <i class="fas fa-eye"></i> View Details
+                                                   class="btn btn-outline-secondary btn-sm btn-view-animated"> @* Added btn-view-animated *@
+                                                    <i class="fas fa-eye me-2"></i> View Details
                                                 </a>
                                             }
                                         </div>
@@ -284,12 +284,12 @@
                 <!-- Pagination -->
                 @if (Model.TotalPages > 1)
                 {
-                    <nav aria-label="Search results pagination" class="mt-4">
-                        <ul class="pagination justify-content-center">
+                    <nav aria-label="Search results pagination" class="mt-4 animate__animated animate__fadeInUp"> @* Changed to fadeInUp *@
+                        <ul class="pagination justify-content-center pagination-animated"> @* Added pagination-animated *@
                             @if (Model.Page > 1)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("Index", new { 
+                                    <a class="page-link page-link-animated" href="@Url.Action("Index", new { 
                                         Query = Model.Query, CategoryId = Model.CategoryId, MinPrice = Model.MinPrice, 
                                         MaxPrice = Model.MaxPrice, Status = Model.Status, HasBids = Model.HasBids,
                                         SortBy = Model.SortBy, SortOrder = Model.SortOrder, Page = Model.Page - 1 })">
@@ -301,7 +301,7 @@
                             @for (int i = Math.Max(1, Model.Page - 2); i <= Math.Min(Model.TotalPages, Model.Page + 2); i++)
                             {
                                 <li class="page-item @(i == Model.Page ? "active" : "")">
-                                    <a class="page-link" href="@Url.Action("Index", new { 
+                                    <a class="page-link page-link-animated" href="@Url.Action("Index", new { 
                                         Query = Model.Query, CategoryId = Model.CategoryId, MinPrice = Model.MinPrice, 
                                         MaxPrice = Model.MaxPrice, Status = Model.Status, HasBids = Model.HasBids,
                                         SortBy = Model.SortBy, SortOrder = Model.SortOrder, Page = i })">
@@ -313,7 +313,7 @@
                             @if (Model.Page < Model.TotalPages)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" href="@Url.Action("Index", new { 
+                                    <a class="page-link page-link-animated" href="@Url.Action("Index", new { 
                                         Query = Model.Query, CategoryId = Model.CategoryId, MinPrice = Model.MinPrice, 
                                         MaxPrice = Model.MaxPrice, Status = Model.Status, HasBids = Model.HasBids,
                                         SortBy = Model.SortBy, SortOrder = Model.SortOrder, Page = Model.Page + 1 })">
@@ -328,26 +328,26 @@
             else
             {
                 <!-- No Results -->
-                <div class="text-center py-5">
-                    <i class="fas fa-search fa-4x text-muted mb-3"></i>
-                    <h4 class="text-muted">No items found</h4>
+                <div class="text-center py-5 no-results-animated"> @* Added no-results-animated *@
+                    <i class="fas fa-search fa-5x text-muted mb-3 icon-bounce"></i> @* Larger icon, added bounce effect *@
+                    <h4 class="text-muted display-6">No items found</h4> @* Larger text *@
                     @if (Model.HasFilters)
                     {
-                        <p class="text-muted mb-4">Try adjusting your search criteria or browse all categories.</p>
-                        <div>
-                            <a href="@Url.Action("Index")" class="btn btn-primary me-2">
-                                <i class="fas fa-times"></i> Clear Filters
+                        <p class="text-muted mb-4 fs-5">Try adjusting your search criteria or browse all categories.</p> @* Larger text *@
+                        <div class="d-flex justify-content-center gap-2"> @* Used gap for spacing *@
+                            <a href="@Url.Action("Index")" class="btn btn-primary btn-lg btn-animated"> @* Larger button, added btn-animated *@
+                                <i class="fas fa-times me-2"></i> Clear Filters
                             </a>
-                            <a href="@Url.Action("Categories")" class="btn btn-outline-primary">
-                                <i class="fas fa-th-large"></i> Browse Categories
+                            <a href="@Url.Action("Categories")" class="btn btn-outline-primary btn-lg btn-animated"> @* Larger button, added btn-animated *@
+                                <i class="fas fa-th-large me-2"></i> Browse Categories
                             </a>
                         </div>
                     }
                     else
                     {
-                        <p class="text-muted mb-4">There are currently no active auctions.</p>
-                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
-                            <i class="fas fa-home"></i> Go Home
+                        <p class="text-muted mb-4 fs-5">There are currently no active auctions.</p> @* Larger text *@
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg btn-animated"> @* Larger button, added btn-animated *@
+                            <i class="fas fa-home me-2"></i> Go Home
                         </a>
                     }
                 </div>
@@ -356,23 +356,396 @@
     </div>
 </div>
 
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.js"></script> @* Animate.css for entrance animations *@
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Function to check if an element is in viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+
+            // Apply fade-in effect on scroll
+            const fadeSections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the item is visible
+            });
+
+            fadeSections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Add simple click feedback for buttons (optional)
+            document.querySelectorAll('.btn-animated').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.add('animate__animated', 'animate__pulse');
+                    this.addEventListener('animationend', () => {
+                        this.classList.remove('animate__animated', 'animate__pulse');
+                    }, { once: true });
+                });
+            });
+
+             // Category and Sort selects change handler
+            document.querySelectorAll('.form-select').forEach(select => {
+                select.addEventListener('change', function() {
+                    if (this.name === 'SortBy' || this.name === 'SortOrder') {
+                        document.getElementById('sort-form').submit();
+                    } else if (this.name === 'CategoryId' || this.name === 'Status') {
+                         // Reset page to 1 when changing category or status
+                        document.querySelector('#search-form input[name="Page"]').value = 1;
+                        document.getElementById('search-form').submit();
+                    }
+                });
+            });
+
+            // Keyword input debounce for better UX
+            let typingTimer;
+            const searchInput = document.querySelector('input[name="Query"]');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', () => {
+                    clearTimeout(typingTimer);
+                    typingTimer = setTimeout(() => {
+                        // Reset page to 1 when typing new query
+                        document.querySelector('#search-form input[name="Page"]').value = 1;
+                        document.getElementById('search-form').submit();
+                    }, 800); // 800ms debounce
+                });
+
+                // Prevent form submission on Enter key in search input if it's not ready
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault(); // Prevent immediate submission
+                        clearTimeout(typingTimer); // Clear any pending debounce
+                        // Reset page to 1 and submit immediately
+                        document.querySelector('#search-form input[name="Page"]').value = 1;
+                        document.getElementById('search-form').submit();
+                    }
+                });
+            }
+
+            // Price inputs change handler with debounce
+            document.querySelectorAll('input[name="MinPrice"], input[name="MaxPrice"]').forEach(input => {
+                let priceTypingTimer;
+                input.addEventListener('keyup', () => {
+                    clearTimeout(priceTypingTimer);
+                    priceTypingTimer = setTimeout(() => {
+                        document.querySelector('#search-form input[name="Page"]').value = 1;
+                        document.getElementById('search-form').submit();
+                    }, 800);
+                });
+                input.addEventListener('change', () => { // Also submit on change (e.g., blur)
+                    clearTimeout(priceTypingTimer);
+                    document.querySelector('#search-form input[name="Page"]').value = 1;
+                    document.getElementById('search-form').submit();
+                });
+            });
+
+            // HasBids checkbox change handler
+            document.querySelector('input[name="HasBids"]').addEventListener('change', function() {
+                document.querySelector('#search-form input[name="Page"]').value = 1;
+                document.getElementById('search-form').submit();
+            });
+        });
+    </script>
+}
+
 @section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
+        /* General Enhancements */
+        body {
+            background-color: #f0f2f5; /* A slightly cooler, modern light background */
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1300px; /* Slightly wider container for more elegance */
+        }
+
+        .title-gradient {
+            background: linear-gradient(90deg, #1a73e8, #0056b3); /* Modern blue gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            font-size: 2.8rem; /* Slightly larger title */
+            animation: text-reveal 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            animation-delay: 0.3s; /* Faster delay for initial elements */
+            opacity: 0;
+            margin-bottom: 0.5rem !important; /* Adjust spacing */
+        }
+
+        @@keyframes text-reveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card Animations & Effects */
         .auction-card {
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border: none; /* Remove default border */
+            border-radius: 0.75rem; /* More rounded corners */
+            overflow: hidden; /* Ensures image zoom stays within card */
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Softer, more modern shadow */
         }
         
         .auction-card:hover {
+            transform: translateY(-8px); /* More pronounced lift */
+            box-shadow: 0 12px 24px rgba(0,0,0,0.18); /* Stronger shadow on hover */
+        }
+
+        .auction-image {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+            transition: transform 0.5s ease-in-out; /* Smooth zoom transition */
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .auction-card:hover .auction-image {
+            transform: scale(1.08); /* Gentle zoom on hover */
+        }
+
+        /* Badges */
+        .badge {
+            border-radius: 0.35rem; /* Slightly more rounded */
+            padding: 0.45em 0.7em; /* Slightly larger padding */
+            font-size: 0.75em; /* Slightly smaller font for elegance */
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-weight: 600; /* Bolder text */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for badges */
+        }
+        .badge-animated { /* Keep existing badge animation */
+            animation: badge-pop 0.3s ease-out;
+        }
+        @@keyframes badge-pop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Price Highlight */
+        .price-highlight {
+            font-size: 2rem; /* Even larger price */
+            font-weight: 700;
+            color: #28a745; /* Green for current price */
+            letter-spacing: -0.8px; /* Tighter letter spacing */
+            transition: color 0.3s ease;
+        }
+        .auction-card:hover .price-highlight {
+            color: #1a73e8; /* Modern blue on hover */
+        }
+
+        /* Ending Soon - Pulse Effect */
+        .text-danger.animate__pulse {
+            --animate-duration: 1.5s; /* Slow down pulse */
+        }
+
+        /* Buttons */
+        .btn {
+            border-radius: 0.5rem; /* More rounded buttons */
+            font-weight: 600; /* Bolder button text */
+        }
+        .btn-primary {
+            background-color: #1a73e8; /* Modern blue primary */
+            border-color: #1a73e8;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0d47a1; /* Darker blue on hover */
+            border-color: #0d47a1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        .btn-outline-secondary {
+            border-color: #ced4da;
+            color: #495057;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+            border-color: #6c757d;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        
-        .card-img-top {
-            transition: opacity 0.2s;
+
+        .btn-hover-scale { /* General button scale for primary actions */
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
         }
-        
-        .auction-card:hover .card-img-top {
-            opacity: 0.9;
+        .btn-hover-scale:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-bid-animated {
+            background-color: #1a73e8; /* Consistent primary blue */
+            border-color: #1a73e8;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-bid-animated:hover {
+            background-color: #0d47a1;
+            border-color: #0d47a1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .btn-view-animated {
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-view-animated:hover {
+            background-color: #6c757d;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        /* Small button sizes */
+        .btn-sm {
+            padding: 0.35rem 0.75rem;
+            font-size: 0.875rem;
+        }
+        /* Large button sizes for no results */
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Form Controls */
+        .form-control, .form-select {
+            border-radius: 0.5rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            padding: 0.6rem 0.75rem; /* Slightly more padding */
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #a2c4f8; /* Lighter blue focus border */
+            box-shadow: 0 0 0 0.2rem rgba(26, 115, 232, 0.25); /* Modern blue shadow */
+        }
+        .form-group-animated label {
+            transition: transform 0.2s ease-out, color 0.2s ease-out;
+            display: block; 
+            transform-origin: left;
+            margin-bottom: 0.3rem; /* Small space below label */
+        }
+        .form-group-animated:focus-within label {
+            transform: translateX(3px); /* Less aggressive animation */
+            color: #1a73e8; /* Modern blue */
+        }
+
+        .hover-shadow-sm:hover {
+            box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1); /* Slightly more prominent shadow */
+        }
+
+        .hover-underline:hover {
+            text-decoration: underline !important;
+            text-decoration-color: #1a73e8 !important; /* Modern blue underline */
+            text-underline-offset: 4px; /* More noticeable offset */
+            transition: text-decoration-color 0.3s ease, text-underline-offset 0.3s ease;
+        }
+
+
+        /* Search Statistics */
+        .card-header.bg-info {
+            background-color: #42a5f5 !important; /* A pleasing light blue for info card */
+        }
+        .stat-item {
+            padding: 10px 0; /* Add padding for better visual separation */
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: default;
+        }
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background-color: #f8f9fa; /* Slight background change on hover */
+        }
+        .stat-item .display-6 {
+            font-size: 2.2rem; /* Slightly smaller for balance */
+            margin-bottom: 0.2rem;
+        }
+        .stat-item small {
+            font-size: 0.9rem;
+        }
+
+        /* No Results Section */
+        .no-results-animated {
+            animation: fadeInScale 0.6s ease-out;
+            border-radius: 1rem;
+            background-color: #fff;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            padding: 3rem 1.5rem !important; /* More padding */
+        }
+        @@keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); } /* Slightly less aggressive scale */
+            to { opacity: 1; transform: scale(1); }
+        }
+        .icon-bounce {
+            animation: bounce 2s infinite;
+        }
+        @@keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-15px);}
+            60% {transform: translateY(-7px);}
+        }
+        .icon-pulse {
+            animation: pulse 1.5s infinite;
+        }
+        @@keyframes pulse {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(0.95); }
+        }
+
+        /* Pagination Animations */
+        .pagination-animated .page-item {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin: 0 2px; /* Tighter spacing for elegance */
+        }
+        .pagination-animated .page-item:hover:not(.active) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .pagination-animated .page-link {
+            border-radius: 0.5rem !important; /* Apply rounded corners to links */
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            padding: 0.5rem 0.9rem; /* Refined padding */
+            font-weight: 500;
+        }
+        .pagination-animated .page-item.active .page-link {
+            background-color: #1a73e8; /* Modern blue */
+            border-color: #1a73e8;
+            color: white;
+            box-shadow: 0 4px 10px rgba(26, 115, 232, 0.4); /* More prominent shadow for active page */
+        }
+        .pagination-animated .page-link:hover:not(.active) {
+            background-color: #e3f2fd; /* Very light blue on hover */
+            color: #1a73e8; /* Modern blue text */
+            border-color: #bbdefb; /* Light blue border */
+        }
+
+
+        /* Fade-in on scroll effect */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 }

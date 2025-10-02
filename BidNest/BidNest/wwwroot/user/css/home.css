@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 body{
     font-family: Poppins;
     margin: 0;
@@ -7,9 +7,9 @@ body{
 }
 svg{
     width: 25px;
-}
+}*/
 /* CSS Slider */
-.slider{
+/*.slider{
     height: 100vh;
     margin-top: -50px;
     position: relative;
@@ -215,25 +215,25 @@ svg{
     font-size: 17px;
     
     
-}
+}*/
 
 /* Style for the dialog */
 
-.custom-dialog {
+/*.custom-dialog {
     border-radius: 10px;
-    background-color: black !important; /* Change background color of dialog */
-    color: white !important; /* Change text color of dialog */
-}
+    background-color: black !important;*/ /* Change background color of dialog */
+    /*color: white !important;*/ /* Change text color of dialog */
+/*}*/
 
 /* Remove blue outline for buttons */
-.btn:focus, .btn:active {
+/*.btn:focus, .btn:active {
     outline: none !important;
     box-shadow: none !important;
 }
 
 .welcome-message {
-    font-size: 1.0625rem !important; /* Equivalent to 17px */
-    position: fixed !important;
+    font-size: 1.0625rem !important;*/ /* Equivalent to 17px */
+    /*position: fixed !important;
     top: 50px !important;
     right: 50px !important;
     z-index: 10000 !important;
@@ -320,10 +320,10 @@ svg{
     #welcomeMessage {
         margin-right: 242px
     }
-  }
+  }*/
 
 /* Remove blue outline for input field */
-#nameInput:focus {
+/*#nameInput:focus {
     outline: none !important;
     box-shadow: none !important;
 }
@@ -377,13 +377,13 @@ svg{
     margin-top: 150px;
   }
   .parallax-section {
-    height: 150vh; /* Set the height of the parallax section to fullscreen */
-    background-image: url('../images/bg/Funiture.jpg'); /* Change the URL to your image */
-    background-attachment: fixed;
+    height: 150vh;*/ /* Set the height of the parallax section to fullscreen */
+    /*background-image: url('../images/bg/Funiture.jpg');*/ /* Change the URL to your image */
+    /*background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover; /* Ensure the background image covers the entire section */
-    display: flex;
+    background-size: cover;*/ /* Ensure the background image covers the entire section */
+    /*display: flex;
     justify-content: center;
     align-items: center;
     color: #fff;
@@ -392,16 +392,16 @@ svg{
 
   .parallax-content {
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background color for better readability */
-  }
+    background-color: rgba(0, 0, 0, 0.5);*/ /* Semi-transparent background color for better readability */
+  /*}
   #about{
     margin-top: 1150px;
   }
   
   .eye-icon {
-    margin-right: 5px;
+    margin-right: 5px;*/
     /* Adjust spacing between icon and counter */
-  }
+  /*}
 
   #viewCount {
     font-weight: bold;
@@ -441,13 +441,13 @@ svg{
   .ticker {
     white-space: nowrap;
     animation: ticker-scroll 20s linear infinite;
-  }
+  }*/
   /* Keyframe animation for scrolling */
-@keyframes ticker-scroll {
+/*@keyframes ticker-scroll {
   0% {
     transform: translateX(100%);
   }
   100% {
     transform: translateX(-100%);
   }
-}
+}*/

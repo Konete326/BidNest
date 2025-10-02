@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 body{
     font-family: Poppins;
     margin: 0;
@@ -365,10 +365,10 @@ body {
   .ticker {
     white-space: nowrap;
     animation: ticker-scroll 20s linear infinite;
-  }
+  }*/
   
   /* Keyframe animation for scrolling */
-  @keyframes ticker-scroll {
+  /*@keyframes ticker-scroll {
     0% {
       transform: translateX(100%);
     }
@@ -377,9 +377,9 @@ body {
     }
   }
   .eye-icon {
-    margin-right: 5px;
+    margin-right: 5px;*/
     /* Adjust spacing between icon and counter */
-  }
+  /*}
 
   #viewCount {
     font-weight: bold;
@@ -406,11 +406,11 @@ body {
   }
   .custom-dialog {
     border-radius: 10px;
-    background-color: black !important;
+    background-color: black !important;*/
     /* Change background color of dialog */
-    color: white !important;
+    /*color: white !important;*/
     /* Change text color of dialog */
-}
+/*}
 
 .btn:focus,
 .btn:active {
@@ -419,9 +419,9 @@ body {
 }
 
 .welcome-message {
-    font-size: 1.0625rem !important;
+    font-size: 1.0625rem !important;*/
     /* Equivalent to 17px */
-    position: fixed !important;
+    /*position: fixed !important;
     top: 50px !important;
     right: 50px !important;
     z-index: 10000 !important;
@@ -518,4 +518,4 @@ body {
     #welcomeMessage {
         margin-right: 242px
     }
-}
+}*/

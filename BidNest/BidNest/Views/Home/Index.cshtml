@@ -4,135 +4,439 @@
 }
 
 @section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        .category-card {
-            transition: transform 0.2s ease-in-out;
-        }
-        .category-card:hover {
-            transform: translateY(-5px);
-        }
-        .featured-carousel {
-            overflow-x: auto;
-            scrollbar-width: thin;
-        }
-        .featured-carousel::-webkit-scrollbar {
-            height: 8px;
-        }
-        .featured-carousel::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        .featured-carousel::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-        .featured-carousel::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-        .carousel-item-card {
-            min-width: 280px;
-            flex: 0 0 auto;
-        }
+:root {
+    --primary-color: #007bff; /* A vibrant blue */
+    --secondary-color: #6610f2; /* A slightly darker blue/indigo for secondary actions or hover */
+    --accent-color: #17a2b8; /* Cyan for highlights or complementary elements */
+    --text-dark: #343a40;
+    --text-light: #f8f9fa;
+    --bg-light: #f8f9fa;
+    --bg-dark: #212529;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.btn-warning {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-light); /* Changed to light for better contrast on cyan */
+    transition: all 0.3s ease;
+}
+.btn-warning:hover {
+    background-color: darken(var(--accent-color), 10%);
+    border-color: 10px solid darken(var(--accent-color), 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Hero Section - Animated Background */
+.hero-section {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    position: relative;
+    overflow: hidden;
+    color: var(--text-light);
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+    border-bottom-left-radius: 50% 20%;
+    border-bottom-right-radius: 50% 20%;
+    z-index: 0;
+}
+
+
+@@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="10" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="40" r="15" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="80" r="12" fill="%23ffffff" opacity="0.1"/><circle cx="30" cy="70" r="8" fill="%23ffffff" opacity="0.1"/><circle cx="70" cy="10" r="11" fill="%23ffffff" opacity="0.1"/></svg>') repeat;
+    background-size: 150px;
+    opacity: 0.40;
+    animation: moveBubbles 30s linear infinite;
+    z-index: -1;
+}
+.hero-section .container {
+    position: relative;
+    z-index: 1;
+}
+.hero-section .display-4,
+.hero-section .lead,
+.hero-section .btn {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+@@keyframes moveBubbles {
+    from { background-position: 0 0; }
+    to { background-position: 100% 100%; }
+}
+
+.hero-section .display-4 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    animation: fadeInDown 1s ease-out forwards;
+}
+.hero-section .lead {
+    animation: fadeInUp 1.2s ease-out forwards;
+    opacity: 0.9;
+}
+.hero-section .btn {
+    animation: zoomIn 1s ease-out forwards;
+    animation-delay: 1.4s;
+}
+.hero-section .btn:nth-child(2) { animation-delay: 1.6s; }
+.hero-section img {
+    max-height: 450px;
+    object-fit: contain;
+    animation: fadeInRight 1.5s ease-out;
+    border-radius: 15px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Category Card */
+.category-card {
+    background-color: var(--text-light);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+.category-card:  {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background-color: var(--bg-light);
+}
+.category-card .card-body {
+    padding: 1.5rem;
+}
+.category-card i {
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+.category-card:hover i {
+    transform: scale(1.1);
+}
+.category-card .badge {
+    background-color: var(--secondary-color) !important;
+    opacity: 0.9;
+    padding: 0.5em 0.75em;
+    border-radius: 50px;
+}
+
+/* Featured Carousel */
+.featured-carousel {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 1.5rem;
+    scroll-behavior: smooth;
+}
+.featured-carousel::-webkit-scrollbar {
+    height: 10px;
+}
+.featured-carousel::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.05);
+    border-radius: 10px;
+}
+.featured-carousel::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+.featured-carousel::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+.carousel-item-card {
+    /* Adjusted for smaller size, similar to recently-listed-item */
+    min-width: 200px;/* Adjust as needed to fit 3 or 4 per row visually in a grid-like manner if it were not a carousel */
+    max-width: 400px;
+    flex: 0 0 auto;
+    animation: fadeIn 1s ease-out forwards;
+    opacity: 0;
+    margin-bottom: 10px;
+}
+.carousel-item-card .card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    background-color: var(--text-light);
+    border: none;
+}
+.carousel-item-card .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+.carousel-item-card .card-img-top {
+    /* Made consistent with recently-listed-item */
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.carousel-item-card .card-body {
+    padding: 1.5rem;
+}
+.carousel-item-card .card-title {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.carousel-item-card .text-success {
+    color: var(--secondary-color) !important; /* Using secondary for green to maintain theme */
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+.carousel-item-card .card-footer {
+    border-top: none;
+    background-color: rgba(0,0,0,0.02);
+    padding: 1rem 1.5rem;
+}
+
+/* Recently Listed Items */
+.recently-listed-item .card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: none;
+}
+.recently-listed-item .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+.recently-listed-item .card-img-top {
+    height: 200px; /* This is the target height for carousel images too */
+    object-fit: cover;
+}
+.recently-listed-item .card-title {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+.recently-listed-item .text-success {
+    color: var(--secondary-color) !important; /* Using secondary for green to maintain theme */
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+.recently-listed-item .small.text-primary {
+    font-weight: 600;
+    animation: pulse 2s infinite;
+}
+
+/* Feature Section */
+.feature-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 50% !important;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.feature-icon i {
+    font-size: 2.5rem;
+}
+.feature-item:hover .feature-icon {
+    transform: translateY(-8px) rotate(5deg);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.feature-item h4 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+/* Global Section Styles */
+.container {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+h2, h3 {
+    color: var(--text-dark);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+p.text-muted {
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+/* Animations */
+@@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+@@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.animate__animated {
+    visibility: hidden;
+}
+.animated-visible {
+    visibility: visible;
+}
     </style>
 }
 
-<div class="hero-section bg-primary text-white py-5 mb-5">
-    <div class="container">
+<div class="hero-section text-white text-center py-5 mb-5">
+    <div class="container position-relative z-1">
         <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold">Welcome to BidNest</h1>
-                <p class="lead">Your trusted online auction platform where you can bid on amazing items and sell your treasures.</p>
-                <div class="mt-4">
-                    <a href="@Url.Action("Active", "Auction")" class="btn btn-light btn-lg me-3">Browse Auctions</a>
+            <div class="col-lg-6 text-lg-start mb-4 mb-lg-0">
+                <h1 class="display-4 fw-bold animate__animated animate__fadeInDown">Welcome to BidNest</h1>
+                <p class="lead animate__animated animate__fadeInUp animate__delay-1s">Your premier online auction platform for discovering unique treasures and finding new homes for your valuables.</p>
+                <div class="mt-5 animate__animated animate__zoomIn animate__delay-2s">
+                    <a href="@Url.Action("Active", "Auction")" class="btn btn-light btn-lg me-3 pulse-on-hover">Browse Auctions</a>
                     @if (User.Identity?.IsAuthenticated == true)
                     {
-                        <a href="@Url.Action("Create", "Seller")" class="btn btn-warning btn-lg me-3">
+                        <a href="@Url.Action("Create", "Seller")" class="btn btn-warning btn-lg pulse-on-hover">
                             <i class="fas fa-plus me-2"></i>Sell an Item
                         </a>
                     }
                     else
                     {
-                        <a href="@Url.Action("Register", "Account")" class="btn btn-outline-light btn-lg">Join Now</a>
+                        <a href="@Url.Action("Register", "Account")" class="btn btn-outline-light btn-lg pulse-on-hover">Join Now</a>
                     }
                 </div>
             </div>
-            <div class="col-lg-6 text-center">
-                <img src="~/user/images/bg/home-1.jpg" alt="Auction" class="img-fluid rounded shadow" style="max-height: 400px;">
+            <div class="col-lg-6 text-center animate__animated animate__fadeInRight animate__delay-1-5s">
+                <img src="~/user/images/bg/home-1.jpg" alt="Auction Items" class="img-fluid rounded shadow" style="max-height: 450px;">
             </div>
         </div>
     </div>
 </div>
 
-<div class="container">
+<div class="container py-5">
     <!-- Category Navigation -->
     @if (ViewBag.CategoriesWithCounts != null && ((IEnumerable<dynamic>)ViewBag.CategoriesWithCounts).Any())
     {
-        <div class="row mb-5">
+        <div class="row mb-5" data-aos="fade-up">
+            <div class="col-12 text-center mb-4">
+                <h3 class="fw-bold">Explore Diverse Categories</h3>
+                <p class="text-muted">Find exactly what you're looking for, or discover something new!</p>
+            </div>
             <div class="col-12">
-                <h3 class="mb-4 text-center">Browse by Category</h3>
-                <div class="row">
+                <div class="row justify-content-center">
                     @foreach (var category in (IEnumerable<dynamic>)ViewBag.CategoriesWithCounts)
                     {
-                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                            <a href="@Url.Action("Category", "Search", new { id = category.CategoryId })" class="text-decoration-none">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4 d-flex" data-aos="zoom-in" data-aos-delay="@(200 * (Array.IndexOf(((IEnumerable<dynamic>)ViewBag.CategoriesWithCounts).ToArray(), category) % 4))">
+                            <a href="@Url.Action("Category", "Search", new { id = category.CategoryId })" class="text-decoration-none w-100">
                                 <div class="card h-100 border-0 shadow-sm category-card">
-                                    <div class="card-body text-center">
-                                        <i class="fas fa-th-large fa-2x text-primary mb-3"></i>
-                                        <h6 class="card-title">@category.Name</h6>
-                                        <span class="badge bg-primary">@category.ItemCount items</span>
+                                    <div class="card-body d-flex flex-column align-items-center justify-content-center text-center">
+                                        <i class="fas fa-th-large fa-3x mb-3"></i>
+                                        <h5 class="card-title mb-2">@category.Name</h5>
+                                        <span class="badge bg-primary rounded-pill">@category.ItemCount items</span>
                                     </div>
                                 </div>
                             </a>
                         </div>
                     }
                 </div>
-                <div class="text-center mt-3">
-                    <a href="@Url.Action("Categories", "Search")" class="btn btn-outline-primary">View All Categories</a>
+                <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="400">
+                    <a href="@Url.Action("Categories", "Search")" class="btn btn-outline-primary btn-lg px-4">View All Categories <i class="fas fa-arrow-right ms-2"></i></a>
                 </div>
             </div>
         </div>
     }
 
-    <div class="row mb-5">
+    <div class="row mb-5 pt-5" data-aos="fade-up">
         <div class="col-12 text-center">
-            <h2 class="mb-4">Featured Auctions</h2>
-            <p class="text-muted">Discover amazing items ending soon</p>
+            <h2 class="fw-bold">Featured Auctions</h2>
+            <p class="text-muted">Don't miss out on these incredible items ending soon!</p>
         </div>
     </div>
 
     @if (Model.Any())
     {
-        <div class="featured-carousel d-flex gap-3 pb-3" style="overflow-x: auto;">
+        <div class="featured-carousel d-flex gap-4 pb-4 px-2">
             @foreach (var item in Model)
             {
-                <div class="carousel-item-card">
-                    <div class="card h-100 shadow-sm">
+                <div class="carousel-item-card" data-aos="fade-left" data-aos-delay="@(100 * (Array.IndexOf(Model.ToArray(), item) % 5))">
+                    <div class="card h-100 shadow-lg">
                         @if (item.ItemImages.Any())
                         {
-                            <img src="@item.ItemImages.First().Url" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                            <img src="@item.ItemImages.First().Url" class="card-img-top" alt="@item.Title">
                         }
                         else
                         {
-                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                <i class="fas fa-image fa-3x text-muted"></i>
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 220px;">
+                                <i class="fas fa-image fa-4x text-muted"></i>
                             </div>
                         }
-                        <div class="card-body">
-                            <h6 class="card-title">@item.Title</h6>
-                            <p class="card-text text-muted small">@(item.Description?.Length > 80 ? item.Description.Substring(0, 80) + "..." : item.Description)</p>
-                            <div class="d-flex justify-content-between align-items-center">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-2">@item.Title</h5>
+                            <p class="card-text text-muted small flex-grow-1">@(item.Description?.Length > 90 ? item.Description.Substring(0, 90) + "..." : item.Description)</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
                                 <div>
-                                    <small class="text-muted">Current Bid</small>
-                                    <h6 class="text-success mb-0">$@((item.CurrentPrice ?? item.MinBid).ToString("N2"))</h6>
+                                    <small class="text-muted d-block">Current Bid</small>
+                                    <h5 class="text-success mb-0">$@((item.CurrentPrice ?? item.MinBid).ToString("N2"))</h5>
                                 </div>
                                 <div class="text-end">
-                                    <small class="text-muted">Ends</small>
-                                    <div class="small">@item.EndDate.ToString("MMM dd")</div>
+                                    <small class="text-muted d-block">Ends In</small>
+                                    <div class="small fw-bold text-danger">@item.EndDate.ToString("MMM dd, hh:mm tt")</div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" class="btn btn-primary btn-sm w-100">View Details</a>
+                            <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" class="btn btn-primary btn-sm w-100">View Details <i class="fas fa-chevron-right ms-1"></i></a>
                         </div>
                     </div>
                 </div>
@@ -142,38 +446,37 @@
     else
     {
         <div class="row">
-            <div class="col-12 text-center">
-                <div class="alert alert-info">
-                    <h4>No Active Auctions</h4>
-                    <p>There are currently no active auctions. Check back later for new items!</p>
+            <div class="col-12 text-center" data-aos="fade-up">
+                <div class="alert alert-info py-4 rounded-pill shadow-sm animate__animated animate__fadeIn">
+                    <h4 class="alert-heading mb-3">No Active Auctions at the Moment!</h4>
+                    <p class="mb-0">We're constantly adding new items. Check back soon for exciting opportunities!</p>
                 </div>
             </div>
         </div>
     }
 
-    <div class="row mt-5">
+    <div class="row mt-5 pt-4" data-aos="fade-up" data-aos-delay="200">
         <div class="col-12 text-center">
-            <a href="@Url.Action("Active", "Auction")" class="btn btn-outline-primary btn-lg">View All Auctions</a>
+            <a href="@Url.Action("Active", "Auction")" class="btn btn-outline-primary btn-lg px-5 py-3 rounded-pill animate__animated animate__pulse animate__infinite pulse-delay">View All Auctions <i class="fas fa-gavel ms-2"></i></a>
         </div>
     </div>
 
-  
     @if (ViewBag.RecentAuctions != null && ((IEnumerable<BidNest.Models.Item>)ViewBag.RecentAuctions).Any())
     {
-        <div class="row mt-5 mb-5">
+        <div class="row mt-5 pt-5 mb-5" data-aos="fade-up">
             <div class="col-12 text-center mb-4">
-                <h2>Recently Listed</h2>
-                <p class="text-muted">Fresh items just added to our auction platform</p>
+                <h2 class="fw-bold">Recently Listed Items</h2>
+                <p class="text-muted">Be the first to discover these fresh additions to our platform!</p>
             </div>
         </div>
         <div class="row">
             @foreach (var item in (IEnumerable<BidNest.Models.Item>)ViewBag.RecentAuctions)
             {
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-4 col-md-6 mb-4 recently-listed-item" data-aos="fade-up" data-aos-delay="@(150 * (Array.IndexOf(((IEnumerable<BidNest.Models.Item>)ViewBag.RecentAuctions).ToArray(), item) % 3))">
                     <div class="card h-100 shadow-sm border-0">
                         @if (item.ItemImages.Any())
                         {
-                            <img src="@item.ItemImages.First().Url" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                            <img src="@item.ItemImages.First().Url" class="card-img-top" alt="@item.Title">
                         }
                         else
                         {
@@ -181,22 +484,22 @@
                                 <i class="fas fa-image fa-3x text-muted"></i>
                             </div>
                         }
-                        <div class="card-body">
-                            <h6 class="card-title">@item.Title</h6>
-                            <p class="card-text text-muted small">@(item.Description?.Length > 80 ? item.Description.Substring(0, 80) + "..." : item.Description)</p>
-                            <div class="d-flex justify-content-between align-items-center">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title mb-2">@item.Title</h5>
+                            <p class="card-text text-muted small flex-grow-1">@(item.Description?.Length > 80 ? item.Description.Substring(0, 80) + "..." : item.Description)</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
                                 <div>
-                                    <small class="text-muted">Starting Bid</small>
+                                    <small class="text-muted d-block">Starting Bid</small>
                                     <h6 class="text-success mb-0">$@((item.CurrentPrice ?? item.MinBid).ToString("N2"))</h6>
                                 </div>
                                 <div class="text-end">
-                                    <small class="text-muted">@(item.Category?.Name ?? "No category")</small>
-                                    <div class="small text-primary">New!</div>
+                                    <small class="text-muted d-block">@(item.Category?.Name ?? "General")</small>
+                                    <div class="small text-primary fw-bold animate__animated animate__pulse animate__infinite">NEW!</div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" class="btn btn-outline-primary btn-sm w-100">View Details</a>
+                            <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" class="btn btn-outline-primary btn-sm w-100">View Details <i class="fas fa-info-circle ms-1"></i></a>
                         </div>
                     </div>
                 </div>
@@ -205,30 +508,64 @@
     }
 </div>
 
-<div class="bg-light py-5 mt-5">
+<div class="bg-light py-5 mt-5" data-aos="fade-up">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 text-center mb-4">
-                <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                    <i class="fas fa-gavel fa-2x"></i>
+            <div class="col-lg-4 text-center mb-5 feature-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-icon mx-auto mb-4">
+                    <i class="fas fa-gavel"></i>
                 </div>
-                <h4>Easy Bidding</h4>
-                <p class="text-muted">Place bids with just a few clicks and track your auction activity in real-time.</p>
+                <h4 class="fw-bold">Effortless Bidding</h4>
+                <p class="text-muted">Engage in real-time auctions with intuitive controls and seamless tracking of your bids.</p>
             </div>
-            <div class="col-lg-4 text-center mb-4">
-                <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                    <i class="fas fa-shield-alt fa-2x"></i>
+            <div class="col-lg-4 text-center mb-5 feature-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-icon mx-auto mb-4">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
-                <h4>Secure Platform</h4>
-                <p class="text-muted">Your transactions and personal information are protected with industry-standard security.</p>
+                <h4 class="fw-bold">Ironclad Security</h4>
+                <p class="text-muted">Your privacy and transactions are paramount. Bid with confidence on our secure platform.</p>
             </div>
-            <div class="col-lg-4 text-center mb-4">
-                <div class="feature-icon bg-info text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                    <i class="fas fa-clock fa-2x"></i>
+            <div class="col-lg-4 text-center mb-5 feature-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-icon mx-auto mb-4">
+                    <i class="fas fa-globe"></i>
                 </div>
-                <h4>24/7 Auctions</h4>
-                <p class="text-muted">Bid anytime, anywhere. Our platform is available around the clock for your convenience.</p>
+                <h4 class="fw-bold">Global Accessibility</h4>
+                <p class="text-muted">Participate in auctions anytime, anywhere, with our fully responsive and accessible platform.</p>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            mirror: false 
+        });
+
+        // Manual intersection observer for animate.css classes if desired,
+        // but AOS handles most visibility-based animations.
+        // For elements like .hero-section .btn that have fixed delays, 
+        // they are animated on page load by animate.css classes.
+        // For AOS elements, adding the data-aos attribute is enough.
+
+        // Adjust delay for carousel items if not using AOS
+        document.addEventListener('DOMContentLoaded', function() {
+            const carouselItems = document.querySelectorAll('.carousel-item-card');
+            carouselItems.forEach((item, index) => {
+                // If using AOS, this dynamic delay is handled by data-aos-delay
+                // If you want to use animate.css for these, add 'animate__fadeIn' and manage delay here
+                // item.style.animationDelay = `${index * 0.1}s`; 
+            });
+
+            const recentItems = document.querySelectorAll('.recently-listed-item');
+            recentItems.forEach((item, index) => {
+                // If using AOS, this dynamic delay is handled by data-aos-delay
+                // item.style.animationDelay = `${index * 0.15}s`;
+            });
+        });
+    </script>
+}

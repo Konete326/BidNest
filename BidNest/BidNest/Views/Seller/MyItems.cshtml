@@ -3,18 +3,18 @@
     ViewData["Title"] = "My Items";
 }
 
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 bg-light min-vh-100">
     <!-- Header -->
     <div class="row mb-4">
         <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center bg-white p-3 rounded shadow-sm">
                 <div>
-                    <h2 class="mb-1">My Items</h2>
-                    <p class="text-muted">Manage your auction listings</p>
+                    <h2 class="mb-1 text-primary">My Items</h2>
+                    <p class="text-muted mb-0">Manage your auction listings and track their performance</p>
                 </div>
                 <div>
-                    <a href="@Url.Action("Create")" class="btn btn-primary">
-                        <i class="fas fa-plus me-1"></i>Add New Item
+                    <a href="@Url.Action("Create")" class="btn btn-primary btn-lg rounded-pill shadow-sm">
+                        <i class="fas fa-plus me-2"></i>Add New Item
                     </a>
                 </div>
             </div>
@@ -22,37 +22,37 @@
     </div>
 
     <!-- Filters -->
-    <div class="card mb-4">
+    <div class="card mb-4 border-0 shadow-sm">
         <div class="card-body">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="btn-group" role="group">
+            <div class="row align-items-center g-3">
+                <div class="col-md-7 col-lg-8">
+                    <div class="btn-group flex-wrap" role="group">
                         <a href="@Url.Action("MyItems", new { status = "all" })" 
-                           class="btn @(Model.StatusFilter == "all" ? "btn-primary" : "btn-outline-primary")">
-                            All Items (@Model.TotalItems)
+                           class="btn btn-filter @(Model.StatusFilter == "all" ? "btn-primary active" : "btn-outline-primary")">
+                            All Items <span class="badge bg-light text-primary ms-1">@Model.TotalItems</span>
                         </a>
                         <a href="@Url.Action("MyItems", new { status = "active" })" 
-                           class="btn @(Model.StatusFilter == "active" ? "btn-success" : "btn-outline-success")">
+                           class="btn btn-filter @(Model.StatusFilter == "active" ? "btn-success active" : "btn-outline-success")">
                             Active
                         </a>
                         <a href="@Url.Action("MyItems", new { status = "pending" })" 
-                           class="btn @(Model.StatusFilter == "pending" ? "btn-warning" : "btn-outline-warning")">
+                           class="btn btn-filter @(Model.StatusFilter == "pending" ? "btn-warning active" : "btn-outline-warning")">
                             Pending
                         </a>
                         <a href="@Url.Action("MyItems", new { status = "sold" })" 
-                           class="btn @(Model.StatusFilter == "sold" ? "btn-info" : "btn-outline-info")">
+                           class="btn btn-filter @(Model.StatusFilter == "sold" ? "btn-info active" : "btn-outline-info")">
                             Sold
                         </a>
                         <a href="@Url.Action("MyItems", new { status = "expired" })" 
-                           class="btn @(Model.StatusFilter == "expired" ? "btn-secondary" : "btn-outline-secondary")">
+                           class="btn btn-filter @(Model.StatusFilter == "expired" ? "btn-secondary active" : "btn-outline-secondary")">
                             Expired
                         </a>
                     </div>
                 </div>
-                <div class="col-md-6 text-end">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <label class="me-2">Sort by:</label>
-                        <select class="form-select" style="width: auto;" onchange="location = this.value;">
+                <div class="col-md-5 col-lg-4">
+                    <div class="d-flex justify-content-md-end align-items-center flex-wrap">
+                        <label for="sortSelect" class="form-label me-2 mb-0 text-muted d-none d-sm-block">Sort by:</label>
+                        <select id="sortSelect" class="form-select form-select-sm w-auto custom-select-icon shadow-sm" onchange="location = this.value;">
                             <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "newest" })">Newest First</option>
                             <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "oldest" })">Oldest First</option>
                             <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "price-high" })">Highest Price</option>
@@ -68,127 +68,130 @@
     <!-- Items Grid -->
     @if (Model.Items.Any())
     {
-        <div class="row">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             @foreach (var item in Model.Items)
             {
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 item-card">
+                <div class="col">
+                    <div class="card h-100 item-card border-0 shadow-sm rounded-3 overflow-hidden">
                         <!-- Image -->
-                        <div class="position-relative">
+                        <div class="position-relative item-image-container">
                             @if (item.Images.Any())
                             {
                                 <img src="@item.Images.First().ImagePath" alt="@item.Name" 
-                                     class="card-img-top" style="height: 200px; object-fit: cover;">
+                                     class="card-img-top item-image">
                             }
                             else
                             {
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
-                                     style="height: 200px;">
-                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center item-image-placeholder">
+                                    <i class="fas fa-image fa-4x text-muted opacity-50"></i>
                                 </div>
                             }
                             
                             <!-- Status Badge -->
-                            <span class="position-absolute top-0 end-0 m-2 badge @GetStatusBadgeClass(item.Status)">
+                            <span class="position-absolute top-0 end-0 m-2 badge rounded-pill status-badge @GetStatusBadgeClass(item.Status)">
                                 @GetStatusText(item.Status)
                             </span>
                         </div>
 
-                        <div class="card-body d-flex flex-column">
-                            <h6 class="card-title">@item.Name</h6>
-                            <p class="card-text text-muted small">@item.CategoryName</p>
+                        <div class="card-body d-flex flex-column p-3">
+                            <h5 class="card-title text-truncate mb-1">
+                                <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" class="text-decoration-none text-dark hover-primary">
+                                    @item.Name
+                                </a>
+                            </h5>
+                            <p class="card-text text-muted small mb-2">@item.CategoryName</p>
                             
                             <!-- Pricing Info -->
-                            <div class="mb-2">
+                            <div class="mb-3 border-top pt-2 mt-2">
                                 @if (item.Status == "A") // Active
                                 {
-                                    <div class="d-flex justify-content-between">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
                                         <span class="text-muted small">Current Bid:</span>
-                                        <span class="fw-bold text-success">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</span>
+                                        <span class="fw-bold text-success fs-5">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</span>
                                     </div>
-                                    <div class="d-flex justify-content-between">
+                                    <div class="d-flex justify-content-between align-items-center">
                                         <span class="text-muted small">Bids:</span>
-                                        <span class="badge bg-primary">@item.BidCount</span>
+                                        <span class="badge bg-primary rounded-pill px-3 py-2">@item.BidCount <i class="fas fa-gavel ms-1"></i></span>
                                     </div>
                                 }
                                 else if (item.Status == "S") // Sold
                                 {
-                                    <div class="d-flex justify-content-between">
+                                    <div class="d-flex justify-content-between align-items-center">
                                         <span class="text-muted small">Sold for:</span>
-                                        <span class="fw-bold text-success">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</span>
+                                        <span class="fw-bold text-success fs-5">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</span>
                                     </div>
                                 }
                                 else
                                 {
-                                    <div class="d-flex justify-content-between">
+                                    <div class="d-flex justify-content-between align-items-center">
                                         <span class="text-muted small">Starting Bid:</span>
-                                        <span class="fw-bold">$@item.MinimumBid.ToString("N2")</span>
+                                        <span class="fw-bold fs-5">$@item.MinimumBid.ToString("N2")</span>
                                     </div>
                                 }
                             </div>
 
                             <!-- Time Info -->
-                            <div class="mb-3">
+                            <div class="mb-3 text-center border-bottom pb-2">
                                 @if (item.Status == "A")
                                 {
-                                    <small class="text-warning">
-                                        <i class="fas fa-clock me-1"></i>
-                                        <span id="timer-@item.ItemId">Calculating...</span>
-                                    </small>
+                                    <p class="mb-0 text-warning">
+                                        <i class="fas fa-hourglass-half me-1"></i>
+                                        <span id="timer-@item.ItemId" class="fw-bold">Calculating...</span>
+                                    </p>
                                 }
                                 else if (item.Status == "P")
                                 {
-                                    <small class="text-muted">
-                                        <i class="fas fa-clock me-1"></i>
+                                    <p class="mb-0 text-muted small">
+                                        <i class="fas fa-calendar-alt me-1"></i>
                                         Submitted @item.CreatedAt.ToString("MMM dd, yyyy")
-                                    </small>
+                                    </p>
                                 }
                                 else if (item.Status == "S")
                                 {
-                                    <small class="text-success">
-                                        <i class="fas fa-check me-1"></i>
+                                    <p class="mb-0 text-success small">
+                                        <i class="fas fa-check-circle me-1"></i>
                                         Sold @item.EndDate.ToString("MMM dd, yyyy")
-                                    </small>
+                                    </p>
                                 }
                                 else
                                 {
-                                    <small class="text-muted">
-                                        <i class="fas fa-calendar me-1"></i>
+                                    <p class="mb-0 text-muted small">
+                                        <i class="fas fa-calendar-times me-1"></i>
                                         Ended @item.EndDate.ToString("MMM dd, yyyy")
-                                    </small>
+                                    </p>
                                 }
                             </div>
 
                             <!-- Actions -->
-                            <div class="mt-auto">
+                            <div class="mt-auto pt-2">
                                 <div class="d-flex gap-2">
                                     <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
-                                       class="btn btn-sm btn-outline-primary flex-fill">
-                                        <i class="fas fa-eye me-1"></i>View
+                                       class="btn btn-sm btn-outline-primary flex-fill rounded-pill">
+                                        <i class="fas fa-eye me-1"></i>View Details
                                     </a>
                                     
                                     @if (item.Status == "P") // Pending - can edit
                                     {
                                         <a href="@Url.Action("Edit", new { id = item.ItemId })" 
-                                           class="btn btn-sm btn-outline-secondary">
+                                           class="btn btn-sm btn-outline-secondary rounded-circle icon-btn" data-bs-toggle="tooltip" title="Edit Item">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                onclick="deleteItem(@item.ItemId, '@item.Name')">
-                                            <i class="fas fa-trash"></i>
+                                        <button type="button" class="btn btn-sm btn-outline-danger rounded-circle icon-btn" 
+                                                onclick="deleteItem(@item.ItemId, '@item.Name')" data-bs-toggle="tooltip" title="Delete Item">
+                                            <i class="fas fa-trash-alt"></i>
                                         </button>
                                     }
                                     else if (item.Status == "A" && item.BidCount == 0) // Active with no bids - can delete
                                     {
-                                        <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                onclick="deleteItem(@item.ItemId, '@item.Name')">
-                                            <i class="fas fa-trash"></i>
+                                        <button type="button" class="btn btn-sm btn-outline-danger rounded-circle icon-btn" 
+                                                onclick="deleteItem(@item.ItemId, '@item.Name')" data-bs-toggle="tooltip" title="Delete Item">
+                                            <i class="fas fa-trash-alt"></i>
                                         </button>
                                     }
                                     else if (item.Status == "A") // Active with bids - show analytics
                                     {
                                         <a href="@Url.Action("Analytics", new { itemId = item.ItemId })" 
-                                           class="btn btn-sm btn-outline-info">
+                                           class="btn btn-sm btn-outline-info rounded-circle icon-btn" data-bs-toggle="tooltip" title="View Analytics">
                                             <i class="fas fa-chart-line"></i>
                                         </a>
                                     }
@@ -203,12 +206,12 @@
         <!-- Pagination -->
         @if (Model.TotalPages > 1)
         {
-            <nav aria-label="Items pagination">
-                <ul class="pagination justify-content-center">
+            <nav aria-label="Items pagination" class="mt-5">
+                <ul class="pagination justify-content-center shadow-sm rounded-pill p-2 bg-white">
                     @if (Model.HasPreviousPage)
                     {
                         <li class="page-item">
-                            <a class="page-link" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = Model.CurrentPage - 1 })">
+                            <a class="page-link rounded-pill mx-1" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = Model.CurrentPage - 1 })" aria-label="Previous">
                                 <i class="fas fa-chevron-left"></i>
                             </a>
                         </li>
@@ -217,14 +220,14 @@
                     @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
                     {
                         <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = i })">@i</a>
+                            <a class="page-link rounded-pill mx-1 @(i == Model.CurrentPage ? "bg-primary border-primary text-white" : "text-primary")" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = i })">@i</a>
                         </li>
                     }
 
                     @if (Model.HasNextPage)
                     {
                         <li class="page-item">
-                            <a class="page-link" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = Model.CurrentPage + 1 })">
+                            <a class="page-link rounded-pill mx-1" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = Model.CurrentPage + 1 })" aria-label="Next">
                                 <i class="fas fa-chevron-right"></i>
                             </a>
                         </li>
@@ -236,21 +239,21 @@
     else
     {
         <!-- Empty State -->
-        <div class="text-center py-5">
-            <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
-            <h4 class="text-muted">No Items Found</h4>
+        <div class="text-center py-5 bg-white rounded shadow-sm mt-4">
+            <i class="fas fa-box-open fa-5x text-muted mb-4 opacity-75"></i>
+            <h4 class="text-muted mb-3">No Items Found</h4>
             @if (Model.StatusFilter == "all")
             {
-                <p class="text-muted">You haven't created any listings yet.</p>
-                <a href="@Url.Action("Create")" class="btn btn-primary">
-                    <i class="fas fa-plus me-1"></i>Create Your First Listing
+                <p class="text-muted fs-5">You haven't created any listings yet. Let's get started!</p>
+                <a href="@Url.Action("Create")" class="btn btn-primary btn-lg rounded-pill mt-3 shadow">
+                    <i class="fas fa-plus me-2"></i>Create Your First Listing
                 </a>
             }
             else
             {
-                <p class="text-muted">No items found with status: @Model.StatusFilter</p>
-                <a href="@Url.Action("MyItems", new { status = "all" })" class="btn btn-outline-primary">
-                    View All Items
+                <p class="text-muted fs-5">No items found with status: <span class="fw-bold text-dark">@GetStatusText(Model.StatusFilter)</span></p>
+                <a href="@Url.Action("MyItems", new { status = "all" })" class="btn btn-outline-primary btn-lg rounded-pill mt-3">
+                    <i class="fas fa-boxes me-2"></i>View All Items
                 </a>
             }
         </div>
@@ -258,22 +261,22 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow-lg">
+            <div class="modal-header bg-danger text-white border-0">
+                <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Confirm Deletion</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete "<span id="deleteItemName"></span>"?</p>
-                <p class="text-danger small">This action cannot be undone.</p>
+            <div class="modal-body p-4">
+                <p class="lead">Are you sure you want to delete "<span id="deleteItemName" class="fw-bold text-dark"></span>"?</p>
+                <p class="text-danger small mb-0">This action cannot be undone and will permanently remove your item.</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <div class="modal-footer border-0 p-3">
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
                 <form id="deleteForm" method="post" style="display: inline;">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-danger">Delete Item</button>
+                    <button type="submit" class="btn btn-danger rounded-pill px-4">Delete Item</button>
                 </form>
             </div>
         </div>
@@ -286,10 +289,10 @@
         return status switch
         {
             "A" => "bg-success",
-            "P" => "bg-warning",
+            "P" => "bg-warning text-dark",
             "S" => "bg-info",
             "E" => "bg-secondary",
-            _ => "bg-secondary"
+            _ => "bg-dark"
         };
     }
 
@@ -329,7 +332,8 @@
                 if (timerElement) {
                     if (timeLeft <= 0) {
                         timerElement.textContent = 'Ended';
-                        timerElement.className = 'text-danger';
+                        timerElement.classList.remove('text-warning');
+                        timerElement.classList.add('text-danger');
                     } else {
                         var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
                         var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -340,7 +344,7 @@
                         if (hours > 0) display += hours + 'h ';
                         display += minutes + 'm left';
                         
-                        timerElement.textContent = display;
+                        timerElement.textContent = display.trim();
                     }
                 }
             });
@@ -351,25 +355,244 @@
             document.getElementById('deleteItemName').textContent = itemName;
             document.getElementById('deleteForm').action = '@Url.Action("Delete")/' + itemId;
             
-            var modal = new bootstrap.Modal(document.getElementById('deleteModal'));
-            modal.show();
+            var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            deleteModal.show();
         }
 
         // Initialize timers
         updateTimers();
         setInterval(updateTimers, 60000); // Update every minute
+
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
     </script>
 }
 
 @section Styles {
     <style>
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa; /* Lighter background for the entire page */
+        }
+
+        .container-fluid {
+            max-width: 1400px;
+        }
+
+        /* Header Styling */
+        .d-flex.justify-content-between.align-items-center.bg-white {
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        /* Filter Buttons */
+        .btn-filter {
+            border-radius: 50rem !important; /* Pill shape */
+            margin: 0.25rem;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+            padding: 0.5rem 1.25rem;
+        }
+
+        .btn-filter.active {
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+            font-weight: 600;
+        }
+        
+        .btn-outline-primary:hover {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-outline-success:hover {
+            color: #fff;
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-outline-warning:hover {
+            color: #212529; /* Darker text for warning hover */
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .btn-outline-info:hover {
+            color: #fff;
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+
+        .btn-outline-secondary:hover {
+            color: #fff;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        /* Sort Select */
+        .custom-select-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+            padding-right: 2.25rem;
+            border-radius: 0.5rem;
+            border-color: #ced4da;
+        }
+
+        /* Item Card */
         .item-card {
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
         }
         
         .item-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        .item-image-container {
+            height: 200px; /* Fixed height for consistency */
+            overflow: hidden;
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image covers the area without distortion */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .item-card:hover .item-image {
+            transform: scale(1.05); /* Slight zoom on hover */
+        }
+
+        .item-image-placeholder {
+            height: 100%;
+            width: 100%;
+            color: #adb5bd;
+        }
+
+        .status-badge {
+            font-size: 0.85rem;
+            padding: 0.4em 0.8em;
+            letter-spacing: 0.5px;
+        }
+
+        .card-title a {
+            font-weight: 600;
+            color: #343a40;
+        }
+
+        .card-title a.hover-primary:hover {
+            color: #007bff !important;
+        }
+
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Pagination */
+        .pagination .page-item .page-link {
+            border: none;
+            color: #007bff;
+            margin: 0 0.2rem;
+            transition: all 0.2s ease-in-out;
+            min-width: 38px;
+            text-align: center;
+        }
+
+        .pagination .page-item .page-link:hover {
+            background-color: #e9ecef;
+            color: #0056b3;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+        }
+        
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            background-color: #fff;
+        }
+
+        /* Empty State */
+        .text-center.py-5 {
+            border: 2px dashed #e9ecef;
+        }
+        
+        .text-center.py-5 i {
+            color: #adb5bd !important;
+        }
+
+        /* Modal Overrides */
+        #deleteModal .modal-header {
+            border-bottom: none;
+        }
+
+        #deleteModal .modal-footer {
+            border-top: none;
+        }
+
+        /* Responsive Adjustments */
+        @@media (max-width: 767.98px) {
+            .d-flex.justify-content-between.align-items-center {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            .d-flex.justify-content-between.align-items-center > div:last-child {
+                margin-top: 1rem;
+                width: 100%;
+            }
+            .d-flex.justify-content-between.align-items-center > div:last-child .btn {
+                width: 100%;
+            }
+            .btn-group {
+                width: 100%;
+                justify-content: center;
+            }
+            .btn-group .btn {
+                flex-grow: 1;
+            }
+            .d-flex.justify-content-md-end {
+                justify-content: center !important;
+                margin-top: 1rem;
+            }
+            .custom-select-icon {
+                width: 100% !important;
+            }
+        }
+
+        @@media (max-width: 575.98px) {
+            .btn-group .btn {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.8rem;
+            }
         }
     </style>
 }

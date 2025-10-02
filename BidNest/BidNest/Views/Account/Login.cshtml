@@ -1,69 +1,256 @@
-@model BidNest.ViewModels.LoginViewModel
+﻿@model BidNest.ViewModels.LoginViewModel
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white text-center">
-                    <h3>Login to BidNest</h3>
-                </div>
-                <div class="card-body">
-                    @if (TempData["SuccessMessage"] != null)
-                    {
-                        <div class="alert alert-success">
-                            @TempData["SuccessMessage"]
-                        </div>
-                    }
+@section Styles {
+    <style>
+        /* Animated gradient background */
+        .login-hero {
+            background: linear-gradient(45deg, #007bff, #6610f2, #007bff);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+        }
 
-                    <form asp-action="Login" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                        
-                        <div class="mb-3">
-                            <label asp-for="Email" class="form-label">Email Address</label>
-                            <input asp-for="Email" class="form-control" placeholder="Enter your email" autocomplete="email" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
+        /* Floating bubble overlay */
+        .login-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="10" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="40" r="15" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="80" r="12" fill="%23ffffff" opacity="0.1"/><circle cx="30" cy="70" r="8" fill="%23ffffff" opacity="0.1"/><circle cx="70" cy="10" r="11" fill="%23ffffff" opacity="0.1"/></svg>') repeat;
+            background-size: 150px;
+            opacity: 0.3;
+            animation: moveBubbles 30s linear infinite;
+            z-index: 0;
+        }
 
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label">Password</label>
-                            <input asp-for="Password" class="form-control" placeholder="Enter your password" autocomplete="current-password" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
+        /* Card styling - Modernized */
+        .login-card {
+            background: rgba(255, 255, 255, 0.98); /* Slightly less transparent */
+            border-radius: 20px; /* More rounded corners */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Softer, larger shadow */
+            backdrop-filter: blur(5px); /* Frosted glass effect */
+            z-index: 1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+            border: none; /* Remove default border */
+        }
 
-                        <div class="mb-3 form-check">
-                            <input asp-for="RememberMe" class="form-check-input" />
-                            <label asp-for="RememberMe" class="form-check-label">Remember me</label>
-                        </div>
+        .login-card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); /* Enhanced shadow on hover */
+        }
 
-                        <input type="hidden" asp-for="ReturnUrl" />
+        .login-card .card-header {
+            background: linear-gradient(90deg, #007bff, #6610f2); /* Gradient header */
+            color: #fff;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            padding: 2rem 1.5rem; /* More padding */
+            font-size: 1.25rem; /* Larger text */
+            position: relative; /* For the subtle header wave */
+            overflow: hidden;
+        }
+        
+        /* Subtle wave effect for header */
+        .login-card .card-header::before {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -10%;
+            width: 120%;
+            height: 60px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: rotate(-5deg);
+        }
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">Login</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="card-footer text-center">
-                    <p class="mb-0">
-                        Don't have an account? 
-                        <a href="@Url.Action("Register")" class="text-primary">Register here</a>
-                    </p>
-                </div>
-            </div>
+        /* Demo credentials card - Modernized */
+        .demo-card {
+            background: rgba(255, 255, 255, 0.9); /* Slightly more opaque */
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1); /* Softer shadow */
+            color: #212529;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+        }
+        .demo-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .demo-card .card-title {
+            color: #007bff;
+            font-weight: 700; /* Bolder title */
+            margin-bottom: 0.75rem;
+        }
+        .demo-card strong {
+            color: #6610f2;
+            font-weight: 600;
+        }
 
-            <div class="mt-4 text-center">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Demo Credentials</h5>
-                        <p class="card-text">
-                            <strong>Admin:</strong> admin@gmail.com / admin123<br>
-                            <strong>User:</strong> Create a new account or use existing user credentials
+        /* Floating labels style - Enhanced */
+        .form-floating label {
+            color: #6c757d;
+            transition: all 0.2s ease;
+        }
+        .form-control {
+            border-radius: 10px; /* Slightly more rounded inputs */
+            border: 1px solid #ced4da;
+            padding: 1rem 0.75rem; /* Adjust padding for better look with floating labels */
+        }
+        .form-control:focus {
+            border-color: #6610f2;
+            box-shadow: 0 0 0 0.25rem rgba(102, 16, 242, 0.2); /* Softer focus shadow */
+            border-width: 2px; /* Thicker border on focus */
+        }
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label,
+        .form-floating > .form-select ~ label {
+            transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+            color: #6610f2; /* Color change on focus/filled */
+        }
+        .form-check-input:checked {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .form-check-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+
+        /* Login Button - Gradient and Hover Effect */
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #6610f2);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background-size: 200% auto; /* For gradient animation */
+        }
+        .btn-primary:hover {
+            background-position: right center; /* Move gradient on hover */
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4); /* Lifted shadow */
+            transform: translateY(-2px);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        /* General text and links */
+        .text-primary {
+            color: #007bff !important;
+        }
+        .text-primary:hover {
+            color: #0056b3 !important;
+        }
+        a.fw-semibold {
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        /* Gradient animation */
+        @@keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Bubble movement */
+        @@keyframes moveBubbles {
+            from { background-position: 0 0; }
+            to { background-position: 100% 100%; }
+        }
+    </style>
+}
+
+<div class="login-hero">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <!-- Overhauled Login Form Card -->
+                <div class="card login-card shadow-lg">
+                    <div class="card-header text-center">
+                        <h3 class="mb-1 fw-bold">Welcome Back 👋</h3>
+                        <p class="mb-0 small opacity-75">Sign in to continue to <strong>BidNest</strong></p>
+                    </div>
+                    <div class="card-body p-4">
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success mb-3" role="alert">
+                                @TempData["SuccessMessage"]
+                            </div>
+                        }
+
+                        <form asp-action="Login" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                            <!-- Email -->
+                            <div class="form-floating mb-3">
+                                <input asp-for="Email" class="form-control" id="emailInput" placeholder="name@example.com" autocomplete="email" />
+                                <label for="emailInput">Email address</label>
+                                <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-floating mb-3">
+                                <input asp-for="Password" class="form-control" id="passwordInput" placeholder="Enter password" type="password" autocomplete="current-password" />
+                                <label for="passwordInput">Password</label>
+                                <span asp-validation-for="Password" class="text-danger small mt-1 d-block"></span>
+                            </div>
+
+                            <!-- Remember Me + Forgot -->
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check">
+                                    <input asp-for="RememberMe" class="form-check-input" id="rememberMeCheck" />
+                                    <label class="form-check-label small" for="rememberMeCheck">Remember me</label>
+                                </div>
+                                <a href="#" class="small text-decoration-none text-primary fw-semibold">Forgot password?</a>
+                            </div>
+
+                            <input type="hidden" asp-for="ReturnUrl" />
+
+                            <!-- Login Button -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    Sign In
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-footer text-center py-3 bg-light border-0" style="border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+                        <p class="mb-0 small text-muted">
+                            New to BidNest? 
+                            <a href="@Url.Action("Register")" class="fw-bold text-primary">Create an account</a>
                         </p>
                     </div>
                 </div>
+
+                <!-- Demo Credentials -->
+                <div class="mt-4 text-center">
+                    <div class="card demo-card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-2">Demo Credentials</h5>
+                            <p class="card-text mb-0 small">
+                                <strong>Admin:</strong> admin@gmail.com / admin123<br>
+                                <strong>User:</strong> Create a new account or use existing user credentials
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

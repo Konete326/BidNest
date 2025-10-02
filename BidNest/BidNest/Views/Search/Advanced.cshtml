@@ -3,63 +3,208 @@
     ViewData["Title"] = "Advanced Search";
 }
 
+<style>
+    /* Basic Fade-in Animation for Cards */
+    .card {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInCard 0.6s ease-out forwards;
+    }
+
+    /* Staggered animation for cards */
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.3s; }
+
+    /* Keyframes for card fade-in */
+    @@keyframes fadeInCard {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Input/Select/Button Hover Effects */
+    .form-control, .form-select {
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); /* Primary color shadow */
+        border-color: #0d6efd; /* Primary color border */
+        transform: scale(1.01); /* Slightly zoom on focus */
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Ripple effect for buttons */
+    .btn::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+        background-repeat: no-repeat;
+        background-position: 50%;
+        transform: scale(10, 10);
+        opacity: 0;
+        transition: transform .5s, opacity 1s;
+    }
+
+    .btn:active::after {
+        transform: scale(0, 0);
+        opacity: .2;
+        transition: 0s;
+    }
+
+    /* Label animations */
+    .form-label {
+        transition: color 0.3s ease;
+    }
+
+    .form-control:focus + .form-text,
+    .form-select:focus + .form-text,
+    .form-check-input:focus + .form-check-label + .form-text {
+        color: #0d6efd; /* Highlight helper text on focus */
+    }
+
+    /* Section Headers */
+    .card-header h4, .card-header h6 {
+        animation: slideInLeft 0.5s ease-out forwards;
+        opacity: 0;
+        animation-delay: 0.2s; /* Stagger with card */
+    }
+
+    @@keyframes slideInLeft {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Fade-in for form elements with stagger */
+    .form-group-animated > * {
+        opacity: 0;
+        transform: translateY(10px);
+        animation: fadeInElement 0.5s ease-out forwards;
+    }
+
+    @@keyframes fadeInElement {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Assign animation delays more specifically to control stagger */
+    .col-md-12.mb-3, .col-md-6.mb-3, .col-12.mb-3 {
+        animation: fadeInElement 0.5s ease-out forwards;
+        opacity: 0; /* Initial state for animation */
+    }
+    .col-md-12.mb-3:nth-child(1) { animation-delay: 0.4s; } /* Keywords */
+    .col-md-6.mb-3:nth-child(2) { animation-delay: 0.5s; } /* Category */
+    .col-md-6.mb-3:nth-child(3) { animation-delay: 0.6s; } /* Status */
+    .col-md-6.mb-3:nth-child(4) { animation-delay: 0.7s; } /* Min Price */
+    .col-md-6.mb-3:nth-child(5) { animation-delay: 0.8s; } /* Max Price */
+    .col-12.mb-3:nth-child(6) { animation-delay: 0.9s; } /* Date Filters H6 */
+    .col-md-6.mb-3:nth-child(7) { animation-delay: 1.0s; } /* Start Date */
+    .col-md-6.mb-3:nth-child(8) { animation-delay: 1.1s; } /* End Date */
+    .col-12.mb-3:nth-child(9) { animation-delay: 1.2s; } /* Additional Filters H6 */
+    .col-md-6.mb-3:nth-child(10) { animation-delay: 1.3s; } /* Has Bids */
+    .col-md-6.mb-3:nth-child(11) { animation-delay: 1.4s; } /* Location */
+    .col-12.mb-3:nth-child(12) { animation-delay: 1.5s; } /* Sort Results H6 */
+    .col-md-6.mb-3:nth-child(13) { animation-delay: 1.6s; } /* Sort By */
+    .col-md-6.mb-3:nth-child(14) { animation-delay: 1.7s; } /* Sort Order */
+    .col-md-6.mb-3:nth-child(15) { animation-delay: 1.8s; } /* Page Size */
+
+    .row.mt-4 button, .row.mt-4 a.btn { /* Action buttons */
+        animation: fadeInElement 0.5s ease-out forwards;
+        animation-delay: 1.9s;
+        opacity: 0;
+    }
+
+    .card.mt-4 { /* Search Tips card */
+        animation-delay: 2.1s; /* Appear after main form */
+    }
+
+    /* Icon Pulse */
+    .card-header i.fas {
+        transition: transform 0.3s ease;
+    }
+    .card-header:hover i.fas {
+        transform: scale(1.1);
+    }
+</style>
+
 <div class="container my-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">
+            <div class="card shadow-lg rounded-3">
+                <div class="card-header bg-primary text-white p-3 rounded-top-3">
+                    <h4 class="mb-0 animate__animated animate__fadeInLeft">
                         <i class="fas fa-search-plus me-2"></i>Advanced Search
                     </h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <form asp-action="Advanced" method="post">
-                        <div class="row">
+                        <div class="row g-3">
                             <!-- Keywords -->
-                            <div class="col-md-12 mb-3">
+                            <div class="col-md-12 mb-3 form-group-animated">
                                 <label class="form-label fw-bold">Keywords</label>
                                 <input asp-for="Query" class="form-control" placeholder="Search in title and description...">
                                 <div class="form-text">Search for specific words in item titles and descriptions</div>
                             </div>
 
                             <!-- Category -->
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 form-group-animated">
                                 <label class="form-label fw-bold">Category</label>
                                 <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories">
                                 </select>
                             </div>
 
                             <!-- Status -->
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 form-group-animated">
                                 <label class="form-label fw-bold">Auction Status</label>
                                 <select asp-for="Status" class="form-select" asp-items="Model.StatusOptions">
                                 </select>
                             </div>
 
                             <!-- Price Range -->
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 form-group-animated">
                                 <label class="form-label fw-bold">Minimum Price</label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input asp-for="MinPrice" class="form-control" placeholder="0.00" step="0.01">
+                                    <input asp-for="MinPrice" type="number" class="form-control" placeholder="0.00" step="0.01">
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 form-group-animated">
                                 <label class="form-label fw-bold">Maximum Price</label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input asp-for="MaxPrice" class="form-control" placeholder="No limit" step="0.01">
+                                    <input asp-for="MaxPrice" type="number" class="form-control" placeholder="No limit" step="0.01">
                                 </div>
                             </div>
 
                             <!-- Date Ranges -->
-                            <div class="col-12 mb-3">
-                                <h6 class="fw-bold text-primary">Date Filters</h6>
-                                <hr>
+                            <div class="col-12 mb-3 form-group-animated">
+                                <h6 class="fw-bold text-primary animate__animated animate__fadeIn">Date Filters</h6>
+                                <hr class="animate__animated animate__fadeIn">
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 form-group-animated">
                                 <label class="form-label fw-bold">Auction Start Date</label>
                                 <div class="row">
                                     <div class="col-6">
@@ -73,7 +218,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 form-group-animated">
                                 <label class="form-label fw-bold">Auction End Date</label>
                                 <div class="row">
                                     <div class="col-6">
@@ -88,40 +233,41 @@
                             </div>
 
                             <!-- Additional Filters -->
-                            <div class="col-12 mb-3">
-                                <h6 class="fw-bold text-primary">Additional Filters</h6>
-                                <hr>
+                            <div class="col-12 mb-3 form-group-animated">
+                                <h6 class="fw-bold text-primary animate__animated animate__fadeIn">Additional Filters</h6>
+                                <hr class="animate__animated animate__fadeIn">
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <div class="form-check">
-                                    <input asp-for="HasBids" class="form-check-input" value="true">
-                                    <label class="form-check-label fw-bold">
-                                        Items with bids only
-                                    </label>
-                                    <div class="form-text">Show only items that have received at least one bid</div>
-                                </div>
-                            </div>
+                            <div class="col-md-6 mb-3 form-group-animated">
+    <label for="hasBidsFilter" class="form-label fw-bold">Bids</label>
+    <select asp-for="HasBids" class="form-select" id="hasBidsFilter">
+        <option value="">All</option>
+        <option value="true">With Bids</option>
+        <option value="false">Without Bids</option>
+    </select>
+    <div class="form-text">Filter by bid status</div>
+</div>
 
-                            <div class="col-md-6 mb-3">
+
+                            <div class="col-md-6 mb-3 form-group-animated">
                                 <label class="form-label fw-bold">Location</label>
                                 <input asp-for="Location" class="form-control" placeholder="City, State, or Country">
                                 <div class="form-text">Filter by seller location</div>
                             </div>
 
                             <!-- Sort Options -->
-                            <div class="col-12 mb-3">
-                                <h6 class="fw-bold text-primary">Sort Results</h6>
-                                <hr>
+                            <div class="col-12 mb-3 form-group-animated">
+                                <h6 class="fw-bold text-primary animate__animated animate__fadeIn">Sort Results</h6>
+                                <hr class="animate__animated animate__fadeIn">
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 form-group-animated">
                                 <label class="form-label fw-bold">Sort By</label>
                                 <select asp-for="SortBy" class="form-select" asp-items="Model.SortOptions">
                                 </select>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 form-group-animated">
                                 <label class="form-label fw-bold">Sort Order</label>
                                 <select asp-for="SortOrder" class="form-select">
                                     <option value="asc">Ascending</option>
@@ -130,7 +276,7 @@
                             </div>
 
                             <!-- Results Per Page -->
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 form-group-animated">
                                 <label class="form-label fw-bold">Results Per Page</label>
                                 <select asp-for="PageSize" class="form-select">
                                     <option value="6">6 items</option>
@@ -146,15 +292,15 @@
                             <div class="col-12">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <button type="submit" class="btn btn-primary btn-lg">
+                                        <button type="submit" class="btn btn-primary btn-lg shadow-sm">
                                             <i class="fas fa-search me-2"></i>Search Items
                                         </button>
-                                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary btn-lg ms-2">
+                                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary btn-lg ms-2 shadow-sm">
                                             <i class="fas fa-times me-2"></i>Clear All
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="@Url.Action("Index")" class="btn btn-link">
+                                        <a href="@Url.Action("Index")" class="btn btn-link text-decoration-none text-primary">
                                             <i class="fas fa-arrow-left me-1"></i>Back to Simple Search
                                         </a>
                                     </div>
@@ -166,28 +312,28 @@
             </div>
 
             <!-- Search Tips -->
-            <div class="card mt-4">
-                <div class="card-header">
-                    <h6 class="mb-0">
-                        <i class="fas fa-lightbulb me-2"></i>Search Tips
+            <div class="card mt-4 shadow-lg rounded-3">
+                <div class="card-header bg-light p-3 rounded-top-3">
+                    <h6 class="mb-0 text-dark animate__animated animate__fadeInRight">
+                        <i class="fas fa-lightbulb me-2 text-warning"></i>Search Tips
                     </h6>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6 class="fw-bold">Keyword Search</h6>
-                            <ul class="small text-muted">
-                                <li>Use specific terms for better results</li>
-                                <li>Search looks in both title and description</li>
-                                <li>Multiple words will find items containing all words</li>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6 form-group-animated">
+                            <h6 class="fw-bold text-primary">Keyword Search</h6>
+                            <ul class="small text-muted list-unstyled">
+                                <li class="mb-1"><i class="fas fa-check-circle me-2 text-success"></i>Use specific terms for better results</li>
+                                <li class="mb-1"><i class="fas fa-search me-2 text-info"></i>Search looks in both title and description</li>
+                                <li><i class="fas fa-tags me-2 text-secondary"></i>Multiple words will find items containing all words</li>
                             </ul>
                         </div>
-                        <div class="col-md-6">
-                            <h6 class="fw-bold">Price & Date Filters</h6>
-                            <ul class="small text-muted">
-                                <li>Leave price fields empty for no limit</li>
-                                <li>Date ranges help find auctions in specific periods</li>
-                                <li>Combine filters for more precise results</li>
+                        <div class="col-md-6 form-group-animated">
+                            <h6 class="fw-bold text-primary">Price & Date Filters</h6>
+                            <ul class="small text-muted list-unstyled">
+                                <li class="mb-1"><i class="fas fa-dollar-sign me-2 text-success"></i>Leave price fields empty for no limit</li>
+                                <li class="mb-1"><i class="fas fa-calendar-alt me-2 text-info"></i>Date ranges help find auctions in specific periods</li>
+                                <li><i class="fas fa-filter me-2 text-secondary"></i>Combine filters for more precise results</li>
                             </ul>
                         </div>
                     </div>
@@ -199,28 +345,39 @@
 
 @section Scripts {
     <script>
-        // Auto-submit form when certain fields change
         document.addEventListener('DOMContentLoaded', function() {
-            // Set default values
-            const today = new Date().toISOString().split('T')[0];
-            
-            // Add some interactivity
+            // Set default values (if needed, but functionality states no change)
+            // const today = new Date().toISOString().split('T')[0];
+
+            // Add some interactivity for price range
             const minPriceInput = document.querySelector('input[name="MinPrice"]');
             const maxPriceInput = document.querySelector('input[name="MaxPrice"]');
-            
+
             if (minPriceInput && maxPriceInput) {
                 minPriceInput.addEventListener('change', function() {
                     if (this.value && maxPriceInput.value && parseFloat(this.value) > parseFloat(maxPriceInput.value)) {
                         maxPriceInput.value = this.value;
                     }
                 });
-                
+
                 maxPriceInput.addEventListener('change', function() {
                     if (this.value && minPriceInput.value && parseFloat(this.value) < parseFloat(minPriceInput.value)) {
                         minPriceInput.value = this.value;
                     }
                 });
             }
+
+            // Animate form elements on load
+            const formGroups = document.querySelectorAll('.form-group-animated');
+            formGroups.forEach((group, index) => {
+                group.style.animationDelay = `${0.4 + index * 0.1}s`; /* Staggered delay */
+            });
+
+            // Animate headers and HRs
+            const animatedHeaders = document.querySelectorAll('.card-header h4, .card-header h6, .col-12.mb-3 h6, .col-12.mb-3 hr');
+            animatedHeaders.forEach((el, index) => {
+                el.style.animationDelay = `${0.2 + index * 0.05}s`;
+            });
         });
     </script>
 }

@@ -5,92 +5,76 @@
 
 <div class="container-fluid py-4">
     <!-- Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h2 class="mb-1">Sales Analytics</h2>
-                    <p class="text-muted">Track your selling performance and insights</p>
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-8">
+            <h2 class="display-4 fw-bold text-primary mb-0">Sales Overview</h2>
+            <p class="lead text-muted">A comprehensive look at your selling performance and insights.</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="@Url.Action("Dashboard")" class="btn btn-outline-primary btn-lg rounded-pill px-4">
+                <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Key Metrics - Redesigned Cards -->
+    <div class="row mb-5">
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100 analytics-card bg-gradient-primary text-white">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title text-white-50 mb-0">Total Listings</h5>
+                        <i class="fas fa-list fa-3x text-white-50"></i>
+                    </div>
+                    <h3 class="display-6 fw-bold">@Model.TotalListings</h3>
+                    <p class="mb-0 text-white-75">All items you've posted</p>
                 </div>
-                <div>
-                    <a href="@Url.Action("Dashboard")" class="btn btn-outline-primary">
-                        <i class="fas fa-tachometer-alt me-1"></i>Dashboard
-                    </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100 analytics-card bg-gradient-success text-white">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title text-white-50 mb-0">Items Sold</h5>
+                        <i class="fas fa-check-circle fa-3x text-white-50"></i>
+                    </div>
+                    <h3 class="display-6 fw-bold">@Model.SoldItems</h3>
+                    <p class="mb-0 text-white-75">Successful transactions</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100 analytics-card bg-gradient-info text-white">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title text-white-50 mb-0">Total Earnings</h5>
+                        <i class="fas fa-dollar-sign fa-3x text-white-50"></i>
+                    </div>
+                    <h3 class="display-6 fw-bold">$@Model.TotalEarnings.ToString("N2")</h3>
+                    <p class="mb-0 text-white-75">Gross revenue from sales</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100 analytics-card bg-gradient-warning text-white">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title text-white-50 mb-0">Success Rate</h5>
+                        <i class="fas fa-percentage fa-3x text-white-50"></i>
+                    </div>
+                    <h3 class="display-6 fw-bold">@Model.ConversionRate.ToString("N1")%</h3>
+                    <p class="mb-0 text-white-75">Listings converted to sales</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Key Metrics -->
-    <div class="row mb-4">
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h3 class="mb-0">@Model.TotalListings</h3>
-                            <p class="mb-0">Total Listings</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-list fa-2x opacity-75"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h3 class="mb-0">@Model.SoldItems</h3>
-                            <p class="mb-0">Items Sold</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-check-circle fa-2x opacity-75"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h3 class="mb-0">$@Model.TotalEarnings.ToString("N2")</h3>
-                            <p class="mb-0">Total Earnings</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-dollar-sign fa-2x opacity-75"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h3 class="mb-0">@Model.ConversionRate.ToString("N1")%</h3>
-                            <p class="mb-0">Success Rate</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-percentage fa-2x opacity-75"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
+    <div class="row mb-5">
         <!-- Monthly Earnings Chart -->
         <div class="col-lg-8 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Monthly Earnings (Last 12 Months)</h5>
+            <div class="card border-0 shadow h-100">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0 text-primary fw-bold">Monthly Earnings (Last 12 Months)</h5>
                 </div>
                 <div class="card-body">
                     @if (Model.MonthlyEarnings.Any())
@@ -99,10 +83,10 @@
                     }
                     else
                     {
-                        <div class="text-center py-4">
-                            <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
-                            <h6 class="text-muted">No earnings data available</h6>
-                            <p class="text-muted">Start selling to see your earnings trends!</p>
+                        <div class="text-center py-5 my-3">
+                            <i class="fas fa-chart-line fa-4x text-light mb-4"></i>
+                            <h5 class="text-muted fw-normal">No earnings data available yet.</h5>
+                            <p class="text-muted">Start selling items to see your financial trends here!</p>
                         </div>
                     }
                 </div>
@@ -111,32 +95,34 @@
 
         <!-- Top Categories -->
         <div class="col-lg-4 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Top Categories</h5>
+            <div class="card border-0 shadow h-100">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0 text-primary fw-bold">Top Performing Categories</h5>
                 </div>
                 <div class="card-body">
                     @if (Model.TopCategories.Any())
                     {
-                        @foreach (var category in Model.TopCategories)
-                        {
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                    <div class="fw-bold">@category.CategoryName</div>
-                                    <small class="text-muted">@category.ItemCount items</small>
-                                </div>
-                                <div class="text-end">
-                                    <div class="fw-bold text-success">$@category.AveragePrice.ToString("N2")</div>
-                                    <small class="text-muted">avg price</small>
-                                </div>
-                            </div>
-                        }
+                        <ul class="list-group list-group-flush">
+                            @foreach (var category in Model.TopCategories)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                    <div>
+                                        <h6 class="mb-1 text-dark">@category.CategoryName</h6>
+                                        <small class="text-muted">@category.ItemCount items sold</small>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-success-soft text-success fw-bold p-2">$@category.AveragePrice.ToString("N2")</span>
+                                        <small class="d-block text-muted">avg price</small>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
                     }
                     else
                     {
-                        <div class="text-center py-3">
-                            <i class="fas fa-tags fa-2x text-muted mb-2"></i>
-                            <p class="text-muted mb-0">No category data yet</p>
+                        <div class="text-center py-5 my-3">
+                            <i class="fas fa-tags fa-4x text-light mb-4"></i>
+                            <p class="text-muted mb-0">No category data yet. Sell some items to populate this list!</p>
                         </div>
                     }
                 </div>
@@ -147,62 +133,62 @@
     <!-- Recent Sales -->
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Recent Sales</h5>
+            <div class="card border-0 shadow">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0 text-primary fw-bold">Recent Sales Activity</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     @if (Model.RecentSales.Any())
                     {
                         <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
+                            <table class="table table-hover table-striped mb-0">
+                                <thead class="bg-light">
                                     <tr>
-                                        <th>Item</th>
-                                        <th>Category</th>
-                                        <th>Final Price</th>
-                                        <th>Sold Date</th>
-                                        <th>Actions</th>
+                                        <th scope="col" class="text-muted text-uppercase fw-normal ps-4 py-3">Item Details</th>
+                                        <th scope="col" class="text-muted text-uppercase fw-normal py-3">Category</th>
+                                        <th scope="col" class="text-muted text-uppercase fw-normal py-3">Final Price</th>
+                                        <th scope="col" class="text-muted text-uppercase fw-normal py-3">Sold Date</th>
+                                        <th scope="col" class="text-muted text-uppercase fw-normal pe-4 py-3">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model.RecentSales)
                                     {
                                         <tr>
-                                            <td>
+                                            <td class="ps-4 py-3">
                                                 <div class="d-flex align-items-center">
                                                     @if (item.Images.Any())
                                                     {
                                                         <img src="@item.Images.First().ImagePath" alt="@item.Name" 
-                                                             class="rounded me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                             class="rounded-3 me-3" style="width: 60px; height: 60px; object-fit: cover; border: 1px solid #eee;">
                                                     }
                                                     else
                                                     {
-                                                        <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
-                                                             style="width: 40px; height: 40px;">
-                                                            <i class="fas fa-image text-muted"></i>
+                                                        <div class="bg-light rounded-3 me-3 d-flex align-items-center justify-content-center" 
+                                                             style="width: 60px; height: 60px; border: 1px solid #eee;">
+                                                            <i class="fas fa-image text-muted fa-lg"></i>
                                                         </div>
                                                     }
                                                     <div>
-                                                        <div class="fw-bold">@item.Name</div>
+                                                        <h6 class="fw-bold mb-0">@item.Name</h6>
                                                         <small class="text-muted">ID: @item.ItemId</small>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <span class="badge bg-info">@item.CategoryName</span>
+                                            <td class="py-3">
+                                                <span class="badge bg-info-soft text-info fw-normal p-2">@item.CategoryName</span>
                                             </td>
-                                            <td>
-                                                <div class="fw-bold text-success">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</div>
+                                            <td class="py-3">
+                                                <div class="fw-bold text-success fs-6">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</div>
                                                 <small class="text-muted">@item.BidCount bids</small>
                                             </td>
-                                            <td>
-                                                <div>@item.EndDate.ToString("MMM dd, yyyy")</div>
+                                            <td class="py-3">
+                                                <div class="fw-normal">@item.EndDate.ToString("MMM dd, yyyy")</div>
                                                 <small class="text-muted">@item.EndDate.ToString("h:mm tt")</small>
                                             </td>
-                                            <td>
+                                            <td class="pe-4 py-3">
                                                 <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
-                                                   class="btn btn-sm btn-outline-primary">View</a>
+                                                   class="btn btn-sm btn-outline-primary rounded-pill px-3">View Details</a>
                                             </td>
                                         </tr>
                                     }
@@ -212,12 +198,12 @@
                     }
                     else
                     {
-                        <div class="text-center py-4">
-                            <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
-                            <h6 class="text-muted">No sales yet</h6>
-                            <p class="text-muted">Your sold items will appear here once you make your first sale!</p>
-                            <a href="@Url.Action("Create")" class="btn btn-primary">
-                                <i class="fas fa-plus me-1"></i>Create Your First Listing
+                        <div class="text-center py-5 my-3">
+                            <i class="fas fa-shopping-cart fa-4x text-light mb-4"></i>
+                            <h5 class="text-muted fw-normal">No sales recorded yet.</h5>
+                            <p class="text-muted col-md-6 mx-auto">It looks like you haven't made any sales. Create your first listing to start tracking your success!</p>
+                            <a href="@Url.Action("Create", "Auction")" class="btn btn-primary btn-lg rounded-pill mt-3 px-4">
+                                <i class="fas fa-plus me-2"></i>Create New Listing
                             </a>
                         </div>
                     }
@@ -241,25 +227,53 @@
                     datasets: [{
                         label: 'Monthly Earnings',
                         data: [@string.Join(",", Model.MonthlyEarnings.Select(e => e.Earnings))],
-                        borderColor: 'rgb(75, 192, 192)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                        tension: 0.1,
-                        fill: true
+                        borderColor: '#007bff', // Primary color for the line
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)', // Light primary for fill
+                        tension: 0.3, // Smoother curve
+                        fill: true,
+                        pointBackgroundColor: '#007bff',
+                        pointBorderColor: '#fff',
+                        pointRadius: 5,
+                        pointHoverRadius: 7
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false, // Allow custom height
                     plugins: {
                         legend: {
-                            display: false
+                            display: false // No legend needed for single dataset
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.dataset.label + ': $' + context.parsed.y.toFixed(2);
+                                }
+                            }
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
+                            grid: {
+                                color: '#f0f0f0' // Lighter grid lines
+                            },
                             ticks: {
                                 callback: function(value) {
-                                    return '$' + value.toFixed(2);
+                                    return '$' + value.toFixed(0); // Simplify tick labels
+                                },
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false // No vertical grid lines
+                            },
+                            ticks: {
+                                font: {
+                                    size: 12
                                 }
                             }
                         }
@@ -271,14 +285,99 @@
 }
 
 @section Styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #f8f9fa; /* Light background for the whole page */
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .container-fluid {
+            max-width: 1400px;
+        }
+
+        /* Gradient cards for key metrics */
+        .analytics-card {
+            border-radius: 0.75rem;
+            overflow: hidden;
+            position: relative;
+            min-height: 150px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+            transition: all 0.3s ease-in-out;
+        }
+        .analytics-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+        }
+        .bg-gradient-success {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%) !important;
+        }
+        .bg-gradient-info {
+            background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%) !important;
+        }
+        .bg-gradient-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #d39e00 100%) !important;
+        }
+
+        /* General Card styling */
         .card {
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease-in-out;
+        }
+        .card:hover:not(.analytics-card) {
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+        }
+
+        .card-header {
+            border-bottom: 1px solid #f0f0f0;
+            background-color: #fff;
+            border-radius: 0.75rem 0.75rem 0 0;
         }
         
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        /* Badges for categories and statuses */
+        .badge {
+            font-size: 0.8em;
+            padding: 0.5em 0.8em;
+            border-radius: 0.5rem;
+            font-weight: 600;
+        }
+        .bg-info-soft {
+            background-color: rgba(23, 162, 184, 0.1);
+        }
+        .bg-success-soft {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        /* Table styling */
+        .table thead th {
+            border-bottom: 1px solid #e9ecef;
+            color: #6c757d;
+            font-weight: 500;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+        .table tbody tr:last-child {
+            border-bottom: none;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #fcfcfc;
+        }
+
+        /* Custom empty state styling */
+        .text-light {
+            color: #dee2e6 !important; /* Lighter grey for icons */
+        }
+        .btn-lg {
+            font-size: 1rem;
+            padding: 0.75rem 1.5rem;
         }
     </style>
 }

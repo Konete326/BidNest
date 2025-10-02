@@ -1,14 +1,14 @@
-body {
-    scrollbar-width: thin;          /* "auto" or "thin" */
-    scrollbar-color: #DCB958 black;   /* scroll thumb and track */ 
+/*body {
+    scrollbar-width: thin;           "auto" or "thin" 
+    scrollbar-color: #DCB958 black;    scroll thumb and track  
   }
-  /* Works on Firefox */
+   Works on Firefox 
 * {
     scrollbar-width: thin;
     scrollbar-color: #DCB958 black;
   }
   
-  /* Works on Chrome, Edge, and Safari */
+   Works on Chrome, Edge, and Safari 
   *::-webkit-scrollbar {
     width: 12px;
   }
@@ -21,4 +21,4 @@ body {
     background-color: #DCB958;
     border-radius: 20px;
     border: 3px solid black;
-  }
+  }*/

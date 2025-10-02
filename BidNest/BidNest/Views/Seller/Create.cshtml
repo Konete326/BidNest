@@ -3,41 +3,45 @@
     ViewData["Title"] = "Sell an Item";
 }
 
-<div class="container py-4">
+<div class="container-fluid py-5 bg-light">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-xl-9 col-lg-10">
             <!-- Header -->
-            <div class="text-center mb-4">
-                <h2 class="mb-2">Sell an Item</h2>
-                <p class="text-muted">Create a new auction listing for your item</p>
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold text-primary mb-3">List Your Item for Auction</h1>
+                <p class="lead text-muted">Ready to sell? Follow these simple steps to create your new listing!</p>
             </div>
 
-            <!-- Progress Steps -->
-            <div class="card mb-4">
+            <!-- Progress Steps - Modernized -->
+            <div class="card shadow-sm mb-5 p-3">
                 <div class="card-body">
-                    <div class="row text-center">
-                        <div class="col-3">
+                    <div class="row align-items-center text-center">
+                        <div class="col-md-3 col-6 mb-3 mb-md-0">
                             <div class="step-item active">
-                                <div class="step-number">1</div>
-                                <small>Item Details</small>
+                                <div class="step-icon">1</div>
+                                <h6 class="mt-2 mb-0 d-none d-md-block">Item Details</h6>
+                                <small class="d-md-none">Details</small>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-md-3 col-6 mb-3 mb-md-0">
                             <div class="step-item">
-                                <div class="step-number">2</div>
-                                <small>Images</small>
+                                <div class="step-icon">2</div>
+                                <h6 class="mt-2 mb-0 d-none d-md-block">Images</h6>
+                                <small class="d-md-none">Photos</small>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-md-3 col-6">
                             <div class="step-item">
-                                <div class="step-number">3</div>
-                                <small>Pricing</small>
+                                <div class="step-icon">3</div>
+                                <h6 class="mt-2 mb-0 d-none d-md-block">Pricing</h6>
+                                <small class="d-md-none">Bids</small>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-md-3 col-6">
                             <div class="step-item">
-                                <div class="step-number">4</div>
-                                <small>Review</small>
+                                <div class="step-icon">4</div>
+                                <h6 class="mt-2 mb-0 d-none d-md-block">Review & Submit</h6>
+                                <small class="d-md-none">Review</small>
                             </div>
                         </div>
                     </div>
@@ -46,33 +50,33 @@
 
             <!-- Main Form -->
             <form asp-action="Create" method="post" enctype="multipart/form-data" id="sellItemForm">
-                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4 fade show" role="alert"></div>
 
                 <!-- Step 1: Item Details -->
-                <div class="card mb-4" id="step-1">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Item Information</h5>
+                <div class="card shadow-sm mb-4" id="step-1">
+                    <div class="card-header bg-white py-4">
+                        <h4 class="mb-0 text-primary"><i class="fas fa-box-open me-2"></i>Item Information</h4>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label asp-for="Name" class="form-label">Item Name *</label>
-                                <input asp-for="Name" class="form-control" placeholder="Enter a descriptive name for your item">
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                                <div class="form-text">Choose a clear, descriptive name that buyers will search for</div>
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label asp-for="Name" class="form-label fw-semibold">Item Name <span class="text-danger">*</span></label>
+                                <input asp-for="Name" class="form-control form-control-lg" placeholder="e.g., Vintage Leather Jacket, Antique Silver Watch">
+                                <span asp-validation-for="Name" class="text-danger mt-1 d-block"></span>
+                                <div class="form-text">Craft a clear and descriptive title that buyers will easily find.</div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="CategoryId" class="form-label">Category *</label>
-                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
-                                    <option value="">Select a category</option>
+                            <div class="col-md-6">
+                                <label asp-for="CategoryId" class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+                                <select asp-for="CategoryId" class="form-select form-select-lg" asp-items="ViewBag.Categories">
+                                    <option value="">Choose a category</option>
                                 </select>
-                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                                <span asp-validation-for="CategoryId" class="text-danger mt-1 d-block"></span>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="AuctionDurationDays" class="form-label">Auction Duration</label>
-                                <select asp-for="AuctionDurationDays" class="form-select">
+                            <div class="col-md-6">
+                                <label asp-for="AuctionDurationDays" class="form-label fw-semibold">Auction Duration <span class="text-danger">*</span></label>
+                                <select asp-for="AuctionDurationDays" class="form-select form-select-lg">
                                     <option value="1">1 Day</option>
                                     <option value="3">3 Days</option>
                                     <option value="5">5 Days</option>
@@ -82,17 +86,17 @@
                                     <option value="21">21 Days</option>
                                     <option value="30">30 Days</option>
                                 </select>
-                                <span asp-validation-for="AuctionDurationDays" class="text-danger"></span>
+                                <span asp-validation-for="AuctionDurationDays" class="text-danger mt-1 d-block"></span>
                             </div>
 
-                            <div class="col-12 mb-3">
-                                <label asp-for="Description" class="form-label">Description *</label>
-                                <textarea asp-for="Description" class="form-control" rows="6" 
-                                          placeholder="Describe your item in detail. Include condition, features, dimensions, and any flaws."></textarea>
-                                <span asp-validation-for="Description" class="text-danger"></span>
-                                <div class="form-text">
-                                    <span id="char-count">0</span>/2000 characters. 
-                                    Include condition, size, brand, and any defects.
+                            <div class="col-12">
+                                <label asp-for="Description" class="form-label fw-semibold">Detailed Description <span class="text-danger">*</span></label>
+                                <textarea asp-for="Description" class="form-control" rows="8" 
+                                          placeholder="Tell buyers everything about your item: condition, features, dimensions, any unique history, and specific flaws."></textarea>
+                                <span asp-validation-for="Description" class="text-danger mt-1 d-block"></span>
+                                <div class="form-text d-flex justify-content-between">
+                                    <span>Include condition, size, brand, and any defects.</span>
+                                    <span><span id="char-count">0</span>/2000 characters</span>
                                 </div>
                             </div>
                         </div>
@@ -100,71 +104,79 @@
                 </div>
 
                 <!-- Step 2: Images -->
-                <div class="card mb-4" id="step-2">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="fas fa-camera me-2"></i>Item Images</h5>
+                <div class="card shadow-sm mb-4" id="step-2">
+                    <div class="card-header bg-white py-4">
+                        <h4 class="mb-0 text-primary"><i class="fas fa-camera-retro me-2"></i>Item Images</h4>
                     </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label asp-for="Images" class="form-label">Upload Images</label>
-                            <input asp-for="Images" type="file" class="form-control" multiple accept="image/*" id="imageInput">
-                            <span asp-validation-for="Images" class="text-danger"></span>
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <label asp-for="Images" class="form-label fw-semibold">Upload High-Quality Photos <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input asp-for="Images" type="file" class="form-control form-control-lg" multiple accept="image/*" id="imageInput">
+                                <label class="input-group-text btn btn-primary" for="imageInput"><i class="fas fa-upload me-2"></i>Browse Files</label>
+                            </div>
+                            <span asp-validation-for="Images" class="text-danger mt-1 d-block"></span>
                             <div class="form-text">
-                                Upload up to 10 high-quality images. First image will be the main photo.
-                                Supported formats: JPG, PNG, GIF (Max 5MB each)
+                                Upload up to 10 clear images. The first image will be your main listing photo.
+                                Supported: JPG, PNG, GIF (Max 5MB per file).
                             </div>
                         </div>
 
                         <!-- Image Preview -->
-                        <div id="imagePreview" class="row"></div>
+                        <div id="imagePreview" class="row g-3 mb-4">
+                            <div class="col-12 text-center text-muted py-5 border rounded bg-light-subtle d-flex align-items-center justify-content-center" id="imagePreviewPlaceholder">
+                                <i class="fas fa-images fa-3x me-3 text-secondary"></i>
+                                <p class="mb-0 fs-5">Your uploaded images will appear here.</p>
+                            </div>
+                        </div>
 
                         <!-- Upload Tips -->
-                        <div class="alert alert-info">
-                            <h6><i class="fas fa-lightbulb me-1"></i>Photo Tips:</h6>
-                            <ul class="mb-0">
-                                <li>Use good lighting and clear focus</li>
-                                <li>Show the item from multiple angles</li>
-                                <li>Include close-ups of important details</li>
-                                <li>Show any flaws or damage honestly</li>
+                        <div class="alert alert-info bg-info-subtle border-0 rounded-3 p-4">
+                            <h6 class="alert-heading text-info mb-3"><i class="fas fa-lightbulb me-2"></i>Pro Photo Tips:</h6>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-2"><i class="fas fa-check-circle text-info me-2"></i>Use bright, natural lighting and a clean background.</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-info me-2"></i>Capture multiple angles and close-ups of details.</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-info me-2"></i>Honesty is key: clearly show any flaws or damage.</li>
+                                <li><i class="fas fa-check-circle text-info me-2"></i>High-resolution images attract more bids!</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <!-- Step 3: Pricing -->
-                <div class="card mb-4" id="step-3">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="fas fa-dollar-sign me-2"></i>Pricing & Auction Settings</h5>
+                <div class="card shadow-sm mb-4" id="step-3">
+                    <div class="card-header bg-white py-4">
+                        <h4 class="mb-0 text-primary"><i class="fas fa-tags me-2"></i>Pricing & Auction Settings</h4>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="MinimumBid" class="form-label">Starting Bid *</label>
-                                <div class="input-group">
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="MinimumBid" class="form-label fw-semibold">Starting Bid <span class="text-danger">*</span></label>
+                                <div class="input-group input-group-lg">
                                     <span class="input-group-text">$</span>
                                     <input asp-for="MinimumBid" class="form-control" placeholder="0.00" step="0.01">
                                 </div>
-                                <span asp-validation-for="MinimumBid" class="text-danger"></span>
-                                <div class="form-text">Set a competitive starting price to attract bidders</div>
+                                <span asp-validation-for="MinimumBid" class="text-danger mt-1 d-block"></span>
+                                <div class="form-text">A competitive starting bid can generate more interest.</div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Estimated Final Value</label>
-                                <div class="input-group">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Estimated Final Value</label>
+                                <div class="input-group input-group-lg">
                                     <span class="input-group-text">$</span>
                                     <input type="number" class="form-control" id="estimatedValue" placeholder="0.00" step="0.01">
                                 </div>
-                                <div class="form-text">What do you think this item is worth?</div>
+                                <div class="form-text">What do you realistically expect your item to sell for?</div>
                             </div>
 
-                            <div class="col-12">
-                                <div class="alert alert-warning">
-                                    <h6><i class="fas fa-info-circle me-1"></i>Pricing Guidelines:</h6>
-                                    <ul class="mb-0">
-                                        <li><strong>Start Low:</strong> Lower starting bids attract more bidders</li>
-                                        <li><strong>Research:</strong> Check completed auctions for similar items</li>
-                                        <li><strong>Be Realistic:</strong> Overpriced items may not receive bids</li>
-                                        <li><strong>Consider Fees:</strong> Factor in any selling fees</li>
+                            <div class="col-12 mt-4">
+                                <div class="alert alert-warning bg-warning-subtle border-0 rounded-3 p-4">
+                                    <h6 class="alert-heading text-warning mb-3"><i class="fas fa-hand-holding-usd me-2"></i>Smart Pricing Guidelines:</h6>
+                                    <ul class="list-unstyled mb-0">
+                                        <li class="mb-2"><i class="fas fa-lightbulb text-warning me-2"></i><strong>Research Past Sales:</strong> Check BidNest for similar completed auctions.</li>
+                                        <li class="mb-2"><i class="fas fa-chart-line text-warning me-2"></i><strong>Lower Bids = More Interest:</strong> A low starting bid can spark a bidding war.</li>
+                                        <li class="mb-2"><i class="fas fa-balance-scale text-warning me-2"></i><strong>Be Realistic:</strong> Overpriced items often go unsold.</li>
+                                        <li><i class="fas fa-percent text-warning me-2"></i><strong>Factor in Fees:</strong> Remember to account for any applicable selling fees.</li>
                                     </ul>
                                 </div>
                             </div>
@@ -173,54 +185,50 @@
                 </div>
 
                 <!-- Step 4: Review & Submit -->
-                <div class="card mb-4" id="step-4">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="fas fa-check-circle me-2"></i>Review Your Listing</h5>
+                <div class="card shadow-sm mb-4" id="step-4">
+                    <div class="card-header bg-white py-4">
+                        <h4 class="mb-0 text-primary"><i class="fas fa-clipboard-check me-2"></i>Review Your Listing</h4>
                     </div>
-                    <div class="card-body">
-                        <div class="alert alert-info">
-                            <h6><i class="fas fa-clock me-1"></i>What happens next?</h6>
-                            <ol class="mb-0">
-                                <li>Your listing will be submitted for review</li>
-                                <li>Our team will approve it within 24 hours</li>
-                                <li>Once approved, your auction will go live</li>
-                                <li>You'll receive email notifications for bids</li>
+                    <div class="card-body p-4">
+                        <div class="alert alert-success bg-success-subtle border-0 rounded-3 p-4 mb-4">
+                            <h6 class="alert-heading text-success mb-3"><i class="fas fa-calendar-check me-2"></i>What Happens After Submission?</h6>
+                            <ol class="mb-0 ps-3">
+                                <li class="mb-2">Your listing undergoes a quick review by our team (typically within 24 hours).</li>
+                                <li class="mb-2">Once approved, your auction will officially go live!</li>
+                                <li class="mb-2">You'll receive email notifications for new bids and important updates.</li>
+                                <li>Get ready for bids to roll in!</li>
                             </ol>
                         </div>
 
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="termsCheck" required>
-                            <label class="form-check-label" for="termsCheck">
-                                I agree to the <a href="#" target="_blank">Terms of Service</a> and 
-                                <a href="#" target="_blank">Seller Agreement</a>
+                            <label class="form-check-label fw-semibold" for="termsCheck">
+                                I agree to the <a href="#" target="_blank" class="text-primary fw-bold">Terms of Service</a> and 
+                                <a href="#" target="_blank" class="text-primary fw-bold">Seller Agreement</a> <span class="text-danger">*</span>
                             </label>
                         </div>
 
-                        <div class="form-check mb-3">
+                        <div class="form-check mb-4">
                             <input class="form-check-input" type="checkbox" id="accurateCheck" required>
-                            <label class="form-check-label" for="accurateCheck">
-                                I confirm that all information provided is accurate and complete
+                            <label class="form-check-label fw-semibold" for="accurateCheck">
+                                I confirm that all information provided in this listing is accurate, complete, and truthful <span class="text-danger">*</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <a href="@Url.Action("Dashboard")" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
-                            </a>
-                            <div>
-                                <button type="button" class="btn btn-outline-primary me-2" id="saveAsDraft">
-                                    <i class="fas fa-save me-1"></i>Save as Draft
-                                </button>
-                                <button type="submit" class="btn btn-primary btn-lg">
-                                    <i class="fas fa-gavel me-1"></i>Submit for Review
-                                </button>
-                            </div>
-                        </div>
+                <div class="d-flex justify-content-between align-items-center mt-5 mb-5">
+                    <a href="@Url.Action("Dashboard")" class="btn btn-outline-secondary btn-lg d-flex align-items-center">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                    </a>
+                    <div class="d-flex">
+                        <button type="button" class="btn btn-outline-primary btn-lg me-3 d-flex align-items-center" id="saveAsDraft">
+                            <i class="fas fa-save me-2"></i>Save as Draft
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-lg d-flex align-items-center">
+                            <i class="fas fa-gavel me-2"></i>Submit for Review
+                        </button>
                     </div>
                 </div>
             </form>
@@ -229,86 +237,233 @@
 </div>
 
 @section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfGv1S/1/4mF/W6m5uI6L3f0Qz3b6t1vS5T5wL7p/" crossorigin="anonymous">
     <style>
+        body {
+            background-color: #f8f9fa; /* Lighter background for the entire page */
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .container-fluid {
+            max-width: 1400px; /* Constrain width for large screens */
+        }
+
+        /* Step Progress */
         .step-item {
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #adb5bd; /* Default text color for inactive steps */
+            font-weight: 500;
         }
-        
-        .step-number {
-            width: 40px;
-            height: 40px;
+
+        .step-icon {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: #e9ecef;
             color: #6c757d;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 8px;
+            margin-bottom: 8px;
+            font-size: 1.25rem;
             font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid transparent; /* Added for active state */
         }
         
-        .step-item.active .step-number {
-            background: #0d6efd;
+        .step-item.active .step-icon {
+            background: var(--bs-primary); /* Bootstrap primary color */
             color: white;
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); /* Focus-like glow */
+        }
+
+        .step-item.active {
+            color: var(--bs-primary); /* Active step text color */
+        }
+
+        .step-item.completed .step-icon {
+            background: var(--bs-success); /* Bootstrap success color */
+            color: white;
+            border-color: var(--bs-success);
+        }
+
+        /* Card styling */
+        .card {
+            border-radius: 1rem; /* More rounded corners for cards */
+            border: none;
+            overflow: hidden; /* Ensures header corners are also rounded with parent */
+        }
+
+        .card-header {
+            background-color: #ffffff; /* White background for headers */
+            border-bottom: 1px solid #e0e0e0; /* Lighter border */
+            border-radius: 1rem 1rem 0 0; /* Match parent card border radius */
         }
         
-        .step-item.completed .step-number {
-            background: #198754;
-            color: white;
+        .card-body {
+            background-color: #ffffff;
+            border-radius: 0 0 1rem 1rem; /* Match parent card border radius */
+        }
+
+        /* Form elements */
+        .form-control, .form-select {
+            border-radius: 0.5rem; /* Slightly rounded inputs */
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+
+        .form-control-lg, .form-select-lg {
+            padding: 0.85rem 1.25rem;
+            font-size: 1.1rem;
+        }
+
+        .input-group-text {
+            border-radius: 0.5rem 0 0 0.5rem !important; /* Adjust border-radius for input group text */
+            background-color: #e9ecef;
+            color: #495057;
+            font-weight: 600;
+        }
+        .input-group > .form-control, .input-group > .form-select {
+            border-radius: 0 0.5rem 0.5rem 0 !important; /* Adjust border-radius for input within group */
+        }
+
+        textarea.form-control {
+            resize: vertical; /* Allow vertical resizing */
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+
+        /* Alerts and tips */
+        .alert {
+            border-left: 5px solid; /* Accent border */
+            border-radius: 0.75rem;
+        }
+        .alert-info { border-left-color: var(--bs-info); }
+        .alert-warning { border-left-color: var(--bs-warning); }
+        .alert-success { border-left-color: var(--bs-success); }
+
+        /* Image Preview */
+        #imagePreviewPlaceholder {
+            min-height: 150px;
+            color: #ced4da; /* Lighter placeholder color */
+            border: 2px dashed #e9ecef !important;
         }
         
         .image-preview-item {
             position: relative;
-            margin-bottom: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         
+        .image-preview-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
+        }
+
         .image-preview-item img {
             width: 100%;
-            height: 150px;
+            height: 180px; /* Increased height for better preview */
             object-fit: cover;
-            border-radius: 8px;
+            display: block;
         }
         
         .image-preview-item .remove-image {
             position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(220, 53, 69, 0.8);
+            top: 8px;
+            right: 8px;
+            background: rgba(220, 53, 69, 0.9); /* More opaque */
             color: white;
             border: none;
             border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            font-size: 12px;
+            width: 30px; /* Larger button */
+            height: 30px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
         }
         
         .image-preview-item .primary-badge {
             position: absolute;
-            top: 5px;
-            left: 5px;
-            background: rgba(13, 110, 253, 0.9);
+            bottom: 8px; /* Position at bottom */
+            left: 8px;
+            background: var(--bs-primary); /* Use primary color */
             color: white;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 0.5rem; /* Rounded badge */
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
         }
+
+        /* Buttons */
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+        }
+        .btn-primary {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+        }
+        .btn-outline-primary {
+            color: var(--bs-primary);
+            border-color: var(--bs-primary);
+        }
+        .btn-outline-secondary {
+            color: var(--bs-secondary);
+            border-color: var(--bs-secondary);
+        }
+        .input-group-text.btn.btn-primary {
+    color: #fff;                  /* Make text white */
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    display: flex;                /* Center icon and text horizontally + vertically */
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1rem;        /* Adjust padding to match button height */
+    line-height: 1.5;             /* Helps vertically center text better */
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.input-group-text.btn.btn-primary:hover {
+    background-color: #0a58ca;    /* Bootstrap primary hover color */
+    border-color: #0a58ca;
+}
+
     </style>
 }
 
 @section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             // Character counter for description
             $('#Description').on('input', function() {
                 const length = $(this).val().length;
-                $('#char-count').text(length);
+                const charCountSpan = $('#char-count');
+                charCountSpan.text(length);
                 
+                charCountSpan.removeClass('text-warning text-danger');
                 if (length > 1800) {
-                    $('#char-count').addClass('text-warning');
-                } else if (length > 1950) {
-                    $('#char-count').addClass('text-danger').removeClass('text-warning');
-                } else {
-                    $('#char-count').removeClass('text-warning text-danger');
+                    charCountSpan.addClass('text-warning');
+                }
+                if (length > 1950) {
+                    charCountSpan.addClass('text-danger');
                 }
             });
 
@@ -316,30 +471,53 @@
             $('#imageInput').on('change', function() {
                 const files = this.files;
                 const preview = $('#imagePreview');
-                preview.empty();
+                preview.empty(); // Clear existing previews
+                $('#imagePreviewPlaceholder').hide(); // Hide placeholder when images are added
 
-                if (files.length > 10) {
-                    alert('You can upload maximum 10 images.');
-                    this.value = '';
+                if (files.length === 0) {
+                    $('#imagePreviewPlaceholder').show(); // Show placeholder if no files selected
                     return;
                 }
 
+                if (files.length > 10) {
+                    alert('You can upload a maximum of 10 images.');
+                    this.value = ''; // Clear selected files
+                    $('#imagePreviewPlaceholder').show(); // Show placeholder again
+                    return;
+                }
+
+                let validFiles = [];
                 Array.from(files).forEach((file, index) => {
                     if (file.size > 5 * 1024 * 1024) {
-                        alert(`Image ${file.name} is too large. Maximum size is 5MB.`);
-                        return;
+                        alert(`Image "${file.name}" is too large. Maximum size is 5MB.`);
+                        // Do not add this file to validFiles
+                    } else {
+                        validFiles.push(file);
                     }
+                });
 
+                if (validFiles.length === 0) {
+                    this.value = ''; // Clear selected files if all were invalid
+                    $('#imagePreviewPlaceholder').show();
+                    return;
+                }
+                
+                // Create DataTransfer object to hold valid files for re-assignment
+                const dataTransfer = new DataTransfer();
+                validFiles.forEach(file => dataTransfer.items.add(file));
+                this.files = dataTransfer.files; // Update the input's files with only valid ones
+
+                validFiles.forEach((file, index) => {
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         const col = $(`
-                            <div class="col-md-3 col-sm-4 col-6">
+                            <div class="col-md-3 col-sm-4 col-6 image-item-container">
                                 <div class="image-preview-item">
                                     <img src="${e.target.result}" alt="Preview">
-                                    <button type="button" class="remove-image" onclick="removeImage(this)">
+                                    <button type="button" class="remove-image" data-file-name="${file.name}">
                                         <i class="fas fa-times"></i>
                                     </button>
-                                    ${index === 0 ? '<span class="primary-badge">Main Photo</span>' : ''}
+                                    ${index === 0 ? '<span class="primary-badge"><i class="fas fa-star me-1"></i>Main Photo</span>' : ''}
                                 </div>
                             </div>
                         `);
@@ -349,28 +527,73 @@
                 });
             });
 
+            // Handle removal of individual images from preview
+            $('#imagePreview').on('click', '.remove-image', function() {
+                const fileNameToRemove = $(this).data('file-name');
+                const input = $('#imageInput')[0];
+                const dataTransfer = new DataTransfer();
+                
+                // Rebuild the FileList, excluding the removed file
+                Array.from(input.files).forEach(file => {
+                    if (file.name !== fileNameToRemove) {
+                        dataTransfer.items.add(file);
+                    }
+                });
+                input.files = dataTransfer.files; // Update the input's files
+
+                $(this).closest('.image-item-container').remove(); // Remove the preview element
+
+                // If no images left, show the placeholder
+                if (input.files.length === 0) {
+                    $('#imagePreviewPlaceholder').show();
+                } else {
+                    // Re-assign "Main Photo" badge if the first one was removed
+                    const firstImageBadge = $('#imagePreview').find('.primary-badge');
+                    if (firstImageBadge.length === 0) {
+                        $('#imagePreview').find('.image-item-container:first .image-preview-item').append('<span class="primary-badge"><i class="fas fa-star me-1"></i>Main Photo</span>');
+                    }
+                }
+            });
+
             // Form validation
             $('#sellItemForm').on('submit', function(e) {
-                if (!$('#termsCheck').is(':checked') || !$('#accurateCheck').is(':checked')) {
+                if (!$('#termsCheck').is(':checked')) {
                     e.preventDefault();
-                    alert('Please accept the terms and confirm the accuracy of your listing.');
+                    alert('Please agree to the Terms of Service and Seller Agreement.');
+                    // Add visual feedback to the checkbox if desired
+                    $('#termsCheck').addClass('is-invalid');
                     return false;
+                }
+                if (!$('#accurateCheck').is(':checked')) {
+                    e.preventDefault();
+                    alert('Please confirm the accuracy and completeness of your listing.');
+                     // Add visual feedback to the checkbox if desired
+                    $('#accurateCheck').addClass('is-invalid');
+                    return false;
+                }
+                // Basic check for at least one image if Images is a required field
+                // Note: Server-side validation is still critical
+                if ($('#imageInput')[0].files.length === 0) {
+                     e.preventDefault();
+                     alert('Please upload at least one image for your item.');
+                     // Optionally highlight the image input or section
                 }
             });
 
             // Save as draft functionality
             $('#saveAsDraft').on('click', function() {
-                // Add draft functionality here
-                alert('Draft functionality will be implemented soon.');
+                // Implement AJAX call to save current form data as a draft
+                alert('Draft saving functionality will be implemented soon!');
+                // Example: $.post('@Url.Action("SaveDraft", "Item")', $('#sellItemForm').serialize());
             });
-        });
 
-        function removeImage(button) {
-            $(button).closest('.col-md-3').remove();
-            // Reset file input to trigger change event
-            const input = document.getElementById('imageInput');
-            input.value = '';
-        }
+            // Initial state check for description counter
+            $('#Description').trigger('input');
+            // Initial state check for image preview placeholder
+            if ($('#imageInput')[0].files.length === 0) {
+                $('#imagePreviewPlaceholder').show();
+            }
+        });
     </script>
     
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

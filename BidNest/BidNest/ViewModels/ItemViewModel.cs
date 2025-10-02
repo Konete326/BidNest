@@ -50,6 +50,10 @@ namespace BidNest.ViewModels
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
+        public string? ImageUrl => Images?.FirstOrDefault(i => i.IsPrimary)?.ImagePath
+                           ?? Images?.FirstOrDefault()?.ImagePath;
+
+
         // Image management
         public List<ItemImageViewModel> Images { get; set; } = new();
         public List<IFormFile>? NewImages { get; set; }

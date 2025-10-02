@@ -2,183 +2,503 @@
     ViewData["Title"] = "Contact Us";
 }
 
-<div class="hero-section bg-primary text-white py-5 mb-5">
+<style>
+    /* Custom styles for a modern look */
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    /* Updated Hero Section for Contact Page */
+    .hero-section {
+        background: linear-gradient(45deg, #007bff, #6610f2, #007bff); /* Home page gradient */
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite; /* Home page animation */
+        position: relative;
+        overflow: hidden;
+        color: #fff;
+        padding: 80px 0;
+        text-align: center;
+        border-bottom-left-radius: 50% 20%; /* Home page shape */
+        border-bottom-right-radius: 50% 20%; /* Home page shape */
+        z-index: 0;
+    }
+
+    @@keyframes gradientShift { /* Home page animation keyframes */
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="10" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="40" r="15" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="80" r="12" fill="%23ffffff" opacity="0.1"/><circle cx="30" cy="70" r="8" fill="%23ffffff" opacity="0.1"/><circle cx="70" cy="10" r="11" fill="%23ffffff" opacity="0.1"/></svg>') repeat;
+        background-size: 150px;
+        opacity: 0.40;
+        animation: moveBubbles 30s linear infinite; /* Home page animation */
+        z-index: -1;
+    }
+
+    @@keyframes moveBubbles { /* Home page animation keyframes */
+        from { background-position: 0 0; }
+        to { background-position: 100% 100%; }
+    }
+
+
+    .hero-section h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .hero-section p.lead {
+        font-size: 1.25rem;
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+
+    .contact-info-section {
+        padding: 60px 0;
+        background-color: #f0f2f5; /* Lighter background for this section */
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .info-card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 30px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%; /* Ensure cards are same height */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+        .info-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+    .info-card .feature-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(45deg, #007bff, #0056b3); /* Primary gradient for icons */
+        color: #fff;
+        border-radius: 50%;
+        margin: 0 auto 20px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    .info-card h5 {
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 10px;
+    }
+
+    .info-card p {
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .info-card small {
+        color: #888;
+        font-size: 0.85rem;
+    }
+
+    .contact-form-section {
+        padding: 60px 0;
+    }
+
+    .contact-form-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .contact-form-card .card-header {
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        color: #fff;
+        padding: 25px 30px;
+        border-bottom: none;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .contact-form-card .card-body {
+        padding: 30px;
+    }
+
+    .contact-form-card .form-label {
+        font-weight: 600;
+        color: #444;
+    }
+
+    .contact-form-card .form-control,
+    .contact-form-card .form-select {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        padding: 12px 15px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+        .contact-form-card .form-control:focus,
+        .contact-form-card .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+
+    .contact-form-card .btn-primary {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.25);
+    }
+
+        .contact-form-card .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.35);
+        }
+
+    .faq-section {
+        padding: 60px 0;
+        background-color: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .faq-section h3 {
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .accordion-item {
+        margin-bottom: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .accordion-button {
+        background-color: #fff;
+        color: #333;
+        font-weight: 600;
+        padding: 18px 25px;
+        border-radius: 10px;
+        text-align: left;
+        transition: background-color 0.3s ease;
+    }
+
+        .accordion-button:not(.collapsed) {
+            color: #007bff;
+            background-color: #e6f2ff;
+            border-bottom: 1px solid rgba(0, 0, 0, .125);
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .125);
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: #007bff;
+        }
+
+    .accordion-body {
+        padding: 25px;
+        color: #555;
+        line-height: 1.7;
+        background-color: #fdfdfd;
+        border-top: 1px solid #eee;
+    }
+
+    .cta-section {
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        color: #fff;
+        padding: 60px 0;
+        text-align: center;
+        border-radius: 15px;
+        margin-top: 60px;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+    }
+
+        .cta-section h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            opacity: 0.9;
+        }
+
+        .cta-section .btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-section .btn-light {
+            background-color: #fff;
+            color: #007bff;
+            border: 1px solid #fff;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.25);
+        }
+
+            .cta-section .btn-light:hover {
+                background-color: #f8f9fa;
+                color: #0056b3;
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0, 123, 255, 0.35);
+            }
+
+        .cta-section .btn-outline-light {
+            color: #fff;
+            border-color: #fff;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.15);
+        }
+
+            .cta-section .btn-outline-light:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+                color: #fff;
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25);
+            }
+
+</style>
+
+<div class="hero-section">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold">Contact Us</h1>
-                <p class="lead">We're here to help! Get in touch with our support team</p>
+            <div class="col-lg-10 mx-auto text-center">
+                <h1 class="display-3 fw-bold">Reach Out to Us</h1>
+                <p class="lead">
+                    Whether you have a question, need support, or just want to give feedback,
+                    our team is ready and eager to assist you.
+                </p>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container">
-    <div class="row mb-5">
-        <div class="col-lg-8 mx-auto">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="text-center">
-                        <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                            <i class="fas fa-envelope fa-lg"></i>
-                        </div>
-                        <h5>Email Support</h5>
-                        <p class="text-muted">support@bidnest.com</p>
-                        <small class="text-muted">Response within 24 hours</small>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="text-center">
-                        <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                            <i class="fas fa-phone fa-lg"></i>
-                        </div>
-                        <h5>Phone Support</h5>
-                        <p class="text-muted">1-800-BIDNEST</p>
-                        <small class="text-muted">Mon-Fri 9AM-6PM EST</small>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="text-center">
-                        <div class="feature-icon bg-info text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                            <i class="fas fa-comments fa-lg"></i>
-                        </div>
-                        <h5>Live Chat</h5>
-                        <p class="text-muted">Available 24/7</p>
-                        <small class="text-muted">Instant support</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Send us a Message</h4>
-                </div>
-                <div class="card-body">
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <div class="alert alert-info mb-3">
-                            <i class="fas fa-info-circle me-2"></i>
-                            You are submitting this message as: <strong>@User.FindFirst("FullName")?.Value</strong> (@User.Identity.Name)
-                        </div>
-                    }
-                    <form method="post" action="@Url.Action("Contact", "Home")">
-                        @Html.AntiForgeryToken()
-                        <div class="mb-3">
-                            <label for="subject" class="form-label">Subject <span class="text-danger">*</span></label>
-                            <select class="form-select" id="subject" name="Subject" required>
-                                <option value="">Select a topic...</option>
-                                <option value="General Inquiry">General Inquiry</option>
-                                <option value="Account Issues">Account Issues</option>
-                                <option value="Bidding Problems">Bidding Problems</option>
-                                <option value="Selling Issues">Selling Issues</option>
-                                <option value="Payment Problems">Payment Problems</option>
-                                <option value="Technical Support">Technical Support</option>
-                                <option value="Report Fraud">Report Fraud</option>
-                                <option value="Feedback">Feedback & Suggestions</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="message" name="Message" rows="6" placeholder="Please provide as much detail as possible..." required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="newsletter" name="Newsletter">
-                                <label class="form-check-label" for="newsletter">
-                                    Subscribe to our newsletter for auction updates and tips
-                                </label>
+<div class="contact-info-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-10">
+                <div class="row">
+                    <div class="col-md-4 mb-4 d-flex">
+                        <div class="info-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-envelope fa-lg"></i>
+                            </div>
+                            <div>
+                                <h5>Email Support</h5>
+                                <p class="text-muted">support@bidnest.com</p>
+                                <small class="text-muted">Expect a reply within 24 hours</small>
                             </div>
                         </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-paper-plane me-2"></i>Send Message
+                    </div>
+                    <div class="col-md-4 mb-4 d-flex">
+                        <div class="info-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-phone fa-lg"></i>
+                            </div>
+                            <div>
+                                <h5>Phone Support</h5>
+                                <p class="text-muted">1-800-BIDNEST</p>
+                                <small class="text-muted">Mon-Fri 9AM-6PM EST</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4 d-flex">
+                        <div class="info-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-comments fa-lg"></i>
+                            </div>
+                            <div>
+                                <h5>Live Chat</h5>
+                                <p class="text-muted">Instant Assistance</p>
+                                <small class="text-muted">Available 24/7 on our website</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="contact-form-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card contact-form-card">
+                    <div class="card-header">
+                        <h4 class="mb-0 text-center">Send Us a Message</h4>
+                    </div>
+                    <div class="card-body">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <div class="alert alert-info mb-4 d-flex align-items-center rounded-pill px-4 py-2">
+                                <i class="fas fa-info-circle me-3 fa-lg"></i>
+                                <span>You are submitting this message as: <strong>@User.FindFirst("FullName")?.Value</strong> (<span class="fw-light">@User.Identity.Name</span>)</span>
+                            </div>
+                        }
+                        <form method="post" action="@Url.Action("Contact", "Home")">
+                            @Html.AntiForgeryToken()
+                            <div class="mb-4">
+                                <label for="subject" class="form-label">Subject <span class="text-danger">*</span></label>
+                                <select class="form-select" id="subject" name="Subject" required>
+                                    <option value="">Select a topic that best describes your inquiry...</option>
+                                    <option value="General Inquiry">General Inquiry</option>
+                                    <option value="Account Issues">Account Issues</option>
+                                    <option value="Bidding Problems">Bidding Problems</option>
+                                    <option value="Selling Issues">Selling Issues</option>
+                                    <option value="Payment Problems">Payment Problems</option>
+                                    <option value="Technical Support">Technical Support</option>
+                                    <option value="Report Fraud">Report Fraud or Abuse</option>
+                                    <option value="Feedback">Feedback & Suggestions</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Your Message <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="message" name="Message" rows="7" placeholder="Please provide as much detail as possible so we can assist you efficiently..." required></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="newsletter" name="Newsletter">
+                                    <label class="form-check-label" for="newsletter">
+                                        Subscribe to our newsletter for exclusive auction updates and tips.
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="faq-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <h3>Frequently Asked Questions</h3>
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faqHeading1">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                How do I place a bid on an item?
                             </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-5">
-        <div class="col-lg-10 mx-auto">
-            <h3 class="mb-4">Frequently Asked Questions</h3>
-            <div class="accordion" id="faqAccordion">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="faq1">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
-                            How do I place a bid?
-                        </button>
-                    </h2>
-                    <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            To place a bid, simply navigate to the item you're interested in, enter your bid amount (must be higher than the current bid), and click "Place Bid". You'll need to be logged in to bid.
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="faqHeading1" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                To place a bid, first ensure you are logged into your BidNest account. Navigate to the item you wish to bid on, enter your desired bid amount (which must be higher than the current bid), and click the "Place Bid" button. Confirm your bid, and you're all set!
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="faq2">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
-                            How do I sell an item?
-                        </button>
-                    </h2>
-                    <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Click on "Sell an Item" in the navigation menu, fill out the item details form, upload photos, set your starting price and auction duration, then submit for approval.
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faqHeading2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                What is the process for selling an item?
+                            </button>
+                        </h2>
+                        <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="faqHeading2" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Selling an item is easy! Log in, then click "Sell an Item" in the main navigation. You'll be guided through a form where you can provide detailed descriptions, upload high-quality photos, set your starting price, and choose the auction duration. Once submitted, your item will go through a quick approval process.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="faq3">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
-                            What payment methods do you accept?
-                        </button>
-                    </h2>
-                    <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            We accept major credit cards, PayPal, and bank transfers. All payments are processed securely through our trusted payment partners.
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faqHeading3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                Which payment methods are accepted on BidNest?
+                            </button>
+                        </h2>
+                        <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="faqHeading3" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We accept a variety of secure payment methods, including all major credit cards (Visa, Mastercard, American Express, Discover), PayPal, and direct bank transfers. All transactions are processed through encrypted channels to ensure your financial security.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="faq4">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
-                            How do I track my bids?
-                        </button>
-                    </h2>
-                    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            You can view all your active bids, won auctions, and bidding history in your account dashboard under "My Bids" or "Bidding History".
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faqHeading4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                How can I monitor the status of my bids and auctions?
+                            </button>
+                        </h2>
+                        <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="faqHeading4" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                You can easily track all your activity from your personalized account dashboard. Simply navigate to "My Bids" to see active bids and their status, or "Bidding History" to review past auctions, including items you've won or lost.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="faq5">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5">
-                            What if I have a dispute?
-                        </button>
-                    </h2>
-                    <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Contact our support team immediately. We have a dedicated dispute resolution process to help resolve issues between buyers and sellers fairly and quickly.
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faqHeading5">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                What should I do if I encounter a dispute with another user?
+                            </button>
+                        </h2>
+                        <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="faqHeading5" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                If you experience any issues or disputes with a buyer or seller, please contact our support team immediately using the form above or via email/phone. We have a dedicated dispute resolution process to mediate and resolve conflicts fairly and efficiently.
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="bg-light rounded p-5 text-center mt-5">
-        <h3 class="mb-3">Still Need Help?</h3>
-        <p class="mb-4">Our support team is standing by to assist you with any questions or concerns.</p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <a href="mailto:support@bidnest.com" class="btn btn-primary">Email Support</a>
-            <a href="tel:1-800-BIDNEST" class="btn btn-outline-primary">Call Us</a>
+<div class="container mb-5">
+    <div class="cta-section">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <h3>Still Can't Find What You're Looking For?</h3>
+                <p>
+                    Don't worry, our friendly and knowledgeable support team is always ready to lend a hand.
+                    Reach out to us directly, and we'll ensure you get the assistance you need.
+                </p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="mailto:support@bidnest.com" class="btn btn-light btn-lg">
+                        <i class="fas fa-envelope me-2"></i>Email Support
+                    </a>
+                    <a href="tel:1-800-BIDNEST" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-phone-alt me-2"></i>Call Us
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

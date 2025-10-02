@@ -1,116 +1,337 @@
+@model IEnumerable<BidNest.Models.Item>
 @{
-    ViewData["Title"] = "About BidNest";
+    ViewData["Title"] = "About Us";
 }
 
-<div class="hero-section bg-primary text-white py-5 mb-5">
-    <div class="container">
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff; /* A vibrant blue */
+            --secondary-color: #6610f2; /* A slightly darker blue/indigo for secondary actions or hover */
+            --accent-color: #17a2b8; /* Cyan for highlights or complementary elements */
+            --text-dark: #343a40;
+            --text-light: #f8f9fa;
+            --bg-light: #f8f9fa;
+            --bg-dark: #212529;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-warning {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .btn-warning:hover {
+            background-color: darken(var(--accent-color), 10%);
+            border-color: 10px solid darken(var(--accent-color), 10%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Hero Section - Animated Background */
+        .hero-section-about {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+            overflow: hidden;
+            color: var(--text-light);
+            padding-top: 8rem;
+            padding-bottom: 8rem;
+            border-bottom-left-radius: 50% 20%;
+            border-bottom-right-radius: 50% 20%;
+            z-index: 0;
+        }
+
+        @@keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .hero-section-about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="10" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="40" r="15" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="80" r="12" fill="%23ffffff" opacity="0.1"/><circle cx="30" cy="70" r="8" fill="%23ffffff" opacity="0.1"/><circle cx="70" cy="10" r="11" fill="%23ffffff" opacity="0.1"/></svg>') repeat;
+            background-size: 150px;
+            opacity: 0.40;
+            animation: moveBubbles 30s linear infinite;
+            z-index: -1;
+        }
+
+        .hero-section-about .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        @@keyframes moveBubbles {
+            from {
+                background-position: 0 0;
+            }
+
+            to {
+                background-position: 100% 100%;
+            }
+        }
+
+        .hero-section-about .display-4 {
+            font-size: 3.5rem;
+            font-weight: 700;
+        }
+
+        .hero-section-about .lead {
+            opacity: 0.9;
+        }
+
+        .about-image {
+            max-height: 450px;
+            object-fit: contain;
+            border-radius: 15px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Feature Section */
+        .feature-item .feature-icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 50% !important;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-item .feature-icon i {
+            font-size: 2.5rem;
+        }
+
+        .feature-item:hover .feature-icon {
+            transform: translateY(-8px) rotate(5deg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .feature-item h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Global Section Styles */
+        .container {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        h2, h3 {
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        p.text-muted {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        ul.mission-list li {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+        }
+
+        ul.mission-list li i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        .ready-cta {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            color: var(--text-light);
+            border-radius: 15px;
+            padding: 4rem 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+            .ready-cta .btn {
+                border-color: var(--text-light);
+                color: var(--text-light);
+            }
+
+                .ready-cta .btn:hover {
+                    background-color: var(--text-light);
+                    color: var(--primary-color);
+                }
+    </style>
+}
+
+<div class="hero-section-about text-white text-center py-5 mb-5">
+    <div class="container position-relative z-1">
         <div class="row align-items-center">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold">About BidNest</h1>
-                <p class="lead">Your trusted online auction platform connecting buyers and sellers worldwide</p>
+            <div class="col-lg-8 mx-auto">
+                <h1 class="display-4 fw-bold animate__animated animate__fadeInDown">About BidNest: Connecting Passions</h1>
+                <p class="lead animate__animated animate__fadeInUp animate__delay-1s">
+                    Discover our journey, values, and what makes BidNest your go-to platform for online auctions.
+                </p>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container">
-    <div class="row mb-5">
-        <div class="col-lg-8 mx-auto">
-            <h2 class="mb-4">Our Story</h2>
-            <p class="lead">BidNest was founded with a simple mission: to create a secure, user-friendly platform where people can discover unique items and sellers can reach a global audience.</p>
-            
-            <p>Since our inception, we've been committed to providing a transparent and fair marketplace where every auction is conducted with integrity. Our platform combines cutting-edge technology with time-tested auction principles to deliver an exceptional experience for both buyers and sellers.</p>
-            
-            <p>Whether you're looking for rare collectibles, everyday items, or want to sell your own treasures, BidNest provides the tools and security you need to participate in online auctions with confidence.</p>
+<div class="container py-5">
+    <div class="row align-items-center mb-5">
+        <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+            <img src="https://via.placeholder.com/600x400/007bff/ffffff?text=Our+Story+Image" alt="Our Story" class="img-fluid rounded shadow-lg about-image">
+        </div>
+        <div class="col-lg-6" data-aos="fade-left">
+            <h2 class="fw-bold mb-4">Our Journey: From Concept to Community</h2>
+            <p class="lead">
+                BidNest was born from a vision to revolutionize online auctions, making them more accessible, secure, and enjoyable for everyone. We believe in the power of connection – connecting unique items with eager bidders and empowering sellers to reach a global audience.
+            </p>
+            <p>
+                Since our founding, we've continuously evolved, driven by innovation and a deep understanding of our community's needs. Every feature, every update, is designed to enhance your experience, ensuring transparency, fairness, and excitement in every bid.
+            </p>
+            <a href="@Url.Action("Active", "Auction")" class="btn btn-primary mt-3 animate__animated animate__zoomIn animate__delay-1s">Explore Auctions <i class="fas fa-arrow-right ms-2"></i></a>
         </div>
     </div>
 
-    <div class="row mb-5">
-        <div class="col-12">
-            <h2 class="text-center mb-5">Why Choose BidNest?</h2>
+    <div class="row mb-5 py-5 bg-light rounded shadow-sm">
+        <div class="col-12 text-center mb-5" data-aos="fade-up">
+            <h2 class="fw-bold">Our Core Mission & Values</h2>
+            <p class="text-muted">Guiding principles that shape every interaction on BidNest.</p>
         </div>
-        <div class="col-lg-4 mb-4">
+        <div class="col-lg-4 mb-4 feature-item" data-aos="fade-up" data-aos-delay="100">
             <div class="text-center">
-                <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                    <i class="fas fa-shield-alt fa-2x"></i>
+                <div class="feature-icon mx-auto mb-4">
+                    <i class="fas fa-handshake"></i>
                 </div>
-                <h4>Secure & Safe</h4>
-                <p class="text-muted">Advanced security measures protect your personal information and transactions. All auctions are monitored for fraudulent activity.</p>
+                <h4>Integrity & Trust</h4>
+                <p class="text-muted">We foster a transparent marketplace where honesty and fair play are paramount, building lasting trust with our users.</p>
             </div>
         </div>
-        <div class="col-lg-4 mb-4">
+        <div class="col-lg-4 mb-4 feature-item" data-aos="fade-up" data-aos-delay="200">
             <div class="text-center">
-                <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                    <i class="fas fa-users fa-2x"></i>
+                <div class="feature-icon mx-auto mb-4">
+                    <i class="fas fa-users"></i>
                 </div>
-                <h4>Trusted Community</h4>
-                <p class="text-muted">Join thousands of verified buyers and sellers in our growing community. User ratings and reviews ensure transparency.</p>
+                <h4>Community & Connection</h4>
+                <p class="text-muted">Beyond transactions, we're building a vibrant global community where passions are shared and discoveries are made.</p>
             </div>
         </div>
-        <div class="col-lg-4 mb-4">
+        <div class="col-lg-4 mb-4 feature-item" data-aos="fade-up" data-aos-delay="300">
             <div class="text-center">
-                <div class="feature-icon bg-info text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-                    <i class="fas fa-clock fa-2x"></i>
+                <div class="feature-icon mx-auto mb-4">
+                    <i class="fas fa-lightbulb"></i>
                 </div>
-                <h4>24/7 Availability</h4>
-                <p class="text-muted">Bid and sell anytime, anywhere. Our platform is available around the clock with real-time auction updates.</p>
+                <h4>Innovation & Excellence</h4>
+                <p class="text-muted">Continuously evolving our platform with cutting-edge technology to offer the best auction experience.</p>
             </div>
         </div>
     </div>
 
-    <div class="row mb-5">
-        <div class="col-lg-6 mb-4">
-            <h3>For Buyers</h3>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Discover unique and rare items</li>
-                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Competitive bidding environment</li>
-                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Advanced search and filtering</li>
-                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Watchlist and bid tracking</li>
-                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Secure payment processing</li>
-                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Real-time auction notifications</li>
-            </ul>
+    <div class="row align-items-center py-5">
+        <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0" data-aos="fade-left">
+            <img src="https://via.placeholder.com/600x400/17a2b8/ffffff?text=Why+Choose+BidNest" alt="Why Choose BidNest" class="img-fluid rounded shadow-lg about-image">
         </div>
-        <div class="col-lg-6 mb-4">
-            <h3>For Sellers</h3>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Easy item listing process</li>
-                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Global marketplace reach</li>
-                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Flexible auction durations</li>
-                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Detailed sales analytics</li>
-                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Seller dashboard and tools</li>
-                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Commission-competitive fees</li>
+        <div class="col-lg-6 order-lg-1" data-aos="fade-right">
+            <h2 class="fw-bold mb-4">Why BidNest Stands Out</h2>
+            <ul class="list-unstyled mission-list">
+                <li><i class="fas fa-check-circle"></i><strong>Unrivaled Security:</strong> Your data and transactions are protected with industry-leading encryption.</li>
+                <li><i class="fas fa-check-circle"></i><strong>Global Marketplace:</strong> Access unique items and a diverse audience from around the world.</li>
+                <li><i class="fas fa-check-circle"></i><strong>User-Centric Design:</strong> An intuitive platform that makes bidding and selling effortless.</li>
+                <li><i class="fas fa-check-circle"></i><strong>Dedicated Support:</strong> Our team is here to assist you every step of the way.</li>
+                <li><i class="fas fa-check-circle"></i><strong>Fair & Transparent:</strong> Clear rules and honest dealings ensure a level playing field for everyone.</li>
             </ul>
         </div>
     </div>
+</div>
 
-    <div class="row mb-5">
-        <div class="col-lg-8 mx-auto">
-            <h2 class="mb-4">Our Commitment</h2>
-            <p>At BidNest, we're committed to:</p>
-            <ul>
-                <li><strong>Transparency:</strong> Clear auction rules and processes</li>
-                <li><strong>Security:</strong> Protecting user data and preventing fraud</li>
-                <li><strong>Innovation:</strong> Continuously improving our platform</li>
-                <li><strong>Support:</strong> Providing excellent customer service</li>
-                <li><strong>Community:</strong> Building a trusted marketplace for all</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="bg-light rounded p-5 text-center">
-        <h3 class="mb-3">Ready to Get Started?</h3>
-        <p class="mb-4">Join our community of buyers and sellers today!</p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
+<div class="ready-cta text-center mt-5" data-aos="zoom-in">
+    <div class="container">
+        <h2 class="fw-bold mb-3 text-white animate__animated animate__fadeInDown">Ready to Join the Nest?</h2>
+        <p class="lead mb-4 text-light animate__animated animate__fadeInUp animate__delay-1s">
+            Whether you're hunting for a rare find or looking to sell your treasures, BidNest is your platform.
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap animate__animated animate__zoomIn animate__delay-1-5s">
             @if (User.Identity?.IsAuthenticated == true)
             {
-                <a href="@Url.Action("Active", "Auction")" class="btn btn-primary btn-lg">Browse Auctions</a>
-                <a href="@Url.Action("Create", "Seller")" class="btn btn-success btn-lg">Sell an Item</a>
+                <a href="@Url.Action("Active", "Auction")" class="btn btn-outline-light btn-lg">Browse Auctions</a>
+                <a href="@Url.Action("Create", "Seller")" class="btn btn-warning btn-lg">
+                    <i class="fas fa-plus me-2"></i>Start Selling
+                </a>
             }
             else
             {
-                <a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-lg">Sign Up Now</a>
-                <a href="@Url.Action("Active", "Auction")" class="btn btn-outline-primary btn-lg">Browse Auctions</a>
+                <a href="@Url.Action("Register", "Account")" class="btn btn-outline-light btn-lg">Sign Up Now</a>
+                <a href="@Url.Action("Active", "Auction")" class="btn btn-warning btn-lg">Browse Auctions</a>
             }
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            mirror: false
+        });
+
+        // Trigger animations for elements that might not be covered by AOS (e.g., initial hero section)
+        document.addEventListener('DOMContentLoaded', function () {
+            // Hero section animations are defined with animate.css classes and delays
+            // For elements with AOS, ensure data-aos attributes are correctly applied in HTML
+        });
+    </script>
+}

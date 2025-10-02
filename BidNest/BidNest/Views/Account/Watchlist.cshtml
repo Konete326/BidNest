@@ -3,93 +3,104 @@
     ViewData["Title"] = "My Watchlist";
 }
 
-<div class="container py-4">
-    <div class="row mb-4">
-        <div class="col">
-            <h2>
-                <i class="fas fa-heart text-danger me-2"></i>My Watchlist
-            </h2>
-            <p class="text-muted">Keep track of items you're interested in</p>
+<div class="container py-5">
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-8">
+            <h1 class="display-4 fw-bold text-primary mb-2">
+                <i class="fas fa-heart text-danger me-3 animated-heart"></i>My Watchlist
+            </h1>
+            <p class="lead text-muted">Keep track of items you're interested in, all in one place.</p>
         </div>
-        <div class="col-auto">
-            <a href="@Url.Action("Active", "Auction")" class="btn btn-primary">
-                <i class="fas fa-search me-2"></i>Browse Auctions
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <a href="@Url.Action("Active", "Auction")" class="btn btn-primary btn-lg shadow-sm">
+                <i class="fas fa-gavel me-2"></i>Browse Live Auctions
             </a>
         </div>
     </div>
 
     @if (Model.Items != null && Model.Items.Any())
     {
-        <div class="row">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             @foreach (var item in Model.Items)
             {
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm">
+                <div class="col">
+                    <div class="card h-100 shadow-lg border-0 rounded-4 overflow-hidden item-card">
                         <div class="position-relative">
-                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                <i class="fas fa-image fa-3x text-muted"></i>
-                            </div>
-                            <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 remove-watchlist" 
+                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                            {
+                                <img src="@item.ImageUrl" class="card-img-top item-image" alt="@item.Name">
+                            }
+                            else
+                            {
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center item-image-placeholder">
+                                    <i class="fas fa-image fa-4x text-muted"></i>
+                                </div>
+                            }
+                            <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-3 rounded-pill shadow remove-watchlist" 
                                     data-item-id="@item.ItemId" title="Remove from Watchlist">
-                                <i class="fas fa-heart-broken"></i>
+                                <i class="fas fa-times me-1"></i> Remove
                             </button>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">@item.Name</h5>
-                            <p class="card-text text-muted small">
-                                @if (!string.IsNullOrEmpty(item.Description))
-                                {
-                                    @(item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)
-                                }
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div>
-                                    <small class="text-muted">Current Bid</small>
-                                    <h6 class="text-success mb-0">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</h6>
-                                </div>
-                                <div class="text-end">
-                                    <small class="text-muted">Min Bid</small>
-                                    <h6 class="mb-0">$@item.MinimumBid.ToString("N2")</h6>
-                                </div>
-                            </div>
                             @if (item.EndDate > DateTime.UtcNow)
                             {
-                                <div class="alert alert-info py-1 px-2 mb-2">
-                                    <small>
-                                        <i class="fas fa-clock me-1"></i>
-                                        Ends: @item.EndDate.ToString("MMM dd, yyyy HH:mm")
-                                    </small>
+                                <span class="badge bg-success position-absolute bottom-0 start-0 m-3 px-3 py-2 fs-6 rounded-pill shadow-sm">
+                                    <i class="fas fa-hourglass-half me-1"></i> Active
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger position-absolute bottom-0 start-0 m-3 px-3 py-2 fs-6 rounded-pill shadow-sm">
+                                    <i class="fas fa-clock me-1"></i> Ended
+                                </span>
+                            }
+                        </div>
+                        <div class="card-body p-4">
+                            <h5 class="card-title text-truncate mb-2 fw-bold">@item.Name</h5>
+                            <p class="card-text text-muted small mb-3 item-description">
+                                @if (!string.IsNullOrEmpty(item.Description))
+                                {
+                                    @(item.Description.Length > 90 ? item.Description.Substring(0, 90) + "..." : item.Description)
+                                }
+                                else
+                                {
+                                    <span>No description available.</span>
+                                }
+                            </p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <small class="text-muted d-block">Current Bid</small>
+                                    <h5 class="text-success mb-0 fw-bold">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</h5>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted d-block">Minimum Bid</small>
+                                    <h6 class="mb-0 text-secondary">$@item.MinimumBid.ToString("N2")</h6>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <small class="text-muted d-block">Category:</small>
+                                <span class="badge bg-info bg-opacity-10 text-info fw-normal px-3 py-2 rounded-pill">@item.CategoryName</span>
+                            </div>
+
+                            @if (item.EndDate > DateTime.UtcNow)
+                            {
+                                <div class="d-flex align-items-center text-primary small mb-3">
+                                    <i class="fas fa-hourglass-end me-2"></i>
+                                    <span>Ends: @item.EndDate.ToString("MMM dd, yyyy HH:mm")</span>
                                 </div>
                             }
                             else
                             {
-                                <div class="alert alert-danger py-1 px-2 mb-2">
-                                    <small>
-                                        <i class="fas fa-times-circle me-1"></i>
-                                        Auction Ended
-                                    </small>
+                                <div class="d-flex align-items-center text-danger small mb-3">
+                                    <i class="fas fa-calendar-times me-2"></i>
+                                    <span>Auction Ended: @item.EndDate.ToString("MMM dd, yyyy HH:mm")</span>
                                 </div>
                             }
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge bg-secondary">@item.CategoryName</span>
-                                @if (item.Status == "A")
-                                {
-                                    <span class="badge bg-success">Active</span>
-                                }
-                                else if (item.Status == "S")
-                                {
-                                    <span class="badge bg-info">Sold</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-secondary">Inactive</span>
-                                }
-                            </div>
                         </div>
-                        <div class="card-footer bg-transparent">
+                        <div class="card-footer bg-light border-0 p-3">
                             <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
-                               class="btn btn-primary btn-sm w-100">
-                                <i class="fas fa-eye me-2"></i>View Details
+                               class="btn btn-primary btn-block w-100 btn-lg rounded-pill">
+                                <i class="fas fa-eye me-2"></i>View Item
                             </a>
                         </div>
                     </div>
@@ -100,11 +111,11 @@
         <!-- Pagination -->
         @if (Model.TotalPages > 1)
         {
-            <nav aria-label="Page navigation" class="mt-4">
-                <ul class="pagination justify-content-center">
+            <nav aria-label="Page navigation" class="mt-5">
+                <ul class="pagination justify-content-center shadow-sm rounded-pill p-2">
                     <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                        <a class="page-link" href="@Url.Action("Watchlist", new { page = Model.CurrentPage - 1 })">
-                            Previous
+                        <a class="page-link rounded-start-pill" href="@Url.Action("Watchlist", new { page = Model.CurrentPage - 1 })">
+                            <i class="fas fa-chevron-left"></i>
                         </a>
                     </li>
                     @for (int i = 1; i <= Model.TotalPages; i++)
@@ -114,8 +125,8 @@
                         </li>
                     }
                     <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
-                        <a class="page-link" href="@Url.Action("Watchlist", new { page = Model.CurrentPage + 1 })">
-                            Next
+                        <a class="page-link rounded-end-pill" href="@Url.Action("Watchlist", new { page = Model.CurrentPage + 1 })">
+                            <i class="fas fa-chevron-right"></i>
                         </a>
                     </li>
                 </ul>
@@ -124,11 +135,15 @@
     }
     else
     {
-        <div class="alert alert-info">
-            <h4><i class="fas fa-heart me-2"></i>Your Watchlist is Empty</h4>
-            <p>You haven't added any items to your watchlist yet. Browse our auctions and click the heart icon to add items you want to track!</p>
-            <a href="@Url.Action("Active", "Auction")" class="btn btn-primary mt-2">
-                <i class="fas fa-search me-2"></i>Browse Active Auctions
+        <div class="text-center py-5 my-5">
+            <i class="fas fa-heart-crack fa-7x text-muted mb-4 "></i>
+            <h2 class="display-5 fw-bold mb-3">Your Watchlist is Empty!</h2>
+            <p class="lead text-secondary mb-4">
+                Looks like you haven't added any items to your watchlist yet.
+                Start tracking exciting auctions today!
+            </p>
+            <a href="@Url.Action("Active", "Auction")" class="btn btn-primary btn-lg px-5 py-3 shadow-lg rounded-pill">
+                <i class="fas fa-search me-2"></i>Explore Live Auctions
             </a>
         </div>
     }
@@ -137,33 +152,187 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
+            // CSRF token setup for all AJAX requests
+            $.ajaxSetup({
+                headers: {
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                }
+            });
+
             $('.remove-watchlist').click(function(e) {
                 e.preventDefault();
                 var button = $(this);
                 var itemId = button.data('item-id');
-                var card = button.closest('.col-lg-4');
+                var cardCol = button.closest('.col'); // Get the column holding the card
                 
-                if (confirm('Are you sure you want to remove this item from your watchlist?')) {
-                    $.post('@Url.Action("ToggleWatchlist", "Buyer")', {
-                        itemId: itemId,
-                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
-                    }).done(function(response) {
-                        if (response.success) {
-                            card.fadeOut(300, function() {
-                                card.remove();
-                                // Check if watchlist is now empty
-                                if ($('.col-lg-4').length === 0) {
-                                    location.reload();
+                Swal.fire({
+                    title: 'Remove from Watchlist?',
+                    text: "You won't be able to track this item easily anymore!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, remove it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.post('@Url.Action("ToggleWatchlist", "Buyer")', { itemId: itemId })
+                            .done(function(response) {
+                                if (response.success) {
+                                    Swal.fire(
+                                        'Removed!',
+                                        'The item has been removed from your watchlist.',
+                                        'success'
+                                    );
+                                    cardCol.fadeOut(400, function() { // Fade out the column
+                                        cardCol.remove();
+                                        // Check if watchlist is now empty
+                                        if ($('.item-card').length === 0) {
+                                            // Optionally, redirect or show empty state dynamically
+                                            location.reload(); 
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire('Error', 'Failed to remove item: ' + response.message, 'error');
                                 }
+                            })
+                            .fail(function() {
+                                Swal.fire('Error', 'An unexpected error occurred.', 'error');
                             });
-                        } else {
-                            alert('Error: ' + response.message);
-                        }
-                    }).fail(function() {
-                        alert('An error occurred while removing the item from your watchlist.');
-                    });
-                }
+                    }
+                });
             });
         });
     </script>
+
+    <!-- SweetAlert2 for better confirmations -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 }
+
+<style>
+    /* Custom Styles for a modern look */
+    body {
+        background-color: #f8f9fa; /* Light background for the whole page */
+    }
+
+    .container {
+        max-width: 1200px;
+    }
+
+    .display-4 {
+        font-size: 3.5rem;
+        color: #343a40; /* Darker text for headings */
+    }
+
+    .lead {
+        font-size: 1.25rem;
+    }
+
+   
+   
+
+    /* Card Styling */
+    .item-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e0e0e0;
+    }
+
+    .item-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
+
+    .item-image {
+        width: 100%;
+        height: 220px; /* Fixed height for consistency */
+        object-fit: cover;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .item-image-placeholder {
+        height: 220px;
+        background-color: #f5f5f5;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .card-title {
+        font-size: 1.35rem;
+        color: #343a40;
+    }
+
+    .item-description {
+        height: 40px; /* Limit description height */
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .remove-watchlist {
+        background-color: rgba(220, 53, 69, 0.9); /* Slightly transparent */
+        border: none;
+        font-size: 0.9rem;
+    }
+
+    .remove-watchlist:hover {
+        background-color: #dc3545;
+    }
+
+    /* Badges */
+    .badge {
+        font-size: 0.85rem;
+        padding: 0.5em 0.8em;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+    }
+
+    /* Pagination */
+    .pagination .page-link {
+        color: #007bff;
+        border-radius: 0.5rem;
+        margin: 0 0.25rem;
+        transition: background-color 0.2s ease, color 0.2s ease;
+        border: 1px solid #dee2e6;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #e9ecef;
+        color: #0056b3;
+    }
+
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+
+    /* Empty Watchlist State */
+    .alert-info {
+        background-color: #e0f7fa;
+        color: #007bff;
+        border-color: #b2ebf2;
+        padding: 3rem;
+        border-radius: 1rem;
+    }
+
+  
+</style>

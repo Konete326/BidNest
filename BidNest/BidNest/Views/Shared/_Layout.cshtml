@@ -10,9 +10,149 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="~/user/css/home.css" />
     <link rel="stylesheet" href="~/user/css/menu.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
-        /* Custom logout button styling */
+        /* Light Theme Overhaul */
+
+        /* General Body and Footer adjustments for light theme */
+        body {
+            background-color: #f8f9fa; /* Very light grey background */
+            color: #343a40; /* Darker text for contrast */
+        }
+        
+        /* OVERHAULED FOOTER STYLES */
+        .footer {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e0e9f4 0%, #ffffff 100%); /* Subtle blue-white gradient */
+            color: #343a40; /* Darker text for readability */
+            padding: 50px 0 20px 0; /* More padding top/bottom */
+            border-top: none; /* Remove default border */
+            box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.05); /* Soft shadow on top */
+            z-index: 1;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 123, 255, 0.05), rgba(255, 255, 255, 0.3)); /* Very subtle overlay */
+            background-size: 200% 200%;
+            animation: gradientMove 15s ease infinite;
+            z-index: -1;
+        }
+
+        @@keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .footer-logo {
+            margin-bottom: 20px;
+            text-align: center; /* Center logo */
+        }
+        .footer-logo img {
+            height: 50px; /* Larger logo */
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); /* Soft shadow for logo */
+        }
+        .footer-title {
+            font-family: 'Segoe UI', sans-serif; /* Modern font */
+            font-weight: 700;
+            color: #007bff; /* Primary blue for title */
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        .footer-tagline {
+            color: #6c757d;
+            font-size: 1rem;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .footer h5 {
+            color: #007bff; /* Blue accent for titles */
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .footer h5::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background-color: #007bff; /* Blue underline */
+            border-radius: 2px;
+        }
+
+        .footer .list-unstyled a {
+            color: #555; /* Slightly darker link color */
+            text-decoration: none;
+            transition: color 0.3s ease, transform 0.2s ease;
+            display: inline-block; /* For transform effect */
+            padding: 5px 0;
+            position: relative;
+        }
+        .footer .list-unstyled a:hover {
+            color: #007bff; /* Blue on hover */
+            transform: translateX(5px); /* Gentle slide effect */
+        }
+        .footer .list-unstyled a::before {
+            content: "\f054"; /* FontAwesome angle-right icon */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-right: 10px;
+            color: #007bff;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%) translateX(-10px);
+            font-size: 0.8em;
+        }
+        .footer .list-unstyled a:hover::before {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(0, 123, 255, 0.1); /* Lighter, blue-tinted divider */
+            padding-top: 25px;
+            margin-top: 40px;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        .footer-bottom .text-md-end {
+            text-align: right;
+        }
+
+        .social-icons a {
+            color: #007bff; /* Blue icon color */
+            font-size: 1.5rem;
+            margin-right: 15px;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+        .social-icons a:hover {
+            color: #0056b3; /* Darker blue on hover */
+            transform: translateY(-3px) scale(1.1); /* Lift and slightly enlarge */
+        }
+
+        /* Custom logout button styling (adapted for light theme) */
         .dropdown-item.border-0.bg-transparent {
             width: 100%;
             text-align: left;
@@ -26,115 +166,296 @@
         
         .dropdown-item.border-0.bg-transparent:hover,
         .dropdown-item.border-0.bg-transparent:focus {
-            color: #1e2125;
+            color: #007bff; /* Blue on hover */
             background-color: #e9ecef;
         }
+
+        /* OVERHAULED NAVBAR STYLES - LIGHT THEME WITH BLUE ACCENTS */
+        .navbar {
+            background-color: #ffffff !important; /* White background */
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Lighter shadow */
+            padding: 0.8rem 1rem; /* Slightly more padding */
+        }
+
+        .navbar-brand img {
+            transition: transform 0.3s ease-in-out;
+        }
+        .navbar-brand img:hover {
+            transform: scale(1.05) rotate(-3deg); /* Less aggressive hover */
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            position: relative;
+            color: #555 !important; /* Darker text for visibility */
+            padding: 10px 18px; /* Adjusted padding */
+            transition: color 0.3s ease-in-out, transform 0.2s ease-out, background-color 0.3s ease-in-out;
+            border-radius: 8px; /* Slightly rounded corners */
+            margin: 0 5px; /* Spacing between links */
+            font-weight: 500;
+        }
+
+        .navbar-nav .nav-item .nav-link.active {
+            color: #007bff !important; /* Active link blue */
+            background-color: rgba(0, 123, 255, 0.1); /* Light blue background for active */
+            font-weight: bold;
+        }
+
+        /* New Nav Link Hover Animation: Subtle Background Fill & Scale */
+        .navbar-nav .nav-item .nav-link:hover {
+            color: #007bff !important; /* Blue on hover */
+            background-color: rgba(0, 123, 255, 0.05); /* Very light blue background on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+        /* No ::before and ::after for line animations */
+
+
+        /* Dropdown Menu Animations (adapted for light theme) */
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); /* Lighter shadow */
+            border-radius: 10px; /* More rounded */
+            background-color: #ffffff; /* White dropdown background */
+            padding: 10px 0;
+            opacity: 0;
+            transform: translateY(15px); /* Slightly less translation */
+            transition: opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: block; 
+            pointer-events: none;
+            min-width: 200px; /* Ensure sufficient width */
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .dropdown-item {
+            color: #343a40; /* Dark text for items */
+            padding: 10px 20px;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            background-color: #e6f2ff; /* Light blue hover */
+            color: #0056b3; /* Darker blue text on hover */
+            transform: translateX(3px); /* Gentle slide */
+        }
+
+        .dropdown-divider {
+            border-color: #e0e0e0; /* Light divider */
+            margin: 8px 0;
+        }
+        
+        .dropdown-header {
+            color: #888; /* Slightly darker header */
+            padding: 8px 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        /* Search Bar Animations (adapted for light theme) */
+        #navbar-search-input {
+            width: 200px; /* Initial width */
+            transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            background-color: #f8f9fa; /* Light background */
+            border: 1px solid #ced4da; /* Light border */
+            color: #343a40;
+            border-radius: 25px; /* More rounded pill shape */
+            padding: 8px 18px; /* Adjusted padding */
+        }
+
+        #navbar-search-input::placeholder {
+            color: #a0aec0;
+            opacity: 0.8;
+        }
+
+        #navbar-search-input:focus {
+            width: 280px; /* Expanded width on focus */
+            background-color: #ffffff;
+            border-color: #007bff; /* Blue border on focus */
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Blue glow */
+            outline: none; /* Remove default outline */
+        }
+
+        .btn-outline-light { /* Re-purposing this for light theme button */
+            border-color: #007bff; /* Blue border */
+            color: #007bff; /* Blue text */
+            transition: all 0.3s ease-in-out;
+            border-radius: 25px; /* Pill shape */
+            padding: 8px 15px;
+            background-color: transparent;
+        }
+
+        .btn-outline-light:hover {
+            background-color: #007bff; /* Blue fill on hover */
+            border-color: #007bff;
+            color: #ffffff; /* White text on hover */
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3); /* Subtle shadow on hover */
+        }
+
+        /* Search Suggestions (adapted for light theme) */
+        #search-suggestions {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+        }
+
+        .search-suggestion-item {
+            padding: 10px 15px !important;
+            border-bottom: 1px solid #f0f0f0 !important; /* Lighter border */
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .search-suggestion-item:hover {
+            background-color: #e6f2ff !important; /* Light blue hover */
+        }
+
+        .search-suggestion-item .fw-bold {
+            color: #343a40; /* Dark text */
+        }
+        .search-suggestion-item .text-muted {
+            color: #6c757d !important; /* Muted grey */
+        }
+        .search-suggestion-item .text-success {
+            color: #28a745 !important; /* Standard success green */
+        }
+
+        /* Active Link Indicator (no lines, just background) */
+        .navbar-nav .nav-link.active::before,
+        .navbar-nav .nav-link.active::after {
+           /* Remove line animations */
+           content: none; 
+        }
+
+        /* Toggle Button for Mobile (light theme adjustment) */
+        .navbar-toggler {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        /* End of Light Theme Overhaul */
+
     </style>
     <link rel="stylesheet" href="~/user/css/scrollbar.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                    <img src="~/user/images/logo/single.png" alt="BidNest" height="40">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")" href="@Url.Action("Index", "Home")">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Auction" ? "active" : "")" href="@Url.Action("Active", "Auction")">Auctions</a>
-                        </li>
+   <header>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                <img src="~/user/images/logo/single.png" alt="BidNest" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")" href="@Url.Action("Index", "Home")">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Auction" ? "active" : "")" href="@Url.Action("Active", "Auction")">Auctions</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle @(ViewContext.RouteData.Values["controller"]?.ToString() == "Search" ? "active" : "")" href="#" role="button" aria-expanded="false">
+                            Browse
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="@Url.Action("Index", "Search")"><i class="fas fa-search me-2"></i>Search Items</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("Advanced", "Search")"><i class="fas fa-sliders-h me-2"></i>Advanced Search</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("Categories", "Search")"><i class="fas fa-th-large me-2"></i>Browse Categories</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="@Url.Action("Active", "Auction")"><i class="fas fa-clock me-2"></i>Active Auctions</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("Ending", "Auction")"><i class="fas fa-hourglass-end me-2"></i>Ending Soon</a></li>
+                        </ul>
+                    </li>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @(ViewContext.RouteData.Values["controller"]?.ToString() == "Search" ? "active" : "")" href="#" role="button" data-bs-toggle="dropdown">
-                                Browse
+                            <a class="nav-link dropdown-toggle @(ViewContext.RouteData.Values["controller"]?.ToString() == "Seller" ? "active" : "")" href="#" role="button" aria-expanded="false">
+                                Sell
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="@Url.Action("Index", "Search")"><i class="fas fa-search me-2"></i>Search Items</a></li>
-                                <li><a class="dropdown-item" href="@Url.Action("Advanced", "Search")"><i class="fas fa-sliders-h me-2"></i>Advanced Search</a></li>
-                                <li><a class="dropdown-item" href="@Url.Action("Categories", "Search")"><i class="fas fa-th-large me-2"></i>Browse Categories</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="@Url.Action("Active", "Auction")"><i class="fas fa-clock me-2"></i>Active Auctions</a></li>
-                                <li><a class="dropdown-item" href="@Url.Action("Ending", "Auction")"><i class="fas fa-hourglass-end me-2"></i>Ending Soon</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Dashboard", "Seller")"><i class="fas fa-store me-2"></i>Seller Dashboard</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Create", "Seller")"><i class="fas fa-plus me-2"></i>Sell an Item</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("MyItems", "Seller")"><i class="fas fa-box me-2"></i>My Listings</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Analytics", "Seller")"><i class="fas fa-chart-line me-2"></i>Sales Analytics</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")" href="@Url.Action("About", "Home")">About</a>
-                        </li>
-                    </ul>
-                    
-                    <!-- Search Bar -->
-                    <form class="d-flex me-3" method="get" action="@Url.Action("Index", "Search")" id="navbar-search">
-                        <div class="position-relative">
-                            <input class="form-control" type="search" name="Query" placeholder="Search auctions..." 
-                                   id="navbar-search-input" autocomplete="off" style="width: 250px;">
-                            <div id="search-suggestions" class="position-absolute bg-white border rounded shadow-sm" 
-                                 style="top: 100%; left: 0; right: 0; z-index: 1000; display: none; max-height: 300px; overflow-y: auto;">
-                            </div>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")" href="@Url.Action("About", "Home")">About</a>
+                    </li>
+                </ul>
+                
+                <!-- Search Bar -->
+                <form class="d-flex me-3" method="get" action="@Url.Action("Index", "Search")" id="navbar-search">
+                    <div class="position-relative">
+                        <input class="form-control" type="search" name="Query" placeholder="Search auctions..." 
+                               id="navbar-search-input" autocomplete="off">
+                        <div id="search-suggestions" class="position-absolute bg-white border rounded shadow-sm" 
+                             style="top: calc(100% + 5px); left: 0; right: 0; z-index: 1000; display: none; max-height: 300px; overflow-y: auto;">
                         </div>
-                        <button class="btn btn-outline-light ms-2" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                    <ul class="navbar-nav">
-                        @if (User.Identity?.IsAuthenticated == true)
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                    Welcome, @User.FindFirst("FullName")?.Value
-                                </a>
-                                <ul class="dropdown-menu">
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <li><a class="dropdown-item" href="@Url.Action("Dashboard", "Admin")"><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</a></li>
-                                        <li><a class="dropdown-item" href="@Url.Action("PendingApprovals", "Admin")"><i class="fas fa-clock me-2"></i>Pending Approvals</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                    }
-                                    <li><a class="dropdown-item" href="@Url.Action("Profile", "Account")"><i class="fas fa-user me-2"></i>My Profile</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("MyBids", "Account")"><i class="fas fa-gavel me-2"></i>My Bids</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("Watchlist", "Account")"><i class="fas fa-heart me-2"></i>Watchlist</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("MyMessages", "Account")"><i class="fas fa-envelope me-2"></i>My Messages</a></li>
+                    </div>
+                    <button class="btn btn-outline-light ms-2" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                <ul class="navbar-nav">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" aria-expanded="false">
+                                Welcome, @User.FindFirst("FullName")?.Value
+                            </a>
+                            <ul class="dropdown-menu">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li><a class="dropdown-item" href="@Url.Action("Dashboard", "Admin")"><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("PendingApprovals", "Admin")"><i class="fas fa-clock me-2"></i>Pending Approvals</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("Contact", "Home")"><i class="fas fa-question-circle me-2"></i>Contact Support</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><h6 class="dropdown-header">Selling</h6></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("Dashboard", "Seller")"><i class="fas fa-store me-2"></i>Seller Dashboard</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("Create", "Seller")"><i class="fas fa-plus me-2"></i>Sell an Item</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("MyItems", "Seller")"><i class="fas fa-box me-2"></i>My Listings</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("Analytics", "Seller")"><i class="fas fa-chart-line me-2"></i>Sales Analytics</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <form method="post" action="@Url.Action("Logout", "Account")" class="d-inline">
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" class="dropdown-item border-0 bg-transparent">
-                                                <i class="fas fa-sign-out-alt me-2"></i>Logout
-                                            </button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Login", "Account")">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Register", "Account")">Register</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
+                                }
+                                <li><a class="dropdown-item" href="@Url.Action("Profile", "Account")"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("MyBids", "Account")"><i class="fas fa-gavel me-2"></i>My Bids</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Watchlist", "Account")"><i class="fas fa-heart me-2"></i>Watchlist</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("MyMessages", "Account")"><i class="fas fa-envelope me-2"></i>My Messages</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Contact", "Home")"><i class="fas fa-question-circle me-2"></i>Contact Support</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="post" action="@Url.Action("Logout", "Account")" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="dropdown-item border-0 bg-transparent">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Login", "Account")">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Register", "Account")">Register</a>
+                        </li>
+                    }
+                </ul>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
 
     <main>
         @if (TempData["SuccessMessage"] != null)
@@ -159,15 +480,61 @@
         @RenderBody()
     </main>
 
-    <footer class="bg-dark text-light py-4 mt-5">
+    <footer class="footer mt-5">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>BidNest</h5>
-                    <p>Your trusted online auction platform</p>
+            <div class="row text-center text-md-start">
+                <div class="col-md-4 mb-4">
+                    <div class="footer-logo">
+                        <img src="~/user/images/logo/single.png" alt="BidNest" />
+                    </div>
+                    <div class="footer-title">BidNest</div>
+                    <p class="footer-tagline">Your trusted online auction platform for unique treasures and exciting deals.</p>
+                    <div class="social-icons">
+                        <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
                 </div>
-                <div class="col-md-6 text-md-end">
+
+                <div class="col-md-2 col-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li><a href="@Url.Action("Active", "Auction")">Auctions</a></li>
+                        <li><a href="@Url.Action("About", "Home")">About Us</a></li>
+                        <li><a href="@Url.Action("Contact", "Home")">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-2 col-6 mb-4">
+                    <h5>Categories</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="@Url.Action("Categories", "Search", new { category = "Electronics" })">Electronics</a></li>
+                        <li><a href="@Url.Action("Categories", "Search", new { category = "Fashion" })">Fashion</a></li>
+                        <li><a href="@Url.Action("Categories", "Search", new { category = "Collectibles" })">Collectibles</a></li>
+                        <li><a href="@Url.Action("Categories", "Search", new { category = "Home-Garden" })">Home & Garden</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2 text-primary"></i>123 Auction Lane, Bid City, BC 12345</li>
+                        <li><i class="fas fa-envelope me-2 text-primary"></i>support@bidnest.com</li>
+                        <li><i class="fas fa-phone me-2 text-primary"></i>+1 (555) 123-4567</li>
+                        <li><i class="fas fa-business-time me-2 text-primary"></i>Mon - Fri: 9:00 AM - 6:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row footer-bottom">
+                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
                     <p>&copy; @DateTime.Now.Year BidNest. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-secondary text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="text-secondary text-decoration-none">Terms of Service</a>
                 </div>
             </div>
         </div>
@@ -178,9 +545,57 @@
     <script src="~/user/js/script.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     
-    <!-- Search Auto-suggestions -->
+    <!-- Custom JS for dropdowns and search -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Custom Dropdown Animation Logic
+            var dropdownToggles = document.querySelectorAll('.navbar-nav .dropdown-toggle');
+            dropdownToggles.forEach(function(toggle) {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    let dropdownMenu = this.nextElementSibling;
+                    if (dropdownMenu && dropdownMenu.classList.contains('dropdown-menu')) {
+                        let isShowing = dropdownMenu.classList.contains('show');
+                        
+                        // Close all other dropdowns
+                        document.querySelectorAll('.dropdown-menu.show').forEach(function(menu) {
+                            if (menu !== dropdownMenu) {
+                                menu.classList.remove('show');
+                                // Ensure aria-expanded is updated for accessibility
+                                let correspondingToggle = menu.previousElementSibling;
+                                if (correspondingToggle) {
+                                    correspondingToggle.setAttribute('aria-expanded', 'false');
+                                }
+                            }
+                        });
+
+                        // Toggle current dropdown
+                        if (isShowing) {
+                            dropdownMenu.classList.remove('show');
+                            this.setAttribute('aria-expanded', 'false');
+                        } else {
+                            dropdownMenu.classList.add('show');
+                            this.setAttribute('aria-expanded', 'true');
+                        }
+                    }
+                });
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.navbar-nav .dropdown')) {
+                    document.querySelectorAll('.dropdown-menu.show').forEach(function(menu) {
+                        menu.classList.remove('show');
+                        let correspondingToggle = menu.previousElementSibling;
+                        if (correspondingToggle) {
+                            correspondingToggle.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                }
+            });
+
+
+            // Search Auto-suggestions
             const searchInput = document.getElementById('navbar-search-input');
             const suggestionsDiv = document.getElementById('search-suggestions');
             let searchTimeout;
@@ -204,7 +619,7 @@
                                     let html = '';
                                     data.results.forEach(item => {
                                         html += `
-                                            <div class="p-2 border-bottom search-suggestion-item" style="cursor: pointer;">
+                                            <div class="p-2 border-bottom search-suggestion-item" data-item-title="${item.title}" style="cursor: pointer;">
                                                 <div class="d-flex align-items-center">
                                                     <div class="me-2">
                                                         ${item.imageUrl ? 
@@ -227,7 +642,7 @@
                                     if (data.hasMore) {
                                         html += `
                                             <div class="p-2 text-center">
-                                                <a href="/Search?Query=${encodeURIComponent(query)}" class="btn btn-sm btn-outline-primary">
+                                                <a href="/Search?Query=${encodeURIComponent(query)}" class="btn btn-sm btn-primary"> <!-- Changed to btn-primary -->
                                                     View all ${data.totalResults} results
                                                 </a>
                                             </div>
@@ -237,12 +652,13 @@
                                     suggestionsDiv.innerHTML = html;
                                     suggestionsDiv.style.display = 'block';
                                     
-                                    // Add click handlers
+                                    // Add click handlers for suggestions
                                     suggestionsDiv.querySelectorAll('.search-suggestion-item').forEach(item => {
                                         item.addEventListener('click', function() {
-                                            const title = this.querySelector('.fw-bold').textContent;
+                                            const title = this.dataset.itemTitle; // Use data attribute
                                             searchInput.value = title;
                                             suggestionsDiv.style.display = 'none';
+                                            document.getElementById('navbar-search').submit(); // Submit the form
                                         });
                                     });
                                 } else {
@@ -253,17 +669,17 @@
                                 console.error('Search error:', error);
                                 suggestionsDiv.style.display = 'none';
                             });
-                    }, 300);
+                    }, 300); // Debounce time
                 });
 
-                // Hide suggestions when clicking outside
+                // Hide suggestions when clicking outside search area
                 document.addEventListener('click', function(e) {
-                    if (!searchInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                    if (!searchInput.contains(e.target) && !suggestionsDiv.contains(e.target) && !e.target.closest('#navbar-search button')) {
                         suggestionsDiv.style.display = 'none';
                     }
                 });
 
-                // Show suggestions when focusing on input
+                // Show suggestions when focusing on input if there's content
                 searchInput.addEventListener('focus', function() {
                     if (this.value.length >= 2 && suggestionsDiv.innerHTML) {
                         suggestionsDiv.style.display = 'block';
@@ -272,6 +688,15 @@
             }
         });
     </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,
+        once: true, // Whether animation should happen only once - default true
+        mirror: false, // Whether elements should animate out while scrolling past them - default false
+    });
+</script>
     
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -1,5 +1,5 @@
 /*=== MEDIA QUERY ===*/
-@import url("https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Montserrat:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap");
+/*@import url("https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Montserrat:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap");
 
 html {
   overflow-x: hidden;
@@ -275,7 +275,7 @@ p {
 .bg-counter {
   background: url("../images/bg/counter.jpg") no-repeat;
   background-size: cover;
-}
+}*/
 
 
 /* 
@@ -294,7 +294,7 @@ p {
   transform: scale(0.8);
 } */
 
-.team-img-hover li a {
+/*.team-img-hover li a {
   display: inline-block;
   color: #fff;
   width: 50px;
@@ -345,13 +345,13 @@ p {
 
 .testimonial-item .testimonial-item-content {
   padding-left: 65px;
-}
+}*/
 
 
 /* FOOTER CSS */
 
 
-.scroll-to-top {
+/*.scroll-to-top {
   position: fixed;
   bottom: 30px;
   right: 30px;
@@ -387,10 +387,10 @@ p {
 .ticker {
   white-space: nowrap;
   animation: ticker-scroll 20s linear infinite;
-}
+}*/
 
 /* Keyframe animation for scrolling */
-@keyframes ticker-scroll {
+/*@keyframes ticker-scroll {
   0% {
     transform: translateX(100%);
   }
@@ -399,9 +399,9 @@ p {
   }
 }
 .eye-icon {
-  margin-right: 5px;
+  margin-right: 5px;*/
   /* Adjust spacing between icon and counter */
-}
+/*}
 
 #viewCount {
   font-weight: bold;
@@ -433,11 +433,11 @@ p {
 }
 .custom-dialog {
   border-radius: 10px;
-  background-color: black !important;
+  background-color: black !important;*/
   /* Change background color of dialog */
-  color: white !important;
+  /*color: white !important;*/
   /* Change text color of dialog */
-}
+/*}
 
 .btn:focus,
 .btn:active {
@@ -446,9 +446,9 @@ p {
 }
 
 .welcome-message {
-  font-size: 1.0625rem !important;
+  font-size: 1.0625rem !important;*/
   /* Equivalent to 17px */
-  position: fixed !important;
+  /*position: fixed !important;
   top: 50px !important;
   right: 50px !important;
   z-index: 10000 !important;
@@ -545,4 +545,4 @@ p {
   #welcomeMessage {
       margin-right: 242px
   }
-}
+}*/

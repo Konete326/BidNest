@@ -3,18 +3,344 @@
     ViewData["Title"] = "Seller Dashboard";
 }
 
+@* Custom CSS for the overhauled design *@
+<style>
+    /* Global Page Styling */
+    body {
+        background-color: #f0f2f5; /* Light grey background for the whole page */
+    }
+
+    /* Seller Dashboard Header */
+    .seller-dashboard-header-new {
+        background: linear-gradient(to right, #6dd5ed, #2193b0); /* Fresh blue gradient */
+        color: white;
+        padding: 4rem 0; /* More vertical padding */
+        margin-bottom: 2.5rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Softer, larger shadow */
+        position: relative;
+        overflow: hidden;
+    }
+
+    .seller-dashboard-header-new::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="dotted-pattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.1)" /></pattern></defs><rect x="0" y="0" width="100" height="100" fill="url(#dotted-pattern)"/></svg>') repeat;
+        opacity: 0.8;
+    }
+
+    .seller-dashboard-header-new .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    .seller-dashboard-header-new h2 {
+        font-weight: 800; /* Bolder font */
+        font-size: 3rem; /* Larger title */
+        letter-spacing: -0.05rem;
+    }
+
+    .seller-dashboard-header-new p {
+        font-size: 1.2rem;
+        opacity: 0.95;
+    }
+
+    .seller-dashboard-header-new .btn-light {
+        background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white button */
+        color: #2193b0; /* Match text to gradient start color */
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .seller-dashboard-header-new .btn-light:hover {
+        background-color: white;
+        color: #1a6f87;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Stat Cards */
+    .stat-card-new {
+        border-radius: 0.75rem;
+        overflow: hidden;
+        position: relative;
+        transform: translateY(0);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Lighter shadow */
+        border: 1px solid rgba(0, 0, 0, 0.05); /* Subtle border */
+        background-color: white; /* All cards white background */
+        color: #343a40; /* Dark text for all cards */
+    }
+
+    .stat-card-new:hover {
+        transform: translateY(-8px); /* More pronounced lift */
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-card-new .card-body {
+        padding: 2rem 1.75rem; /* More padding */
+        position: relative;
+        z-index: 1;
+    }
+
+    .stat-card-new .card-body h3 {
+        font-weight: 700;
+        font-size: 2.5rem; /* Larger numbers */
+        margin-bottom: 0.5rem;
+        color: #2c3e50; /* Darker heading color */
+    }
+
+    .stat-card-new .card-body p {
+        font-size: 1.05rem; /* Slightly larger text */
+        opacity: 0.85;
+        color: #6c757d;
+    }
+
+    .stat-card-new .icon-wrapper-new {
+        position: absolute;
+        top: 50%;
+        right: 1.5rem;
+        font-size: 4.5rem; /* Larger icons */
+        opacity: 0.8; /* More subtle */
+        line-height: 1;
+        transform: translateY(-50%);
+        color: #007bff; /* Default icon color */
+    }
+
+    /* Specific icon colors */
+    .stat-card-new.primary .icon-wrapper-new { color: #007bff; }
+    .stat-card-new.warning .icon-wrapper-new { color: #ffc107; }
+    .stat-card-new.success .icon-wrapper-new { color: #28a745; }
+    .stat-card-new.info .icon-wrapper-new { color: #17a2b8; }
+
+
+    /* General Card Styling */
+    .card-new {
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        border: none; /* Remove default border */
+        background-color: white;
+    }
+
+    .card-new .card-header-new {
+        background-color: #ffffff; /* White header background */
+        border-bottom: 1px solid #e9ecef;
+        padding: 1.5rem 1.75rem; /* More padding */
+        border-top-left-radius: 0.75rem;
+        border-top-right-radius: 0.75rem;
+    }
+
+    .card-new .card-title-new {
+        font-weight: 700; /* Bolder title */
+        font-size: 1.25rem; /* Larger title */
+        color: #343a40;
+    }
+
+    .card-new .card-body {
+        padding: 1.75rem; /* Consistent padding */
+    }
+
+    /* Table Styling */
+    .table-new th, .table-new td {
+        vertical-align: middle;
+        padding: 1.2rem 1rem; /* More padding */
+    }
+
+    .table-new th {
+        font-weight: 600;
+        color: #8694a8; /* Softer grey for headers */
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
+    .table-new tbody tr:hover {
+        background-color: #f8f9fa; /* Light hover effect */
+    }
+
+    .item-image-sm-new {
+        width: 60px; /* Slightly larger image */
+        height: 60px;
+        border-radius: 0.6rem; /* Softer corners */
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 1px solid #e0e0e0;
+    }
+
+    .item-image-placeholder-sm-new {
+        width: 60px;
+        height: 60px;
+        border-radius: 0.6rem;
+        background-color: #f2f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #b0c4de;
+        font-size: 1.5rem;
+        border: 1px dashed #ced4da; /* Dashed border for placeholder */
+    }
+
+    /* Recent Bids List */
+    .recent-bid-item-new {
+        border-bottom: 1px solid #f0f2f5; /* Lighter separator */
+        padding: 1rem 0; /* Consistent padding */
+        transition: background-color 0.2s ease;
+    }
+
+    .recent-bid-item-new:hover {
+        background-color: #fcfdfe; /* Subtle hover */
+    }
+
+    .recent-bid-item-new:last-child {
+        border-bottom: none;
+    }
+
+    .recent-bid-item-new .small {
+        font-size: 0.875rem;
+    }
+
+    .recent-bid-item-new .fw-bold.text-dark {
+        color: #343a40 !important;
+    }
+
+    .recent-bid-item-new .text-muted a {
+        color: #007bff; /* Link color */
+    }
+
+    /* Pending Listing Cards */
+    .pending-listing-card-new {
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #ffeeba; /* Warning color border */
+        transition: transform 0.3s ease;
+    }
+
+    .pending-listing-card-new:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .pending-listing-card-new .card-img-top-new {
+        height: 180px; /* Taller image */
+        object-fit: cover;
+        border-top-left-radius: 0.75rem;
+        border-top-right-radius: 0.75rem;
+    }
+
+    .pending-listing-card-new .card-body-new {
+        padding: 1.5rem;
+    }
+
+    .pending-listing-card-new .card-title-new {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #343a40;
+    }
+
+    .pending-listing-card-new .card-text-new {
+        color: #8694a8;
+        font-size: 0.9rem;
+    }
+
+    .pending-listing-card-new .badge {
+        font-size: 0.85rem;
+        padding: 0.4em 0.7em;
+        border-radius: 0.5rem;
+    }
+
+    .badge-pending-new {
+        background-color: #fff3cd; /* Light warning background */
+        color: #856404; /* Dark warning text */
+        font-weight: 600;
+    }
+
+    /* Empty States */
+    .empty-state-new {
+        color: #9da8b6;
+        padding: 4rem 0;
+        background-color: #fcfdfe;
+        border-radius: 0.75rem;
+        margin-top: 1rem;
+        border: 1px dashed #e0e6ed;
+    }
+
+    .empty-state-new i {
+        font-size: 3.5rem; /* Slightly smaller icon */
+        margin-bottom: 1.5rem;
+        color: #c9d8e5;
+    }
+
+    .empty-state-new h5 {
+        color: #7f8c8d;
+        font-weight: 600;
+    }
+
+    .empty-state-new p {
+        font-size: 1rem;
+        color: #aeb5be;
+    }
+
+    /* Buttons */
+    .btn-outline-primary-new {
+        color: #007bff;
+        border-color: #007bff;
+        transition: all 0.2s ease;
+    }
+    .btn-outline-primary-new:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-primary-new {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: all 0.2s ease;
+    }
+    .btn-primary-new:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+
+    .btn-outline-secondary-new {
+        color: #6c757d;
+        border-color: #6c757d;
+        transition: all 0.2s ease;
+    }
+    .btn-outline-secondary-new:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-outline-warning-new {
+        color: #ffc107;
+        border-color: #ffc107;
+        transition: all 0.2s ease;
+    }
+    .btn-outline-warning-new:hover {
+        background-color: #ffc107;
+        color: white;
+    }
+
+</style>
+
 <div class="container-fluid py-4">
     <!-- Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
+    <div class="seller-dashboard-header-new text-center">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <div class="mb-3 mb-md-0 text-center text-md-start">
                     <h2 class="mb-1">Seller Dashboard</h2>
-                    <p class="text-muted">Manage your listings and track your sales</p>
+                    <p class="text-white-75 mb-0">Manage your listings, track sales, and grow your presence.</p>
                 </div>
-                <div>
-                    <a href="@Url.Action("Create")" class="btn btn-primary btn-lg">
-                        <i class="fas fa-plus me-2"></i>Sell an Item
+                <div class="text-center">
+                    <a href="@Url.Action("Create")" class="btn btn-light btn-lg rounded-pill shadow-sm px-4">
+                        <i class="fas fa-plus me-2"></i>Sell a New Item
                     </a>
                 </div>
             </div>
@@ -24,62 +350,38 @@
     <!-- Stats Cards -->
     <div class="row mb-4">
         <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card bg-primary text-white">
+            <div class="stat-card-new primary">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h3 class="mb-0">@Model.TotalActiveListings</h3>
-                            <p class="mb-0">Active Listings</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-gavel fa-2x opacity-75"></i>
-                        </div>
-                    </div>
+                    <div class="icon-wrapper-new"><i class="fas fa-gavel"></i></div>
+                    <h3 class="mb-0">@Model.TotalActiveListings</h3>
+                    <p class="mb-0">Active Listings</p>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card bg-warning text-white">
+            <div class="stat-card-new warning">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h3 class="mb-0">@Model.TotalPendingListings</h3>
-                            <p class="mb-0">Pending Approval</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-clock fa-2x opacity-75"></i>
-                        </div>
-                    </div>
+                    <div class="icon-wrapper-new"><i class="fas fa-clock"></i></div>
+                    <h3 class="mb-0">@Model.TotalPendingListings</h3>
+                    <p class="mb-0">Pending Approval</p>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card bg-success text-white">
+            <div class="stat-card-new success">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h3 class="mb-0">@Model.TotalSoldItems</h3>
-                            <p class="mb-0">Items Sold</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-check-circle fa-2x opacity-75"></i>
-                        </div>
-                    </div>
+                    <div class="icon-wrapper-new"><i class="fas fa-check-circle"></i></div>
+                    <h3 class="mb-0">@Model.TotalSoldItems</h3>
+                    <p class="mb-0">Items Sold</p>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card bg-info text-white">
+            <div class="stat-card-new info">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h3 class="mb-0">$@Model.TotalEarnings.ToString("N2")</h3>
-                            <p class="mb-0">Total Earnings</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-dollar-sign fa-2x opacity-75"></i>
-                        </div>
-                    </div>
+                    <div class="icon-wrapper-new"><i class="fas fa-dollar-sign"></i></div>
+                    <h3 class="mb-0">$@Model.TotalEarnings.ToString("N2")</h3>
+                    <p class="mb-0">Total Earnings</p>
                 </div>
             </div>
         </div>
@@ -88,23 +390,23 @@
     <div class="row">
         <!-- Active Listings -->
         <div class="col-lg-8 mb-4">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Active Listings</h5>
-                    <a href="@Url.Action("MyItems", new { status = "active" })" class="btn btn-sm btn-outline-primary">View All</a>
+            <div class="card-new h-100">
+                <div class="card-header-new d-flex justify-content-between align-items-center">
+                    <h5 class="card-title-new mb-0">Active Listings</h5>
+                    <a href="@Url.Action("MyItems", new { status = "active" })" class="btn btn-sm btn-outline-primary-new rounded-pill">View All</a>
                 </div>
                 <div class="card-body">
                     @if (Model.ActiveListings.Any())
                     {
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table-new table-borderless table-hover mb-0">
                                 <thead>
                                     <tr>
                                         <th>Item</th>
                                         <th>Current Bid</th>
                                         <th>Bids</th>
                                         <th>Time Left</th>
-                                        <th>Actions</th>
+                                        <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -115,18 +417,17 @@
                                                 <div class="d-flex align-items-center">
                                                     @if (item.Images.Any())
                                                     {
-                                                        <img src="@item.Images.First().ImagePath" alt="@item.Name" 
-                                                             class="rounded me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                        <img src="@item.Images.First().ImagePath" alt="@item.Name"
+                                                             class="item-image-sm-new me-3">
                                                     }
                                                     else
                                                     {
-                                                        <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
-                                                             style="width: 40px; height: 40px;">
-                                                            <i class="fas fa-image text-muted"></i>
+                                                        <div class="item-image-placeholder-sm-new me-3">
+                                                            <i class="fas fa-image"></i>
                                                         </div>
                                                     }
                                                     <div>
-                                                        <div class="fw-bold">@item.Name</div>
+                                                        <div class="fw-bold text-dark">@item.Name</div>
                                                         <small class="text-muted">@item.CategoryName</small>
                                                     </div>
                                                 </div>
@@ -136,16 +437,16 @@
                                                 <small class="text-muted">Min: $@item.MinimumBid.ToString("N2")</small>
                                             </td>
                                             <td>
-                                                <span class="badge bg-primary">@item.BidCount</span>
+                                                <span class="badge bg-primary rounded-pill">@item.BidCount</span>
                                             </td>
                                             <td>
-                                                <div class="text-warning fw-bold" id="timer-@item.ItemId">
+                                                <div class="fw-bold" id="timer-@item.ItemId">
                                                     <!-- Will be populated by JavaScript -->
                                                 </div>
                                             </td>
-                                            <td>
-                                                <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
-                                                   class="btn btn-sm btn-outline-primary">View Details</a>
+                                            <td class="text-end">
+                                                <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })"
+                                                   class="btn btn-sm btn-outline-secondary-new rounded-pill">View</a>
                                             </td>
                                         </tr>
                                     }
@@ -155,12 +456,12 @@
                     }
                     else
                     {
-                        <div class="text-center py-4">
-                            <i class="fas fa-gavel fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">No Active Listings</h5>
-                            <p class="text-muted">Start selling by creating your first listing!</p>
-                            <a href="@Url.Action("Create")" class="btn btn-primary">
-                                <i class="fas fa-plus me-1"></i>Create Listing
+                        <div class="text-center py-5 empty-state-new">
+                            <i class="fas fa-gavel mb-3"></i>
+                            <h5 class="text-muted">No Active Listings Yet</h5>
+                            <p class="text-muted mb-4">Your active listings will appear here. Get started by creating your first listing!</p>
+                            <a href="@Url.Action("Create")" class="btn btn-primary rounded-pill">
+                                Create New Listing
                             </a>
                         </div>
                     }
@@ -170,47 +471,52 @@
 
         <!-- Recent Activity -->
         <div class="col-lg-4 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Recent Bids</h5>
+            <div class="card-new h-100">
+                <div class="card-header-new">
+                    <h5 class="card-title-new mb-0">Recent Bids</h5>
                 </div>
                 <div class="card-body">
                     @if (Model.RecentBids.Any())
                     {
-                        @foreach (var bid in Model.RecentBids.Take(10))
-                        {
-                            <div class="d-flex align-items-center mb-3">
-                                @if (!string.IsNullOrEmpty(bid.ItemImageUrl))
-                                {
-                                    <img src="@bid.ItemImageUrl" alt="@bid.ItemTitle" 
-                                         class="rounded me-2" style="width: 32px; height: 32px; object-fit: cover;">
-                                }
-                                else
-                                {
-                                    <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
-                                         style="width: 32px; height: 32px;">
-                                        <i class="fas fa-image text-muted small"></i>
-                                    </div>
-                                }
-                                <div class="flex-grow-1">
-                                    <div class="small fw-bold">@bid.BidderName</div>
-                                    <div class="small text-muted">bid $@bid.Amount.ToString("N2") on @bid.ItemTitle</div>
-                                </div>
-                                <div class="text-end">
-                                    <small class="text-muted">@bid.TimeAgo</small>
-                                    @if (bid.IsWinning)
+                        <div class="list-group list-group-flush">
+                            @foreach (var bid in Model.RecentBids.Take(10))
+                            {
+                                <div class="list-group-item d-flex align-items-center recent-bid-item-new px-0">
+                                    @if (!string.IsNullOrEmpty(bid.ItemImageUrl))
                                     {
-                                        <div><span class="badge bg-success small">Winning</span></div>
+                                        <img src="@bid.ItemImageUrl" alt="@bid.ItemTitle"
+                                             class="item-image-sm-new me-3">
                                     }
+                                    else
+                                    {
+                                        <div class="item-image-placeholder-sm-new me-3">
+                                            <i class="fas fa-image small"></i>
+                                        </div>
+                                    }
+                                    <div class="flex-grow-1">
+                                        <div class="small fw-bold text-dark">@bid.BidderName</div>
+                                        <div class="small text-muted">bid <span class="text-success fw-bold">$@bid.Amount.ToString("N2")</span> on <a href="@Url.Action("Details", "Auction", new { id = bid.ItemId })" class="text-decoration-none">@bid.ItemTitle</a></div>
+                                    </div>
+                                    <div class="text-end ms-2">
+                                        <small class="text-muted d-block mb-1">@bid.TimeAgo</small>
+                                        @if (bid.IsWinning)
+                                        {
+                                            <span class="badge bg-success-subtle text-success fw-bold small">Winning</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger-subtle text-danger fw-bold small">Outbid</span>
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
                     }
                     else
                     {
-                        <div class="text-center py-3">
-                            <i class="fas fa-history fa-2x text-muted mb-2"></i>
-                            <p class="text-muted mb-0">No recent bids</p>
+                        <div class="text-center py-5 empty-state-new">
+                            <i class="fas fa-history mb-3"></i>
+                            <p class="text-muted mb-0">No recent bids on your items.</p>
                         </div>
                     }
                 </div>
@@ -221,42 +527,40 @@
     <!-- Pending Listings -->
     @if (Model.PendingListings.Any())
     {
-        <div class="row">
+        <div class="row mt-4">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Pending Approval</h5>
-                        <a href="@Url.Action("MyItems", new { status = "pending" })" class="btn btn-sm btn-outline-warning">View All</a>
+                <div class="card-new">
+                    <div class="card-header-new d-flex justify-content-between align-items-center">
+                        <h5 class="card-title-new mb-0">Pending Approval</h5>
+                        <a href="@Url.Action("MyItems", new { status = "pending" })" class="btn btn-sm btn-outline-warning-new rounded-pill">View All</a>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             @foreach (var item in Model.PendingListings.Take(4))
                             {
                                 <div class="col-lg-3 col-md-6 mb-3">
-                                    <div class="card border-warning">
-                                        <div class="card-body">
-                                            @if (item.Images.Any())
-                                            {
-                                                <img src="@item.Images.First().ImagePath" alt="@item.Name" 
-                                                     class="card-img-top mb-2" style="height: 120px; object-fit: cover;">
-                                            }
-                                            else
-                                            {
-                                                <div class="bg-light d-flex align-items-center justify-content-center mb-2" 
-                                                     style="height: 120px;">
-                                                    <i class="fas fa-image fa-2x text-muted"></i>
-                                                </div>
-                                            }
-                                            <h6 class="card-title">@item.Name</h6>
-                                            <p class="card-text small text-muted">@item.CategoryName</p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <span class="badge bg-warning">Pending</span>
-                                                <small class="text-muted">$@item.MinimumBid.ToString("N2")</small>
+                                    <div class="card-new h-100 pending-listing-card-new">
+                                        @if (item.Images.Any())
+                                        {
+                                            <img src="@item.Images.First().ImagePath" alt="@item.Name"
+                                                 class="card-img-top-new">
+                                        }
+                                        else
+                                        {
+                                            <div class="bg-light d-flex align-items-center justify-content-center"
+                                                 style="height: 180px; border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem;">
+                                                <i class="fas fa-image fa-3x text-muted"></i>
                                             </div>
-                                            <div class="mt-2">
-                                                <a href="@Url.Action("Edit", new { id = item.ItemId })" 
-                                                   class="btn btn-sm btn-outline-primary">Edit</a>
+                                        }
+                                        <div class="card-body-new d-flex flex-column">
+                                            <h6 class="card-title-new text-dark">@item.Name</h6>
+                                            <p class="card-text-new small text-muted flex-grow-1">@item.CategoryName</p>
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span class="badge badge-pending-new fw-bold">Pending</span>
+                                                <span class="fw-bold text-dark">$@item.MinimumBid.ToString("N2")</span>
                                             </div>
+                                            <a href="@Url.Action("Edit", new { id = item.ItemId })"
+                                               class="btn btn-sm btn-outline-primary-new rounded-pill">Edit Listing</a>
                                         </div>
                                     </div>
                                 </div>
@@ -268,43 +572,60 @@
         </div>
     }
 </div>
-
 @section Scripts {
     <script>
+        @Html.Raw(@"
         // Timer functionality for active listings
         function updateTimers() {
-            @foreach (var item in Model.ActiveListings.Take(5))
-            {
-                <text>
-                var endTime_@(item.ItemId) = new Date('@item.EndDate.ToString("yyyy-MM-ddTHH:mm:ssZ")');
+        ")
+        
+        @foreach (var item in Model.ActiveListings.Take(5))
+        {
+            <text>
+            @Html.Raw($@"
+                var endTime_{item.ItemId} = new Date('{item.EndDate:yyyy-MM-ddTHH:mm:ssZ}');
                 var now = new Date();
-                var timeLeft = endTime_@(item.ItemId) - now;
-                
-                var timerElement = document.getElementById('timer-@item.ItemId');
-                if (timerElement) {
-                    if (timeLeft &lt;= 0) {
+                var timeLeft = endTime_{item.ItemId} - now;
+
+                var timerElement = document.getElementById('timer-{item.ItemId}');
+                if (timerElement) {{
+                    if (timeLeft <= 0) {{
                         timerElement.textContent = 'Ended';
                         timerElement.className = 'text-danger fw-bold';
-                    } else {
+                    }} else {{
                         var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
                         var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                        
+                        var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
                         var display = '';
                         if (days > 0) display += days + 'd ';
                         if (hours > 0) display += hours + 'h ';
-                        display += minutes + 'm';
-                        
-                        timerElement.textContent = display;
-                        timerElement.className = timeLeft &lt; 3600000 ? 'text-danger fw-bold' : 'text-warning fw-bold';
-                    }
-                }
-                </text>
-            }
+                        if (minutes > 0) display += minutes + 'm ';
+                        display += seconds + 's';
+
+                        timerElement.textContent = display.trim();
+
+                        // Change color based on urgency
+                        if (timeLeft < 3600000) {{
+                            timerElement.className = 'text-danger fw-bold';
+                        }} else if (timeLeft < 86400000) {{
+                            timerElement.className = 'text-warning fw-bold';
+                        }} else {{
+                            timerElement.className = 'text-primary fw-bold';
+                        }}
+                    }}
+                }}
+            ")
+            </text>
         }
 
-        // Update timers every minute
+        @Html.Raw(@"
+        }
+
+        // Update timers every second for a more dynamic feel
         updateTimers();
-        setInterval(updateTimers, 60000);
+        setInterval(updateTimers, 1000);
+        ")
     </script>
 }
