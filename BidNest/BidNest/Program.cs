@@ -1,6 +1,7 @@
-using BidNest.Models;
+﻿using BidNest.Models;
 using BidNest.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +35,7 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Seed the database
+// ✅ Database seeding
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<BidnestContext>();
@@ -49,18 +50,47 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
+// ✅ Serve static files (with 3D file support)
+var provider = new FileExtensionContentTypeProvider();
+provider.Mappings[".glb"] = "model/gltf-binary";
+provider.Mappings[".gltf"] = "model/gltf+json";
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    ContentTypeProvider = provider
+});
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
+// ✅ Serve React landing page at "/"
+// Redirect logged-in users to /home instead
+app.MapGet("/", async context =>
+{
+    // If the user is authenticated, redirect them to /home
+    if (context.User?.Identity?.IsAuthenticated == true)
+    {
+        context.Response.Redirect("/home");
+        return;
+    }
+
+    // Otherwise, serve the public React landing page
+    context.Response.ContentType = "text/html";
+    await context.Response.SendFileAsync(
+        Path.Combine(app.Environment.WebRootPath, "index.html")
+    );
+});
+
+// ✅ MVC routes start from /home now
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
-// Map SignalR hub
+// ✅ SignalR hub
 app.MapHub<BidNest.Services.AuctionHub>("/auctionHub");
 
 app.Run();
