@@ -1,0 +1,275 @@
+@model List<BidNest.ViewModels.AuctionSummaryViewModel>
+@{
+    ViewData["Title"] = "Completed Auctions";
+}
+
+<style>
+:root {
+    --walnut-brown: #5C4033;
+    --golden-oak: #C19A6B;
+    --royal-gold: #D4AF37;
+    --steel-mist: #A2B0BF;
+    --matte-charcoal: #2B2B2B;
+    --luxury-black: #000000;
+    --text-light: #ffffff;
+    --border-color: rgba(193, 154, 107, 0.3);
+    --shadow-luxury: 0 20px 60px rgba(0, 0, 0, 0.8);
+    --shadow-hover: 0 25px 80px rgba(212, 175, 55, 0.25);
+}
+
+.luxury-completed-container {
+    background: var(--luxury-black);
+    color: var(--steel-mist);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.luxury-completed-card {
+    background: linear-gradient(145deg, var(--matte-charcoal), #1a1a1a);
+    border: 1px solid var(--walnut-brown);
+    border-radius: 16px;
+    box-shadow: var(--shadow-luxury);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.luxury-completed-header {
+    background: linear-gradient(135deg, var(--walnut-brown), var(--matte-charcoal));
+    color: var(--royal-gold);
+    border-bottom: 1px solid var(--border-color);
+    padding: 2rem;
+    border-radius: 16px 16px 0 0;
+}
+
+.luxury-completed-title {
+    color: var(--royal-gold);
+    font-weight: 700;
+    font-size: 2rem;
+    text-shadow: 0 2px 4px rgba(212, 175, 55, 0.3);
+}
+
+.luxury-auction-card {
+    background: linear-gradient(145deg, var(--matte-charcoal), #1a1a1a);
+    border: 1px solid var(--walnut-brown);
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.luxury-auction-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--royal-gold);
+}
+
+.luxury-auction-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.luxury-auction-card:hover .luxury-auction-image {
+    transform: scale(1.05);
+}
+
+.luxury-auction-body {
+    padding: 1.5rem;
+}
+
+.luxury-auction-title {
+    color: var(--royal-gold);
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.luxury-auction-price {
+    color: var(--golden-oak);
+    font-weight: 700;
+    font-size: 1.1rem;
+    font-family: 'Courier New', monospace;
+}
+
+.luxury-auction-status {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.luxury-btn {
+    background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+    color: var(--luxury-black);
+    border: 2px solid var(--royal-gold);
+    border-radius: 25px;
+    padding: 8px 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.luxury-btn:hover {
+    background: linear-gradient(135deg, var(--golden-oak), var(--royal-gold));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    color: var(--luxury-black);
+    text-decoration: none;
+}
+
+.luxury-btn-outline {
+    background: transparent;
+    color: var(--golden-oak);
+    border: 2px solid var(--golden-oak);
+}
+
+.luxury-btn-outline:hover {
+    background: var(--golden-oak);
+    color: var(--luxury-black);
+}
+
+.luxury-empty-state {
+    background: linear-gradient(145deg, var(--matte-charcoal), #1a1a1a);
+    border: 1px solid var(--walnut-brown);
+    border-radius: 16px;
+    padding: 4rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-luxury);
+}
+
+.luxury-empty-icon {
+    color: var(--walnut-brown);
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.luxury-empty-title {
+    color: var(--steel-mist);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.luxury-empty-text {
+    color: var(--golden-oak);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+</style>
+
+<div class="luxury-completed-container">
+    <div class="container">
+        <div class="luxury-completed-card">
+            <div class="luxury-completed-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1 class="luxury-completed-title mb-0">
+                        <i class="fas fa-history me-3"></i>Completed Auctions
+                    </h1>
+                    <div class="d-flex gap-2">
+                        <a href="@Url.Action("Active")" class="luxury-btn luxury-btn-outline">
+                            <i class="fas fa-clock me-2"></i>Active
+                        </a>
+                        <a href="@Url.Action("Ending")" class="luxury-btn luxury-btn-outline">
+                            <i class="fas fa-hourglass-end me-2"></i>Ending Soon
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body p-4">
+                @if (Model != null && Model.Any())
+                {
+                    <div class="row">
+                        @foreach (var auction in Model)
+                        {
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="luxury-auction-card">
+                                    <div class="position-relative">
+                                        @if (!string.IsNullOrEmpty(auction.ItemImageUrl))
+                                        {
+                                            <img src="@auction.ItemImageUrl" class="luxury-auction-image" alt="@auction.ItemName">
+                                        }
+                                        else
+                                        {
+                                            <div class="luxury-auction-image d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, var(--matte-charcoal), #1a1a1a);">
+                                                <i class="fas fa-image fa-3x" style="color: var(--walnut-brown);"></i>
+                                            </div>
+                                        }
+                                        <span class="luxury-auction-status position-absolute top-0 end-0 m-3">
+                                            Completed
+                                        </span>
+                                    </div>
+                                    <div class="luxury-auction-body">
+                                        <h5 class="luxury-auction-title">@auction.ItemName</h5>
+                                        <p class="text-muted small mb-2">@(auction.ItemDescription?.Length > 80 ? auction.ItemDescription.Substring(0, 80) + "..." : auction.ItemDescription)</p>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <small class="text-muted d-block">Final Price</small>
+                                                <span class="luxury-auction-price">$@((auction.FinalBid ?? auction.StartingBid).ToString("N2"))</span>
+                                            </div>
+                                            <div class="text-end">
+                                                <small class="text-muted d-block">Total Bids</small>
+                                                <small class="text-info">@auction.TotalBids</small>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <small class="text-muted d-block">Ended</small>
+                                                <small class="text-danger">@auction.AuctionEndTime.ToString("MMM dd, yyyy")</small>
+                                            </div>
+                                            @if (!string.IsNullOrEmpty(auction.WinnerName))
+                                            {
+                                                <div class="text-end">
+                                                    <small class="text-muted d-block">Winner</small>
+                                                    <small class="text-success"><i class="fas fa-crown"></i> @auction.WinnerName</small>
+                                                </div>
+                                            }
+                                        </div>
+                                        @if (auction.FinalBid.HasValue && auction.FinalBid > auction.StartingBid)
+                                        {
+                                            <div class="mb-3">
+                                                <small class="text-muted d-block">Profit</small>
+                                                <small class="text-success">
+                                                    +$@auction.ProfitAmount.ToString("N2") 
+                                                    (@auction.ProfitPercentage.ToString("F1")%)
+                                                </small>
+                                            </div>
+                                        }
+                                        <a href="@Url.Action("Details", new { id = auction.ItemId })" class="luxury-btn w-100">
+                                            <i class="fas fa-eye me-2"></i>View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="luxury-empty-state">
+                        <div class="luxury-empty-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3 class="luxury-empty-title">No Completed Auctions</h3>
+                        <p class="luxury-empty-text">
+                            There are no completed auctions to display at the moment.
+                            Check back later or browse our active auctions.
+                        </p>
+                        <a href="@Url.Action("Active")" class="luxury-btn">
+                            <i class="fas fa-search me-2"></i>Browse Active Auctions
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

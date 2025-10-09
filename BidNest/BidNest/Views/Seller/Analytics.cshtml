@@ -1,3 +1,183 @@
+<style>
+    :root {
+        --walnut-brown: #5C4033;
+        --golden-oak: #C19A6B;
+        --royal-gold: #D4AF37;
+        --steel-mist: #A2B0BF;
+        --matte-charcoal: #2B2B2B;
+        --text-dark: #f8f9fa;
+        --text-light: #f8f9fa;
+        --text-muted: #A2B0BF;
+        --bg-light: #000000;
+        --bg-dark: #000000;
+        --card-bg: #1a1a1a;
+        --border-color: rgba(196, 154, 107, 0.2);
+    }
+
+    body {
+        background-color: var(--bg-dark);
+        color: var(--text-light);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .container-fluid {
+        background-color: var(--bg-dark);
+    }
+
+    /* Analytics Cards */
+    .analytics-card {
+        background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal)) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 15px !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .analytics-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2) !important;
+        border-color: var(--golden-oak) !important;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, var(--walnut-brown), var(--royal-gold)) !important;
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(135deg, var(--golden-oak), var(--royal-gold)) !important;
+    }
+
+    .bg-gradient-info {
+        background: linear-gradient(135deg, var(--matte-charcoal), var(--steel-mist)) !important;
+    }
+
+    .bg-gradient-warning {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak)) !important;
+    }
+
+    /* Text Colors */
+    .text-primary {
+        color: var(--royal-gold) !important;
+    }
+
+    .text-muted {
+        color: var(--text-muted) !important;
+    }
+
+    h2, h3, h4, h5 {
+        color: var(--text-light);
+    }
+
+    /* Buttons */
+    .btn-outline-primary {
+        color: var(--royal-gold);
+        border-color: var(--royal-gold);
+        background-color: transparent;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-outline-primary:hover {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+        border-color: var(--royal-gold);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        border: none;
+        color: var(--matte-charcoal);
+        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown));
+        color: var(--text-light);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Chart and Card Containers */
+    .card {
+        background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal));
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, var(--walnut-brown), var(--golden-oak)) !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        color: var(--text-light);
+    }
+
+    .bg-white {
+        background: var(--card-bg) !important;
+    }
+
+    /* Table Styling */
+    .table {
+        color: var(--text-light);
+        background-color: transparent;
+    }
+
+    .table th {
+        color: var(--royal-gold);
+        border-color: var(--border-color);
+        background-color: var(--matte-charcoal);
+    }
+
+    .table td {
+        border-color: var(--border-color);
+    }
+
+    .table-striped > tbody > tr:nth-of-type(odd) > td {
+        background-color: rgba(42, 42, 42, 0.5);
+    }
+
+    /* Badge Styling */
+    .badge {
+        background-color: var(--royal-gold);
+        color: var(--matte-charcoal);
+    }
+
+    .badge.bg-success {
+        background-color: var(--golden-oak) !important;
+    }
+
+    .badge.bg-warning {
+        background-color: var(--royal-gold) !important;
+    }
+
+    .badge.bg-danger {
+        background-color: var(--walnut-brown) !important;
+    }
+
+    /* List Group */
+    .list-group-item {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+        color: var(--text-light);
+    }
+
+    .text-dark {
+        color: var(--text-light) !important;
+    }
+
+    /* Progress Bars */
+    .progress {
+        background-color: var(--matte-charcoal);
+        border-radius: 10px;
+    }
+
+    .progress-bar {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+    }
+</style>
+
 @model BidNest.ViewModels.SellerAnalyticsViewModel
 @{
     ViewData["Title"] = "Sales Analytics";

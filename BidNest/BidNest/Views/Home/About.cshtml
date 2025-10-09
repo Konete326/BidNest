@@ -7,15 +7,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #007bff; /* A vibrant blue */
-            --secondary-color: #6610f2; /* A slightly darker blue/indigo for secondary actions or hover */
-            --accent-color: #17a2b8; /* Cyan for highlights or complementary elements */
-            --text-dark: #343a40;
-            --text-light: #f8f9fa;
-            --bg-light: #f8f9fa;
-            --bg-dark: #212529;
-        }
+       :root {
+    --walnut-brown: #5C4033;
+    --golden-oak: #C19A6B;
+    --royal-gold: #D4AF37;
+    --steel-mist: #A2B0BF;
+    --matte-charcoal: #2B2B2B;
+    --text-dark: #f8f9fa;
+    --text-light: #f8f9fa;
+    --text-muted: #A2B0BF;
+    --bg-light: #000000;
+    --bg-dark: #000000;
+    --card-bg: #1a1a1a;
+    --border-color: rgba(196, 154, 107, 0.2);
+}
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -24,49 +29,55 @@
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+            border: none;
+            color: var(--matte-charcoal);
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
         }
 
         .btn-primary:hover {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
+            background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown));
+            color: var(--text-light);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
         }
 
         .btn-outline-primary {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
-            transition: all 0.3s ease;
+            color: var(--royal-gold);
+            border-color: var(--royal-gold);
+            background-color: transparent;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn-outline-primary:hover {
-            background-color: var(--primary-color);
-            color: var(--text-light);
+            background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+            color: var(--matte-charcoal);
+            border-color: var(--royal-gold);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
         }
 
         .btn-warning {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
+            background: linear-gradient(135deg, var(--walnut-brown), var(--golden-oak));
+            border: none;
             color: var(--text-light);
-            transition: all 0.3s ease;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(92, 64, 51, 0.3);
         }
 
         .btn-warning:hover {
-            background-color: darken(var(--accent-color), 10%);
-            border-color: 10px solid darken(var(--accent-color), 10%);
+            background: linear-gradient(135deg, var(--golden-oak), var(--royal-gold));
+            color: var(--matte-charcoal);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 12px 30px rgba(193, 154, 107, 0.4);
         }
 
         /* Hero Section - Animated Background */
         .hero-section-about {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
-            background-size: 400% 400%;
+           background: linear-gradient(135deg, var(--walnut-brown) 0%, var(--matte-charcoal) 35%, var(--golden-oak) 70%, var(--royal-gold) 100%); background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
             position: relative;
             overflow: hidden;
@@ -231,12 +242,12 @@
 <div class="container py-5">
     <div class="row align-items-center mb-5">
         <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
-            <img src="https://via.placeholder.com/600x400/007bff/ffffff?text=Our+Story+Image" alt="Our Story" class="img-fluid rounded shadow-lg about-image">
+            <img src="~/uploads/items/our_story_transparent.png" alt="Our Story" class="img-fluid rounded shadow-lg about-image">
         </div>
         <div class="col-lg-6" data-aos="fade-left">
             <h2 class="fw-bold mb-4">Our Journey: From Concept to Community</h2>
             <p class="lead">
-                BidNest was born from a vision to revolutionize online auctions, making them more accessible, secure, and enjoyable for everyone. We believe in the power of connection – connecting unique items with eager bidders and empowering sellers to reach a global audience.
+                BidNest was born from a vision to revolutionize online auctions, making them more accessible, secure, and enjoyable for everyone. We believe in the power of connection ï¿½ connecting unique items with eager bidders and empowering sellers to reach a global audience.
             </p>
             <p>
                 Since our founding, we've continuously evolved, driven by innovation and a deep understanding of our community's needs. Every feature, every update, is designed to enhance your experience, ensuring transparency, fairness, and excitement in every bid.
@@ -281,7 +292,7 @@
 
     <div class="row align-items-center py-5">
         <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0" data-aos="fade-left">
-            <img src="https://via.placeholder.com/600x400/17a2b8/ffffff?text=Why+Choose+BidNest" alt="Why Choose BidNest" class="img-fluid rounded shadow-lg about-image">
+            <img src="~/uploads/items/stand.png" alt="Why Choose BidNest" class="img-fluid rounded shadow-lg about-image">
         </div>
         <div class="col-lg-6 order-lg-1" data-aos="fade-right">
             <h2 class="fw-bold mb-4">Why BidNest Stands Out</h2>

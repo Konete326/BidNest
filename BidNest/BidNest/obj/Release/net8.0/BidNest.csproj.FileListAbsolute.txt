@@ -1,0 +1,10 @@
+D:\.net\BidNest\BidNest\BidNest\obj\Release\net8.0\BidNest.csproj.AssemblyReference.cache
+D:\.net\BidNest\BidNest\BidNest\obj\Release\net8.0\rpswa.dswa.cache.json
+D:\.net\BidNest\BidNest\BidNest\obj\Release\net8.0\BidNest.GeneratedMSBuildEditorConfig.editorconfig
+D:\.net\BidNest\BidNest\BidNest\obj\Release\net8.0\BidNest.AssemblyInfoInputs.cache
+D:\.net\BidNest\BidNest\BidNest\obj\Release\net8.0\BidNest.AssemblyInfo.cs
+D:\.net\BidNest\BidNest\BidNest\obj\Release\net8.0\BidNest.csproj.CoreCompileInputs.cache
+D:\.net\BidNest\BidNest\BidNest\obj\Release\net8.0\BidNest.MvcApplicationPartsAssemblyInfo.cache
+D:\.net\BidNest\BidNest\BidNest\obj\Release\net8.0\BidNest.RazorAssemblyInfo.cache
+D:\.net\BidNest\BidNest\BidNest\obj\Release\net8.0\BidNest.RazorAssemblyInfo.cs
+D:\.net\BidNest\BidNest\BidNest\obj\Release\net8.0\BidNest.sourcelink.json

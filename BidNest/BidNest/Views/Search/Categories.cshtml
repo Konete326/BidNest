@@ -3,13 +3,462 @@
     ViewData["Title"] = "Browse Categories";
 }
 
+<style>
+    :root {
+        --walnut-brown: #5C4033;
+        --golden-oak: #C19A6B;
+        --royal-gold: #D4AF37;
+        --steel-mist: #A2B0BF;
+        --matte-charcoal: #2B2B2B;
+        --text-light: #f8f9fa;
+        --text-muted: #A2B0BF;
+        --bg-dark: #000000;
+        --card-bg: #1a1a1a;
+        --border-color: rgba(196, 154, 107, 0.2);
+        --shadow-luxury: 0 15px 45px rgba(0, 0, 0, 0.5);
+        --shadow-hover: 0 20px 60px rgba(212, 175, 55, 0.15);
+    }
+
+    /* Global Styling */
+    body {
+        background-color: var(--bg-dark) !important;
+        color: var(--text-light);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+    }
+
+    .container {
+        background-color: var(--bg-dark);
+        min-height: 100vh;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    /* Header Styling */
+    .luxury-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 2rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .luxury-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="4" fill="%23D4AF37" opacity="0.1"/><circle cx="80" cy="40" r="6" fill="%23C19A6B" opacity="0.1"/><circle cx="50" cy="80" r="5" fill="%23D4AF37" opacity="0.1"/></svg>') repeat;
+        background-size: 150px;
+        opacity: 0.3;
+        animation: moveBubbles 30s linear infinite;
+        z-index: 0;
+    }
+
+    @@keyframes moveBubbles {
+        from { background-position: 0 0; }
+        to { background-position: 100% 100%; }
+    }
+
+    .luxury-header h2 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--text-light);
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        animation: fadeInDown 0.8s ease-out;
+    }
+
+    .luxury-header p {
+        font-size: 1.2rem;
+        color: var(--steel-mist);
+        position: relative;
+        z-index: 1;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    @@keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Category Card Styling */
+    .luxury-category-card {
+        background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal));
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        box-shadow: var(--shadow-luxury);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        position: relative;
+        height: 100%;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: luxuryFadeInCard 0.8s ease-out forwards;
+    }
+
+    .luxury-category-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--royal-gold), var(--golden-oak), var(--walnut-brown));
+        z-index: 1;
+    }
+
+    .luxury-category-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, transparent 0%, rgba(212, 175, 55, 0.05) 50%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 0;
+    }
+
+    .luxury-category-card:hover::after {
+        opacity: 1;
+    }
+
+    .luxury-category-card:hover {
+        transform: translateY(-12px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--golden-oak);
+    }
+
+    /* Staggered animation for cards */
+    .luxury-category-card:nth-child(1) { animation-delay: 0.1s; }
+    .luxury-category-card:nth-child(2) { animation-delay: 0.2s; }
+    .luxury-category-card:nth-child(3) { animation-delay: 0.3s; }
+    .luxury-category-card:nth-child(4) { animation-delay: 0.4s; }
+    .luxury-category-card:nth-child(5) { animation-delay: 0.5s; }
+    .luxury-category-card:nth-child(6) { animation-delay: 0.6s; }
+    .luxury-category-card:nth-child(7) { animation-delay: 0.7s; }
+    .luxury-category-card:nth-child(8) { animation-delay: 0.8s; }
+    .luxury-category-card:nth-child(9) { animation-delay: 0.9s; }
+
+    @@keyframes luxuryFadeInCard {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .luxury-card-body {
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    /* Category Icon Styling */
+    .luxury-category-icon {
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+        padding: 1.5rem;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .luxury-category-icon i {
+        color: var(--matte-charcoal);
+        font-size: 2.5rem;
+        transition: all 0.4s ease;
+    }
+
+    .luxury-category-card:hover .luxury-category-icon {
+        transform: scale(1.15) rotate(5deg);
+        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
+    }
+
+    .luxury-category-card:hover .luxury-category-icon i {
+        transform: scale(1.1);
+    }
+
+    /* Category Title */
+    .luxury-card-title {
+        color: var(--text-light);
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.5px;
+        transition: color 0.3s ease;
+    }
+
+    .luxury-category-card:hover .luxury-card-title {
+        color: var(--royal-gold);
+    }
+
+    /* Stats Row */
+    .luxury-stats-row {
+        margin-bottom: 2rem;
+        padding: 1rem 0;
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .luxury-stat-item {
+        text-align: center;
+        position: relative;
+    }
+
+    .luxury-stat-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        transition: all 0.3s ease;
+    }
+
+    .luxury-stat-value.items {
+        color: var(--royal-gold);
+    }
+
+    .luxury-stat-value.price {
+        color: var(--golden-oak);
+    }
+
+    .luxury-stat-label {
+        color: var(--steel-mist);
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .luxury-category-card:hover .luxury-stat-value {
+        transform: scale(1.05);
+    }
+
+    /* Browse Button */
+    .luxury-browse-btn {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+        border: none;
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        display: inline-block;
+    }
+
+    .luxury-browse-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .luxury-browse-btn:hover::before {
+        left: 100%;
+    }
+
+    .luxury-browse-btn:hover {
+        background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown));
+        color: var(--text-light);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        text-decoration: none;
+    }
+
+    .luxury-browse-btn i {
+        margin-right: 0.5rem;
+        transition: transform 0.3s ease;
+    }
+
+    .luxury-browse-btn:hover i {
+        transform: scale(1.1);
+    }
+
+    /* Empty State Styling */
+    .luxury-empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal));
+        border-radius: 20px;
+        box-shadow: var(--shadow-luxury);
+        border: 2px dashed var(--border-color);
+        margin-top: 2rem;
+        animation: luxuryFadeInCard 0.8s ease-out;
+    }
+
+    .luxury-empty-icon {
+        font-size: 4rem;
+        color: var(--steel-mist);
+        opacity: 0.6;
+        margin-bottom: 1.5rem;
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .luxury-empty-title {
+        color: var(--text-light);
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .luxury-empty-text {
+        color: var(--steel-mist);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .luxury-home-btn {
+        background: linear-gradient(135deg, var(--steel-mist), var(--golden-oak));
+        color: var(--matte-charcoal);
+        border: none;
+        border-radius: 25px;
+        padding: 1rem 2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: all 0.4s ease;
+        display: inline-block;
+        box-shadow: 0 4px 15px rgba(162, 176, 191, 0.3);
+    }
+
+    .luxury-home-btn:hover {
+        background: linear-gradient(135deg, var(--golden-oak), var(--royal-gold));
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        text-decoration: none;
+        color: var(--matte-charcoal);
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .container {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        
+        .luxury-header h2 {
+            font-size: 2.2rem;
+        }
+        
+        .luxury-header p {
+            font-size: 1rem;
+        }
+        
+        .luxury-card-body {
+            padding: 1.5rem;
+        }
+        
+        .luxury-category-icon {
+            padding: 1rem;
+        }
+        
+        .luxury-category-icon i {
+            font-size: 2rem;
+        }
+        
+        .luxury-card-title {
+            font-size: 1.3rem;
+        }
+        
+        .luxury-stat-value {
+            font-size: 1.5rem;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .luxury-header {
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .luxury-header h2 {
+            font-size: 1.8rem;
+        }
+        
+        .luxury-card-body {
+            padding: 1rem;
+        }
+        
+        .luxury-category-icon {
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .luxury-category-icon i {
+            font-size: 1.5rem;
+        }
+        
+        .luxury-card-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .luxury-stats-row {
+            margin-bottom: 1.5rem;
+            padding: 0.75rem 0;
+        }
+        
+        .luxury-stat-value {
+            font-size: 1.3rem;
+        }
+        
+        .luxury-browse-btn {
+            padding: 0.6rem 1.5rem;
+            font-size: 0.85rem;
+        }
+    }
+</style>
+
 <div class="container my-4">
     <!-- Header -->
-    <div class="row mb-4">
-        <div class="col-12 text-center">
-            <h2 class="mb-3">Browse by Category</h2>
-            <p class="text-muted">Discover amazing items across all categories</p>
-        </div>
+    <div class="luxury-header">
+        <h2 class="mb-3">Browse by Category</h2>
+        <p class="text-muted">Discover amazing items across all categories</p>
     </div>
 
     @if (Model.Any())
@@ -19,25 +468,25 @@
             @foreach (var category in Model)
             {
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 category-card">
-                        <div class="card-body text-center">
-                            <div class="category-icon mb-3">
-                                <i class="@GetCategoryIcon(category.CategoryName) fa-3x text-primary"></i>
+                    <div class="card h-100 luxury-category-card">
+                        <div class="card-body luxury-card-body">
+                            <div class="luxury-category-icon">
+                                <i class="@GetCategoryIcon(category.CategoryName)"></i>
                             </div>
-                            <h5 class="card-title">@category.CategoryName</h5>
-                            <div class="row text-center mb-3">
-                                <div class="col-6">
-                                    <div class="fw-bold text-success fs-4">@category.ItemCount</div>
-                                    <small class="text-muted">Active Items</small>
+                            <h5 class="luxury-card-title">@category.CategoryName</h5>
+                            <div class="row luxury-stats-row">
+                                <div class="col-6 luxury-stat-item">
+                                    <div class="luxury-stat-value items">@category.ItemCount</div>
+                                    <div class="luxury-stat-label">Active Items</div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="fw-bold text-info fs-4">$@category.AveragePrice.ToString("N0")</div>
-                                    <small class="text-muted">Avg Price</small>
+                                <div class="col-6 luxury-stat-item">
+                                    <div class="luxury-stat-value price">$@category.AveragePrice.ToString("N0")</div>
+                                    <div class="luxury-stat-label">Avg Price</div>
                                 </div>
                             </div>
                             <a href="@Url.Action("Category", new { id = category.CategoryId })" 
-                               class="btn btn-primary">
-                                <i class="fas fa-eye me-1"></i>Browse @category.CategoryName
+                               class="luxury-browse-btn">
+                                <i class="fas fa-eye"></i>Browse @category.CategoryName
                             </a>
                         </div>
                     </div>
@@ -48,12 +497,12 @@
     else
     {
         <!-- No Categories -->
-        <div class="text-center py-5">
-            <i class="fas fa-th-large fa-4x text-muted mb-3"></i>
-            <h4 class="text-muted">No Categories Available</h4>
-            <p class="text-muted">Categories will appear here when items are added.</p>
-            <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
-                <i class="fas fa-home"></i> Go Home
+        <div class="luxury-empty-state">
+            <i class="fas fa-th-large luxury-empty-icon"></i>
+            <h4 class="luxury-empty-title">No Categories Available</h4>
+            <p class="luxury-empty-text">Categories will appear here when items are added.</p>
+            <a href="@Url.Action("Index", "Home")" class="luxury-home-btn">
+                <i class="fas fa-home me-2"></i>Go Home
             </a>
         </div>
     }
@@ -79,27 +528,4 @@
             _ => "fas fa-tag"
         };
     }
-}
-
-@section Styles {
-    <style>
-        .category-card {
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: none;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        }
-        
-        .category-icon {
-            transition: transform 0.3s;
-        }
-        
-        .category-card:hover .category-icon {
-            transform: scale(1.1);
-        }
-    </style>
 }

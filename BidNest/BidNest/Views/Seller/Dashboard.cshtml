@@ -3,23 +3,52 @@
     ViewData["Title"] = "Seller Dashboard";
 }
 
-@* Custom CSS for the overhauled design *@
 <style>
+    :root {
+        --walnut-brown: #5C4033;
+        --golden-oak: #C19A6B;
+        --royal-gold: #D4AF37;
+        --steel-mist: #A2B0BF;
+        --matte-charcoal: #2B2B2B;
+        --text-dark: #f8f9fa;
+        --text-light: #f8f9fa;
+        --text-muted: #A2B0BF;
+        --bg-light: #000000;
+        --bg-dark: #000000;
+        --card-bg: #1a1a1a;
+        --border-color: rgba(196, 154, 107, 0.2);
+    }
+
     /* Global Page Styling */
     body {
-        background-color: #f0f2f5; /* Light grey background for the whole page */
+        background-color: var(--bg-dark);
+        color: var(--text-light);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .container-fluid {
+        background-color: var(--bg-dark);
     }
 
     /* Seller Dashboard Header */
     .seller-dashboard-header-new {
-        background: linear-gradient(to right, #6dd5ed, #2193b0); /* Fresh blue gradient */
-        color: white;
-        padding: 4rem 0; /* More vertical padding */
+        background: linear-gradient(135deg, var(--walnut-brown) 0%, var(--matte-charcoal) 35%, var(--golden-oak) 70%, var(--royal-gold) 100%);
+        background-size: 400% 400%;
+        animation: luxuryGradientShift 20s ease infinite;
+        color: var(--text-light);
+        padding: 4rem 0;
         margin-bottom: 2.5rem;
-        border-radius: 0.75rem;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Softer, larger shadow */
+        border-radius: 15px;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
         position: relative;
         overflow: hidden;
+        border: 1px solid var(--border-color);
+    }
+
+    @@keyframes luxuryGradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
     .seller-dashboard-header-new::before {
@@ -29,8 +58,16 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="dotted-pattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.1)" /></pattern></defs><rect x="0" y="0" width="100" height="100" fill="url(#dotted-pattern)"/></svg>') repeat;
-        opacity: 0.8;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="8" fill="%23D4AF37" opacity="0.1"/><circle cx="80" cy="40" r="12" fill="%23C19A6B" opacity="0.1"/><circle cx="50" cy="80" r="10" fill="%23D4AF37" opacity="0.1"/><circle cx="30" cy="70" r="6" fill="%23C19A6B" opacity="0.1"/><circle cx="70" cy="10" r="9" fill="%23D4AF37" opacity="0.1"/></svg>') repeat;
+        background-size: 150px;
+        opacity: 0.6;
+        animation: moveBubbles 30s linear infinite;
+        z-index: 0;
+    }
+
+    @@keyframes moveBubbles {
+        from { background-position: 0 0; }
+        to { background-position: 100% 100%; }
     }
 
     .seller-dashboard-header-new .container {
@@ -39,308 +76,859 @@
     }
 
     .seller-dashboard-header-new h2 {
-        font-weight: 800; /* Bolder font */
-        font-size: 3rem; /* Larger title */
-        letter-spacing: -0.05rem;
+        font-weight: 700;
+        font-size: 3rem;
+        letter-spacing: -0.02rem;
+        color: var(--text-light);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .seller-dashboard-header-new p {
         font-size: 1.2rem;
-        opacity: 0.95;
+        opacity: 0.9;
+        color: var(--text-light);
     }
 
     .seller-dashboard-header-new .btn-light {
-        background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white button */
-        color: #2193b0; /* Match text to gradient start color */
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
         font-weight: 600;
         border: none;
-        transition: all 0.3s ease;
+        padding: 12px 25px;
+        border-radius: 8px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
     }
 
     .seller-dashboard-header-new .btn-light:hover {
-        background-color: white;
-        color: #1a6f87;
+        background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown));
+        color: var(--text-light);
         transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
     }
 
     /* Stat Cards */
     .stat-card-new {
-        border-radius: 0.75rem;
+        border-radius: 15px;
         overflow: hidden;
         position: relative;
         transform: translateY(0);
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Lighter shadow */
-        border: 1px solid rgba(0, 0, 0, 0.05); /* Subtle border */
-        background-color: white; /* All cards white background */
-        color: #343a40; /* Dark text for all cards */
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--border-color);
+        background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal));
+        color: var(--text-light);
     }
 
     .stat-card-new:hover {
-        transform: translateY(-8px); /* More pronounced lift */
-        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+        border-color: var(--golden-oak);
     }
 
     .stat-card-new .card-body {
-        padding: 2rem 1.75rem; /* More padding */
+        padding: 2rem 1.75rem;
         position: relative;
         z-index: 1;
     }
 
     .stat-card-new .card-body h3 {
         font-weight: 700;
-        font-size: 2.5rem; /* Larger numbers */
+        font-size: 2.5rem;
         margin-bottom: 0.5rem;
-        color: #2c3e50; /* Darker heading color */
+        color: var(--royal-gold);
     }
 
     .stat-card-new .card-body p {
-        font-size: 1.05rem; /* Slightly larger text */
-        opacity: 0.85;
-        color: #6c757d;
+        font-size: 1.05rem;
+        color: var(--text-muted);
     }
 
     .stat-card-new .icon-wrapper-new {
         position: absolute;
         top: 50%;
         right: 1.5rem;
-        font-size: 4.5rem; /* Larger icons */
-        opacity: 0.8; /* More subtle */
+        font-size: 4rem;
+        opacity: 0.3;
         line-height: 1;
         transform: translateY(-50%);
-        color: #007bff; /* Default icon color */
+        color: var(--golden-oak);
+        transition: all 0.3s ease;
     }
 
-    /* Specific icon colors */
-    .stat-card-new.primary .icon-wrapper-new { color: #007bff; }
-    .stat-card-new.warning .icon-wrapper-new { color: #ffc107; }
-    .stat-card-new.success .icon-wrapper-new { color: #28a745; }
-    .stat-card-new.info .icon-wrapper-new { color: #17a2b8; }
+    .stat-card-new:hover .icon-wrapper-new {
+        opacity: 0.6;
+        transform: translateY(-50%) scale(1.1);
+    }
 
+    /* Specific card gradients */
+    .stat-card-new.primary {
+        background: linear-gradient(145deg, var(--walnut-brown), var(--matte-charcoal));
+    }
+
+    .stat-card-new.warning {
+        background: linear-gradient(145deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+    }
+
+    .stat-card-new.warning .card-body h3,
+    .stat-card-new.warning .card-body p {
+        color: var(--matte-charcoal);
+    }
+
+    .stat-card-new.warning .icon-wrapper-new {
+        color: var(--walnut-brown);
+    }
+
+    .stat-card-new.success {
+        background: linear-gradient(145deg, var(--golden-oak), var(--steel-mist));
+    }
+
+    .stat-card-new.info {
+        background: linear-gradient(145deg, var(--steel-mist), var(--matte-charcoal));
+    }
 
     /* General Card Styling */
     .card-new {
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-        border: none; /* Remove default border */
-        background-color: white;
+        border-radius: 15px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal));
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
     }
 
-    .card-new .card-header-new {
-        background-color: #ffffff; /* White header background */
-        border-bottom: 1px solid #e9ecef;
-        padding: 1.5rem 1.75rem; /* More padding */
-        border-top-left-radius: 0.75rem;
-        border-top-right-radius: 0.75rem;
+    .card-new:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.15);
+        border-color: var(--golden-oak);
     }
 
-    .card-new .card-title-new {
-        font-weight: 700; /* Bolder title */
-        font-size: 1.25rem; /* Larger title */
-        color: #343a40;
+    .card-new .card-header,
+    .card-header-new {
+        background: linear-gradient(135deg, var(--walnut-brown), var(--golden-oak));
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-light);
+        border-radius: 15px 15px 0 0;
+        padding: 1.25rem 1.5rem;
+        position: relative;
     }
 
-    .card-new .card-body {
-        padding: 1.75rem; /* Consistent padding */
+    .card-new .card-body,
+    .card-body-new {
+        background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal));
+        color: var(--text-light);
+        padding: 1.5rem;
     }
 
-    /* Table Styling */
-    .table-new th, .table-new td {
-        vertical-align: middle;
-        padding: 1.2rem 1rem; /* More padding */
-    }
-
-    .table-new th {
+    .card-title-new {
+        color: var(--text-light);
         font-weight: 600;
-        color: #8694a8; /* Softer grey for headers */
-        font-size: 0.95rem;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
+        font-size: 1.1rem;
+        margin-bottom: 0;
     }
 
-    .table-new tbody tr:hover {
-        background-color: #f8f9fa; /* Light hover effect */
+    .card-img-top-new {
+        height: 180px;
+        object-fit: cover;
+        border-radius: 0;
+    }
+
+    .card-text-new {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    /* Text Colors */
+    .text-primary {
+        color: var(--royal-gold) !important;
+    }
+
+    .text-muted {
+        color: var(--text-muted) !important;
+    }
+
+    .text-success {
+        color: var(--golden-oak) !important;
+    }
+
+    .text-warning {
+        color: var(--royal-gold) !important;
+    }
+
+    .text-info {
+        color: var(--steel-mist) !important;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--text-light);
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        border: none;
+        color: var(--matte-charcoal);
+        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown));
+        color: var(--text-light);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-outline-primary,
+    .btn-outline-primary-new {
+        color: var(--royal-gold);
+        border-color: var(--royal-gold);
+        background-color: transparent;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 500;
+    }
+
+    .btn-outline-primary:hover,
+    .btn-outline-primary-new:hover {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+        border-color: var(--royal-gold);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-outline-secondary-new {
+        color: var(--steel-mist);
+        border-color: var(--steel-mist);
+        background-color: transparent;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 500;
+    }
+
+    .btn-outline-secondary-new:hover {
+        background: linear-gradient(135deg, var(--steel-mist), var(--golden-oak));
+        color: var(--matte-charcoal);
+        border-color: var(--steel-mist);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(162, 176, 191, 0.3);
+    }
+
+    .btn-outline-warning-new {
+        color: var(--royal-gold);
+        border-color: var(--royal-gold);
+        background-color: transparent;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 500;
+    }
+
+    .btn-outline-warning-new:hover {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+        border-color: var(--royal-gold);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, var(--golden-oak), var(--steel-mist));
+        border: none;
+        color: var(--matte-charcoal);
+        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(135deg, var(--steel-mist), var(--royal-gold));
+        transform: translateY(-2px);
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        border: none;
+        color: var(--matte-charcoal);
+        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-warning:hover {
+        background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown));
+        color: var(--text-light);
+        transform: translateY(-2px);
+    }
+
+    /* Tables */
+    .table,
+    .table-new {
+        color: var(--text-light);
+        background-color: transparent;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .table th,
+    .table-new th {
+        color: var(--royal-gold);
+        border-color: var(--border-color);
+        background: linear-gradient(135deg, var(--matte-charcoal), var(--walnut-brown));
+        font-weight: 600;
+        padding: 1rem 0.75rem;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .table td,
+    .table-new td {
+        border-color: var(--border-color);
+        color: var(--text-light);
+        padding: 1rem 0.75rem;
+        vertical-align: middle;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(odd) > td,
+    .table-new tbody tr:nth-of-type(odd) td {
+        background-color: rgba(42, 42, 42, 0.3);
+    }
+
+    .table-hover tbody tr:hover td,
+    .table-new tbody tr:hover td {
+        background-color: rgba(196, 154, 107, 0.1);
+        transition: background-color 0.3s ease;
     }
 
     .item-image-sm-new {
-        width: 60px; /* Slightly larger image */
-        height: 60px;
-        border-radius: 0.6rem; /* Softer corners */
+        width: 50px;
+        height: 50px;
         object-fit: cover;
-        flex-shrink: 0;
-        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        border: 2px solid var(--border-color);
     }
 
     .item-image-placeholder-sm-new {
-        width: 60px;
-        height: 60px;
-        border-radius: 0.6rem;
-        background-color: #f2f4f6;
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--matte-charcoal), var(--walnut-brown));
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-shrink: 0;
-        color: #b0c4de;
-        font-size: 1.5rem;
-        border: 1px dashed #ced4da; /* Dashed border for placeholder */
+        color: var(--steel-mist);
+        border: 2px solid var(--border-color);
     }
 
-    /* Recent Bids List */
+    /* Badges */
+    .badge {
+        background-color: var(--royal-gold);
+        color: var(--matte-charcoal);
+    }
+
+    .badge.bg-success {
+        background-color: var(--golden-oak) !important;
+        color: var(--matte-charcoal) !important;
+    }
+
+    .badge.bg-warning {
+        background-color: var(--royal-gold) !important;
+        color: var(--matte-charcoal) !important;
+    }
+
+    .badge.bg-danger {
+        background-color: var(--walnut-brown) !important;
+        color: var(--text-light) !important;
+    }
+
+    .badge.bg-info {
+        background-color: var(--steel-mist) !important;
+        color: var(--matte-charcoal) !important;
+    }
+
+    .badge.bg-success-subtle {
+        background-color: rgba(193, 154, 107, 0.2) !important;
+        color: var(--golden-oak) !important;
+        border: 1px solid var(--golden-oak);
+    }
+
+    .badge.bg-danger-subtle {
+        background-color: rgba(92, 64, 51, 0.2) !important;
+        color: var(--walnut-brown) !important;
+        border: 1px solid var(--walnut-brown);
+    }
+
+    .badge-pending-new {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak)) !important;
+        color: var(--matte-charcoal) !important;
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+    }
+
+    /* Progress Bars */
+    .progress {
+        background-color: var(--matte-charcoal);
+        border-radius: 10px;
+    }
+
+    .progress-bar {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+    }
+
+    /* List Group */
+    .list-group-item {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+        color: var(--text-light);
+        transition: all 0.3s ease;
+        border-radius: 8px !important;
+        margin-bottom: 0.5rem;
+    }
+
+    .list-group-item:hover {
+        background: linear-gradient(135deg, var(--matte-charcoal), var(--walnut-brown));
+        transform: translateX(5px);
+        border-color: var(--golden-oak);
+    }
+
     .recent-bid-item-new {
-        border-bottom: 1px solid #f0f2f5; /* Lighter separator */
-        padding: 1rem 0; /* Consistent padding */
-        transition: background-color 0.2s ease;
+        padding: 1rem 0;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        border-bottom: 1px solid var(--border-color);
+        border-radius: 0 !important;
+        margin-bottom: 0;
+        transition: all 0.3s ease;
     }
 
     .recent-bid-item-new:hover {
-        background-color: #fcfdfe; /* Subtle hover */
+        background: linear-gradient(135deg, rgba(196, 154, 107, 0.1), rgba(212, 175, 55, 0.1));
+        transform: translateX(0);
+        border-color: var(--golden-oak);
     }
 
     .recent-bid-item-new:last-child {
         border-bottom: none;
     }
 
-    .recent-bid-item-new .small {
-        font-size: 0.875rem;
+    /* Alerts */
+    .alert {
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
     }
 
-    .recent-bid-item-new .fw-bold.text-dark {
-        color: #343a40 !important;
+    .alert-info {
+        background: linear-gradient(135deg, var(--steel-mist), rgba(162, 176, 191, 0.8));
+        border-color: var(--steel-mist);
+        color: var(--matte-charcoal);
     }
 
-    .recent-bid-item-new .text-muted a {
-        color: #007bff; /* Link color */
+    .alert-success {
+        background: linear-gradient(135deg, var(--golden-oak), rgba(193, 154, 107, 0.8));
+        border-color: var(--golden-oak);
+        color: var(--matte-charcoal);
     }
 
-    /* Pending Listing Cards */
-    .pending-listing-card-new {
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        border: 1px solid #ffeeba; /* Warning color border */
-        transition: transform 0.3s ease;
+    .alert-warning {
+        background: linear-gradient(135deg, var(--royal-gold), rgba(212, 175, 55, 0.8));
+        border-color: var(--royal-gold);
+        color: var(--matte-charcoal);
     }
 
-    .pending-listing-card-new:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    .alert-danger {
+        background: linear-gradient(135deg, var(--walnut-brown), rgba(92, 64, 51, 0.8));
+        border-color: var(--walnut-brown);
+        color: var(--text-light);
     }
 
-    .pending-listing-card-new .card-img-top-new {
-        height: 180px; /* Taller image */
-        object-fit: cover;
-        border-top-left-radius: 0.75rem;
-        border-top-right-radius: 0.75rem;
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
     }
 
-    .pending-listing-card-new .card-body-new {
-        padding: 1.5rem;
+    ::-webkit-scrollbar-track {
+        background: var(--matte-charcoal);
     }
 
-    .pending-listing-card-new .card-title-new {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #343a40;
+    ::-webkit-scrollbar-thumb {
+        background: var(--golden-oak);
+        border-radius: 4px;
     }
 
-    .pending-listing-card-new .card-text-new {
-        color: #8694a8;
-        font-size: 0.9rem;
-    }
-
-    .pending-listing-card-new .badge {
-        font-size: 0.85rem;
-        padding: 0.4em 0.7em;
-        border-radius: 0.5rem;
-    }
-
-    .badge-pending-new {
-        background-color: #fff3cd; /* Light warning background */
-        color: #856404; /* Dark warning text */
-        font-weight: 600;
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--royal-gold);
     }
 
     /* Empty States */
     .empty-state-new {
-        color: #9da8b6;
-        padding: 4rem 0;
-        background-color: #fcfdfe;
-        border-radius: 0.75rem;
-        margin-top: 1rem;
-        border: 1px dashed #e0e6ed;
+        padding: 3rem 2rem;
+        text-align: center;
     }
 
     .empty-state-new i {
-        font-size: 3.5rem; /* Slightly smaller icon */
+        font-size: 4rem;
+        color: var(--steel-mist);
+        opacity: 0.6;
         margin-bottom: 1.5rem;
-        color: #c9d8e5;
+        display: block;
     }
 
     .empty-state-new h5 {
-        color: #7f8c8d;
+        color: var(--text-muted);
         font-weight: 600;
+        margin-bottom: 1rem;
     }
 
     .empty-state-new p {
-        font-size: 1rem;
-        color: #aeb5be;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 
-    /* Buttons */
-    .btn-outline-primary-new {
-        color: #007bff;
-        border-color: #007bff;
-        transition: all 0.2s ease;
-    }
-    .btn-outline-primary-new:hover {
-        background-color: #007bff;
-        color: white;
+    /* Pending Listing Cards */
+    .pending-listing-card-new {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid var(--border-color);
     }
 
-    .btn-primary-new {
-        background-color: #007bff;
-        border-color: #007bff;
-        transition: all 0.2s ease;
-    }
-    .btn-primary-new:hover {
-        background-color: #0069d9;
-        border-color: #0062cc;
+    .pending-listing-card-new:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+        border-color: var(--golden-oak);
     }
 
-    .btn-outline-secondary-new {
-        color: #6c757d;
-        border-color: #6c757d;
-        transition: all 0.2s ease;
-    }
-    .btn-outline-secondary-new:hover {
-        background-color: #6c757d;
-        color: white;
+    /* Text Color Overrides */
+    .text-dark {
+        color: var(--text-light) !important;
     }
 
-    .btn-outline-warning-new {
-        color: #ffc107;
-        border-color: #ffc107;
-        transition: all 0.2s ease;
-    }
-    .btn-outline-warning-new:hover {
-        background-color: #ffc107;
-        color: white;
+    .text-white-75 {
+        color: rgba(248, 249, 250, 0.75) !important;
     }
 
+    /* Timer Classes */
+    .luxury-timer-danger {
+        color: var(--walnut-brown) !important;
+        font-weight: 700;
+    }
+    
+    .luxury-timer-warning {
+        color: var(--royal-gold) !important;
+        font-weight: 700;
+    }
+    
+    .luxury-timer-primary {
+        color: var(--royal-gold) !important;
+        font-weight: 700;
+    }
+    
+    /* Link Styles */
+    .luxury-link {
+        color: var(--royal-gold);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .luxury-link:hover {
+        color: var(--golden-oak);
+        text-decoration: underline;
+    }
+
+    /* Responsive Enhancements */
+    @@media (max-width: 768px) {
+        .seller-dashboard-header-new {
+            padding: 3rem 0;
+        }
+        
+        .seller-dashboard-header-new h2 {
+            font-size: 2rem;
+        }
+        
+        .stat-card-new .card-body {
+            padding: 1.5rem;
+        }
+        
+        .stat-card-new .icon-wrapper-new {
+            font-size: 3rem;
+        }
+        
+        .empty-state-new {
+            padding: 2rem 1rem;
+        }
+        
+        .empty-state-new i {
+            font-size: 3rem;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .seller-dashboard-header-new {
+            padding: 2rem 0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .seller-dashboard-header-new h2 {
+            font-size: 1.75rem;
+        }
+        
+        .card-header-new,
+        .card-new .card-header {
+            padding: 1rem;
+        }
+        
+        .card-body-new,
+        .card-new .card-body {
+            padding: 1rem;
+        }
+        
+        .stat-card-new .card-body {
+            padding: 1.25rem;
+        }
+    }
+
+    /* Custom Layout Classes (replacing Bootstrap) */
+    .luxury-container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .luxury-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+
+    .luxury-col {
+        position: relative;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .luxury-col-12 { flex: 0 0 100%; max-width: 100%; }
+    .luxury-col-lg-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+    .luxury-col-lg-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+    .luxury-col-lg-3 { flex: 0 0 25%; max-width: 25%; }
+    .luxury-col-md-6 { flex: 0 0 50%; max-width: 50%; }
+
+    @@media (max-width: 991.98px) {
+        .luxury-col-lg-8, .luxury-col-lg-4, .luxury-col-lg-3 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .luxury-col-md-6 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+
+    /* Custom Utility Classes */
+    .luxury-text-center { text-align: center; }
+    .luxury-text-end { text-align: right; }
+    .luxury-text-start { text-align: left; }
+    .luxury-d-flex { display: flex; }
+    .luxury-flex-column { flex-direction: column; }
+    .luxury-flex-row { flex-direction: row; }
+    .luxury-justify-between { justify-content: space-between; }
+    .luxury-justify-center { justify-content: center; }
+    .luxury-align-center { align-items: center; }
+    .luxury-flex-grow { flex-grow: 1; }
+    .luxury-h-100 { height: 100%; }
+    
+    /* Spacing Classes */
+    .luxury-mb-0 { margin-bottom: 0; }
+    .luxury-mb-1 { margin-bottom: 0.25rem; }
+    .luxury-mb-2 { margin-bottom: 0.5rem; }
+    .luxury-mb-3 { margin-bottom: 1rem; }
+    .luxury-mb-4 { margin-bottom: 1.5rem; }
+    .luxury-me-2 { margin-right: 0.5rem; }
+    .luxury-me-3 { margin-right: 1rem; }
+    .luxury-ms-2 { margin-left: 0.5rem; }
+    .luxury-px-0 { padding-left: 0; padding-right: 0; }
+    .luxury-px-4 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .luxury-py-4 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+    .luxury-py-5 { padding-top: 3rem; padding-bottom: 3rem; }
+    .luxury-mt-4 { margin-top: 1.5rem; }
+    
+    /* Typography Classes */
+    .luxury-fw-bold { font-weight: 700; }
+    .luxury-small { font-size: 0.875rem; }
+    .luxury-text-muted { color: var(--text-muted); }
+    .luxury-text-light { color: var(--text-light); }
+    
+    /* Button Classes */
+    .luxury-btn {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid transparent;
+        cursor: pointer;
+        font-weight: 500;
+    }
+    
+    .luxury-btn-primary {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+        border: none;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .luxury-btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .luxury-btn-primary:hover::before {
+        left: 100%;
+    }
+    
+    .luxury-btn-primary:hover {
+        background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown));
+        color: var(--text-light) !important;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        text-decoration: none;
+    }
+    
+    .luxury-btn-primary:active {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    
+    /* Specific button styling to override any conflicts */
+    #create-new-item-btn, #create-first-listing-btn {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak)) !important;
+        color: var(--matte-charcoal) !important;
+        border: none !important;
+        text-decoration: none !important;
+        display: inline-block !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    #create-new-item-btn:hover, #create-first-listing-btn:hover {
+        background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown)) !important;
+        color: var(--text-light) !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4) !important;
+        text-decoration: none !important;
+    }
+    
+    .luxury-btn-outline {
+        background: transparent;
+        color: var(--royal-gold);
+        border: 1px solid var(--royal-gold);
+    }
+    
+    .luxury-btn-outline:hover {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+        transform: translateY(-2px);
+    }
+    
+    .luxury-btn-sm {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .luxury-btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.125rem;
+    }
+    
+    .luxury-btn-pill {
+        border-radius: 50px;
+    }
+    
+    /* Badge Classes */
+    .luxury-badge {
+        display: inline-block;
+        padding: 0.35em 0.65em;
+        font-size: 0.75em;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.375rem;
+    }
+    
+    .luxury-badge-primary {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+    }
+    
+    .luxury-badge-success {
+        background-color: rgba(193, 154, 107, 0.2);
+        color: var(--golden-oak);
+        border: 1px solid var(--golden-oak);
+    }
+    
+    .luxury-badge-danger {
+        background-color: rgba(92, 64, 51, 0.2);
+        color: var(--walnut-brown);
+        border: 1px solid var(--walnut-brown);
+    }
+    
+    .luxury-badge-pill {
+        border-radius: 50px;
+    }
+    
+    /* Table Responsive */
+    .luxury-table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* List Group */
+    .luxury-list-group {
+        display: flex;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        border-radius: 0.375rem;
+    }
+    
+    .luxury-list-flush {
+        border-radius: 0;
+    }
+    
+    /* Media Queries for responsive behavior */
+    @@media (min-width: 768px) {
+        .luxury-flex-md-row { flex-direction: row; }
+        .luxury-text-md-start { text-align: left; }
+    }
 </style>
 
-<div class="container-fluid py-4">
+<div class="luxury-container luxury-py-4">
     <!-- Header -->
-    <div class="seller-dashboard-header-new text-center">
-        <div class="container">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-                <div class="mb-3 mb-md-0 text-center text-md-start">
-                    <h2 class="mb-1">Seller Dashboard</h2>
-                    <p class="text-white-75 mb-0">Manage your listings, track sales, and grow your presence.</p>
+    <div class="seller-dashboard-header-new luxury-text-center">
+        <div class="luxury-container">
+            <div class="luxury-d-flex luxury-flex-column luxury-flex-md-row luxury-justify-between luxury-align-center">
+                <div class="luxury-mb-3 luxury-text-center luxury-text-md-start" id="dashboard-title">
+                    <h2 class="luxury-mb-1">Seller Dashboard</h2>
+                    <p class="text-white-75 luxury-mb-0">Manage your listings, track sales, and grow your presence.</p>
                 </div>
-                <div class="text-center">
-                    <a href="@Url.Action("Create")" class="btn btn-light btn-lg rounded-pill shadow-sm px-4">
-                        <i class="fas fa-plus me-2"></i>Sell a New Item
+                <div class="luxury-text-center" id="create-button-wrapper">
+                    <a href="@Url.Action("Create")" class="luxury-btn luxury-btn-primary luxury-btn-lg luxury-btn-pill luxury-px-4" id="create-new-item-btn">
+                        <i class="fas fa-plus luxury-me-2"></i>Sell a New Item
                     </a>
                 </div>
             </div>
@@ -348,105 +936,105 @@
     </div>
 
     <!-- Stats Cards -->
-    <div class="row mb-4">
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stat-card-new primary">
+    <div class="luxury-row luxury-mb-4" id="stats-cards-row">
+        <div class="luxury-col luxury-col-lg-3 luxury-col-md-6 luxury-mb-3">
+            <div class="stat-card-new primary" id="active-listings-card">
                 <div class="card-body">
                     <div class="icon-wrapper-new"><i class="fas fa-gavel"></i></div>
-                    <h3 class="mb-0">@Model.TotalActiveListings</h3>
-                    <p class="mb-0">Active Listings</p>
+                    <h3 class="luxury-mb-0">@Model.TotalActiveListings</h3>
+                    <p class="luxury-mb-0">Active Listings</p>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stat-card-new warning">
+        <div class="luxury-col luxury-col-lg-3 luxury-col-md-6 luxury-mb-3">
+            <div class="stat-card-new warning" id="pending-listings-card">
                 <div class="card-body">
                     <div class="icon-wrapper-new"><i class="fas fa-clock"></i></div>
-                    <h3 class="mb-0">@Model.TotalPendingListings</h3>
-                    <p class="mb-0">Pending Approval</p>
+                    <h3 class="luxury-mb-0">@Model.TotalPendingListings</h3>
+                    <p class="luxury-mb-0">Pending Approval</p>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stat-card-new success">
+        <div class="luxury-col luxury-col-lg-3 luxury-col-md-6 luxury-mb-3">
+            <div class="stat-card-new success" id="sold-items-card">
                 <div class="card-body">
                     <div class="icon-wrapper-new"><i class="fas fa-check-circle"></i></div>
-                    <h3 class="mb-0">@Model.TotalSoldItems</h3>
-                    <p class="mb-0">Items Sold</p>
+                    <h3 class="luxury-mb-0">@Model.TotalSoldItems</h3>
+                    <p class="luxury-mb-0">Items Sold</p>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stat-card-new info">
+        <div class="luxury-col luxury-col-lg-3 luxury-col-md-6 luxury-mb-3">
+            <div class="stat-card-new info" id="earnings-card">
                 <div class="card-body">
                     <div class="icon-wrapper-new"><i class="fas fa-dollar-sign"></i></div>
-                    <h3 class="mb-0">$@Model.TotalEarnings.ToString("N2")</h3>
-                    <p class="mb-0">Total Earnings</p>
+                    <h3 class="luxury-mb-0">$@Model.TotalEarnings.ToString("N2")</h3>
+                    <p class="luxury-mb-0">Total Earnings</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
+    <div class="luxury-row" id="main-content-row">
         <!-- Active Listings -->
-        <div class="col-lg-8 mb-4">
-            <div class="card-new h-100">
-                <div class="card-header-new d-flex justify-content-between align-items-center">
-                    <h5 class="card-title-new mb-0">Active Listings</h5>
-                    <a href="@Url.Action("MyItems", new { status = "active" })" class="btn btn-sm btn-outline-primary-new rounded-pill">View All</a>
+        <div class="luxury-col luxury-col-lg-8 luxury-mb-4">
+            <div class="card-new luxury-h-100" id="active-listings-section">
+                <div class="card-header-new luxury-d-flex luxury-justify-between luxury-align-center">
+                    <h5 class="card-title-new luxury-mb-0">Active Listings</h5>
+                    <a href="@Url.Action("MyItems", new { status = "active" })" class="luxury-btn luxury-btn-outline luxury-btn-sm luxury-btn-pill" id="view-all-active-btn">View All</a>
                 </div>
                 <div class="card-body">
                     @if (Model.ActiveListings.Any())
                     {
-                        <div class="table-responsive">
-                            <table class="table-new table-borderless table-hover mb-0">
+                        <div class="luxury-table-responsive">
+                            <table class="table-new table-borderless table-hover luxury-mb-0" id="active-listings-table">
                                 <thead>
                                     <tr>
                                         <th>Item</th>
                                         <th>Current Bid</th>
                                         <th>Bids</th>
                                         <th>Time Left</th>
-                                        <th class="text-end">Actions</th>
+                                        <th class="luxury-text-end">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model.ActiveListings.Take(5))
                                     {
-                                        <tr>
+                                        <tr class="listing-row" data-item-id="@item.ItemId">
                                             <td>
-                                                <div class="d-flex align-items-center">
+                                                <div class="luxury-d-flex luxury-align-center">
                                                     @if (item.Images.Any())
                                                     {
                                                         <img src="@item.Images.First().ImagePath" alt="@item.Name"
-                                                             class="item-image-sm-new me-3">
+                                                             class="item-image-sm-new luxury-me-3">
                                                     }
                                                     else
                                                     {
-                                                        <div class="item-image-placeholder-sm-new me-3">
+                                                        <div class="item-image-placeholder-sm-new luxury-me-3">
                                                             <i class="fas fa-image"></i>
                                                         </div>
                                                     }
-                                                    <div>
-                                                        <div class="fw-bold text-dark">@item.Name</div>
-                                                        <small class="text-muted">@item.CategoryName</small>
+                                                    <div class="item-details">
+                                                        <div class="luxury-fw-bold luxury-text-light">@item.Name</div>
+                                                        <small class="luxury-text-muted">@item.CategoryName</small>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="fw-bold text-success">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</div>
-                                                <small class="text-muted">Min: $@item.MinimumBid.ToString("N2")</small>
+                                            <td class="bid-amount-cell">
+                                                <div class="luxury-fw-bold" style="color: var(--golden-oak);">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</div>
+                                                <small class="luxury-text-muted">Min: $@item.MinimumBid.ToString("N2")</small>
                                             </td>
-                                            <td>
-                                                <span class="badge bg-primary rounded-pill">@item.BidCount</span>
+                                            <td class="bid-count-cell">
+                                                <span class="luxury-badge luxury-badge-primary luxury-badge-pill">@item.BidCount</span>
                                             </td>
-                                            <td>
-                                                <div class="fw-bold" id="timer-@item.ItemId">
+                                            <td class="timer-cell">
+                                                <div class="luxury-fw-bold" id="timer-@item.ItemId">
                                                     <!-- Will be populated by JavaScript -->
                                                 </div>
                                             </td>
-                                            <td class="text-end">
+                                            <td class="luxury-text-end actions-cell">
                                                 <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })"
-                                                   class="btn btn-sm btn-outline-secondary-new rounded-pill">View</a>
+                                                   class="luxury-btn luxury-btn-outline luxury-btn-sm luxury-btn-pill" id="view-item-@item.ItemId">View</a>
                                             </td>
                                         </tr>
                                     }
@@ -456,11 +1044,11 @@
                     }
                     else
                     {
-                        <div class="text-center py-5 empty-state-new">
-                            <i class="fas fa-gavel mb-3"></i>
-                            <h5 class="text-muted">No Active Listings Yet</h5>
-                            <p class="text-muted mb-4">Your active listings will appear here. Get started by creating your first listing!</p>
-                            <a href="@Url.Action("Create")" class="btn btn-primary rounded-pill">
+                        <div class="luxury-text-center luxury-py-5 empty-state-new" id="no-active-listings">
+                            <i class="fas fa-gavel luxury-mb-3"></i>
+                            <h5 class="luxury-text-muted">No Active Listings Yet</h5>
+                            <p class="luxury-text-muted luxury-mb-4">Your active listings will appear here. Get started by creating your first listing!</p>
+                            <a href="@Url.Action("Create")" class="luxury-btn luxury-btn-primary luxury-btn-pill" id="create-first-listing-btn">
                                 Create New Listing
                             </a>
                         </div>
@@ -470,10 +1058,10 @@
         </div>
 
         <!-- Recent Activity -->
-        <div class="col-lg-4 mb-4">
-            <div class="card-new h-100">
+        <div class="luxury-col luxury-col-lg-4 luxury-mb-4">
+            <div class="card-new luxury-h-100" id="recent-bids-section">
                 <div class="card-header-new">
-                    <h5 class="card-title-new mb-0">Recent Bids</h5>
+                    <h5 class="card-title-new luxury-mb-0">Recent Bids</h5>
                 </div>
                 <div class="card-body">
                     @if (Model.RecentBids.Any())
@@ -495,17 +1083,17 @@
                                     }
                                     <div class="flex-grow-1">
                                         <div class="small fw-bold text-dark">@bid.BidderName</div>
-                                        <div class="small text-muted">bid <span class="text-success fw-bold">$@bid.Amount.ToString("N2")</span> on <a href="@Url.Action("Details", "Auction", new { id = bid.ItemId })" class="text-decoration-none">@bid.ItemTitle</a></div>
+                                        <div class="small text-muted">bid <span class="fw-bold" style="color: var(--golden-oak);">$@bid.Amount.ToString("N2")</span> on <a href="@Url.Action("Details", "Auction", new { id = bid.ItemId })" class="text-decoration-none" style="color: var(--royal-gold);">@bid.ItemTitle</a></div>
                                     </div>
                                     <div class="text-end ms-2">
                                         <small class="text-muted d-block mb-1">@bid.TimeAgo</small>
                                         @if (bid.IsWinning)
                                         {
-                                            <span class="badge bg-success-subtle text-success fw-bold small">Winning</span>
+                                            <span class="badge bg-success-subtle fw-bold small" style="color: var(--golden-oak) !important;">Winning</span>
                                         }
                                         else
                                         {
-                                            <span class="badge bg-danger-subtle text-danger fw-bold small">Outbid</span>
+                                            <span class="badge bg-danger-subtle fw-bold small" style="color: var(--walnut-brown) !important;">Outbid</span>
                                         }
                                     </div>
                                 </div>
@@ -547,9 +1135,9 @@
                                         }
                                         else
                                         {
-                                            <div class="bg-light d-flex align-items-center justify-content-center"
-                                                 style="height: 180px; border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem;">
-                                                <i class="fas fa-image fa-3x text-muted"></i>
+                                            <div class="d-flex align-items-center justify-content-center"
+                                                 style="height: 180px; border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem; background: linear-gradient(135deg, var(--matte-charcoal), var(--walnut-brown));">
+                                                <i class="fas fa-image fa-3x" style="color: var(--steel-mist); opacity: 0.6;"></i>
                                             </div>
                                         }
                                         <div class="card-body-new d-flex flex-column">
@@ -574,14 +1162,10 @@
 </div>
 @section Scripts {
     <script>
-        @Html.Raw(@"
         // Timer functionality for active listings
         function updateTimers() {
-        ")
-        
         @foreach (var item in Model.ActiveListings.Take(5))
         {
-            <text>
             @Html.Raw($@"
                 var endTime_{item.ItemId} = new Date('{item.EndDate:yyyy-MM-ddTHH:mm:ssZ}');
                 var now = new Date();
@@ -591,7 +1175,7 @@
                 if (timerElement) {{
                     if (timeLeft <= 0) {{
                         timerElement.textContent = 'Ended';
-                        timerElement.className = 'text-danger fw-bold';
+                        timerElement.className = 'luxury-timer-danger';
                     }} else {{
                         var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
                         var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -608,24 +1192,20 @@
 
                         // Change color based on urgency
                         if (timeLeft < 3600000) {{
-                            timerElement.className = 'text-danger fw-bold';
+                            timerElement.className = 'luxury-timer-danger';
                         }} else if (timeLeft < 86400000) {{
-                            timerElement.className = 'text-warning fw-bold';
+                            timerElement.className = 'luxury-timer-warning';
                         }} else {{
-                            timerElement.className = 'text-primary fw-bold';
+                            timerElement.className = 'luxury-timer-primary';
                         }}
                     }}
                 }}
             ")
-            </text>
         }
-
-        @Html.Raw(@"
         }
 
         // Update timers every second for a more dynamic feel
         updateTimers();
         setInterval(updateTimers, 1000);
-        ")
     </script>
 }

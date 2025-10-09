@@ -3,29 +3,31 @@
     ViewData["Title"] = "My Profile";
 }
 
-<div class="container py-5">
+<div class="luxury-profile-container py-5">
     <div class="row">
         <!-- Profile Header & Navigation -->
-        <div class="col-lg-12 mb-4">
-            <div class="d-flex align-items-center bg-white p-4 rounded shadow-sm">
-                <div class="profile-avatar-lg me-4">
-                    <span class="initials">@Model.FullName?.Substring(0, 2).ToUpper()</span>
+        <div class="col-lg-12 mb-5">
+            <div class="luxury-profile-header">
+                <div class="luxury-avatar-container me-4">
+                    <span class="luxury-initials">@Model.FullName?.Substring(0, 2).ToUpper()</span>
                 </div>
-                <div>
-                    <h2 class="mb-0">@Model.FullName</h2>
-                    <p class="text-muted mb-1">@@@Model.Username</p>
-                    <span class="badge @(Model.IsBlocked ? "bg-danger" : "bg-success") rounded-pill">
-                        @(Model.IsBlocked ? "Account Blocked" : "Active Account")
-                    </span>
-                    <span class="badge @(Model.Role == "Admin" ? "bg-info" : "bg-primary") rounded-pill ms-2">
-                        @Model.Role Account
-                    </span>
+                <div class="luxury-profile-info">
+                    <h2 class="luxury-profile-name mb-1">@Model.FullName</h2>
+                    <p class="luxury-username mb-2">@@@Model.Username</p>
+                    <div class="luxury-badges">
+                        <span class="luxury-status-badge @(Model.IsBlocked ? "blocked" : "active")">
+                            @(Model.IsBlocked ? "Account Blocked" : "Active Account")
+                        </span>
+                        <span class="luxury-role-badge @(Model.Role == "Admin" ? "admin" : "user")">
+                            @Model.Role Account
+                        </span>
+                    </div>
                 </div>
-                <div class="ms-auto d-flex flex-column flex-sm-row">
-                    <a href="@Url.Action("EditProfile", "Account")" class="btn btn-primary mb-2 mb-sm-0 me-sm-2">
+                <div class="luxury-profile-actions ms-auto">
+                    <a href="@Url.Action("EditProfile", "Account")" class="luxury-btn luxury-btn-primary mb-2 mb-sm-0 me-sm-2">
                         <i class="fas fa-user-edit me-2"></i>Edit Profile
                     </a>
-                    <a href="@Url.Action("ChangePassword", "Account")" class="btn btn-outline-secondary">
+                    <a href="@Url.Action("ChangePassword", "Account")" class="luxury-btn luxury-btn-outline">
                         <i class="fas fa-key me-2"></i>Change Password
                     </a>
                 </div>
@@ -34,32 +36,32 @@
 
         <div class="col-lg-4">
             <!-- Quick Stats Card -->
-            <div class="card shadow-sm mb-4 border-0">
-                <div class="card-body">
-                    <h5 class="card-title text-primary mb-4"><i class="fas fa-chart-bar me-2"></i>Your Activity Snapshot</h5>
+            <div class="luxury-stats-card mb-4">
+                <div class="luxury-card-body">
+                    <h5 class="luxury-card-title mb-4"><i class="fas fa-chart-bar me-2"></i>Your Activity Snapshot</h5>
                     <div class="row text-center g-3">
                         <div class="col-6">
-                            <div class="stat-item p-3 bg-light rounded">
-                                <h4 class="text-primary mb-1">@ViewBag.TotalBids</h4>
-                                <small class="text-muted">Total Bids</small>
+                            <div class="luxury-stat-item total-bids">
+                                <h4 class="luxury-stat-number mb-1">@ViewBag.TotalBids</h4>
+                                <small class="luxury-stat-label">Total Bids</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="stat-item p-3 bg-light rounded">
-                                <h4 class="text-success mb-1">@ViewBag.WonAuctions</h4>
-                                <small class="text-muted">Won Auctions</small>
+                            <div class="luxury-stat-item won-auctions">
+                                <h4 class="luxury-stat-number mb-1">@ViewBag.WonAuctions</h4>
+                                <small class="luxury-stat-label">Won Auctions</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="stat-item p-3 bg-light rounded">
-                                <h4 class="text-info mb-1">@ViewBag.ActiveBids</h4>
-                                <small class="text-muted">Active Bids</small>
+                            <div class="luxury-stat-item active-bids">
+                                <h4 class="luxury-stat-number mb-1">@ViewBag.ActiveBids</h4>
+                                <small class="luxury-stat-label">Active Bids</small>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="stat-item p-3 bg-light rounded">
-                                <h4 class="text-warning mb-1">@ViewBag.WatchlistCount</h4>
-                                <small class="text-muted">Watchlist Items</small>
+                            <div class="luxury-stat-item watchlist">
+                                <h4 class="luxury-stat-number mb-1">@ViewBag.WatchlistCount</h4>
+                                <small class="luxury-stat-label">Watchlist Items</small>
                             </div>
                         </div>
                     </div>
@@ -67,17 +69,17 @@
             </div>
 
             <!-- Contact Information Card -->
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body">
-                    <h5 class="card-title text-primary mb-3"><i class="fas fa-address-book me-2"></i>Contact Details</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between align-items-center ps-0 pe-0">
-                            <span class="fw-bold"><i class="fas fa-envelope me-2 text-secondary"></i>Email:</span>
-                            <span class="text-secondary">@Model.Email</span>
+            <div class="luxury-contact-card mb-4">
+                <div class="luxury-card-body">
+                    <h5 class="luxury-card-title mb-3"><i class="fas fa-address-book me-2"></i>Contact Details</h5>
+                    <ul class="luxury-contact-list">
+                        <li class="luxury-contact-item">
+                            <span class="luxury-contact-label"><i class="fas fa-envelope me-2"></i>Email:</span>
+                            <span class="luxury-contact-value">@Model.Email</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center ps-0 pe-0">
-                            <span class="fw-bold"><i class="fas fa-calendar-alt me-2 text-secondary"></i>Member Since:</span>
-                            <span class="text-secondary">@Model.JoinDate.ToString("MMMM dd, yyyy")</span>
+                        <li class="luxury-contact-item">
+                            <span class="luxury-contact-label"><i class="fas fa-calendar-alt me-2"></i>Member Since:</span>
+                            <span class="luxury-contact-value">@Model.JoinDate.ToString("MMMM dd, yyyy")</span>
                         </li>
                     </ul>
                 </div>
@@ -86,14 +88,14 @@
 
         <div class="col-lg-8">
             <!-- Recent Bids Card -->
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body">
-                    <h5 class="card-title text-primary mb-3"><i class="fas fa-history me-2"></i>Recent Bid Activity</h5>
+            <div class="luxury-bids-card mb-4">
+                <div class="luxury-card-body">
+                    <h5 class="luxury-card-title mb-3"><i class="fas fa-history me-2"></i>Recent Bid Activity</h5>
                     @if (ViewBag.RecentBids != null && ViewBag.RecentBids.Count > 0)
                     {
-                        <div class="table-responsive">
-                            <table class="table table-hover table-borderless align-middle">
-                                <thead class="border-bottom">
+                        <div class="luxury-table-container">
+                            <table class="luxury-table">
+                                <thead class="luxury-table-header">
                                     <tr>
                                         <th scope="col">Item</th>
                                         <th scope="col">Bid Amount</th>
@@ -104,22 +106,22 @@
                                 <tbody>
                                     @foreach (var bid in ViewBag.RecentBids)
                                     {
-                                        <tr>
+                                        <tr class="luxury-table-row">
                                             <td>
-                                                <a href="@Url.Action("Details", "Auction", new { id = bid.ItemId })" class="text-decoration-none fw-bold">
+                                                <a href="@Url.Action("Details", "Auction", new { id = bid.ItemId })" class="luxury-item-link">
                                                     @bid.ItemTitle
                                                 </a>
                                             </td>
-                                            <td><span class="text-success fw-bold">$@bid.Amount.ToString("N2")</span></td>
-                                            <td class="text-muted">@bid.BidTime.ToString("MMM dd, yyyy HH:mm")</td>
+                                            <td><span class="luxury-bid-amount">$@bid.Amount.ToString("N2")</span></td>
+                                            <td class="luxury-bid-date">@bid.BidTime.ToString("MMM dd, yyyy HH:mm")</td>
                                             <td>
                                                 @if (bid.IsWinning)
                                                 {
-                                                    <span class="badge bg-success-light text-success"><i class="fas fa-trophy me-1"></i>Winning</span>
+                                                    <span class="luxury-status-badge winning"><i class="fas fa-trophy me-1"></i>Winning</span>
                                                 }
                                                 else
                                                 {
-                                                    <span class="badge bg-danger-light text-danger"><i class="fas fa-times-circle me-1"></i>Outbid</span>
+                                                    <span class="luxury-status-badge outbid"><i class="fas fa-times-circle me-1"></i>Outbid</span>
                                                 }
                                             </td>
                                         </tr>
@@ -128,40 +130,40 @@
                             </table>
                         </div>
                         <div class="text-center mt-4">
-                            <a href="@Url.Action("MyBids", "Account")" class="btn btn-outline-primary rounded-pill px-4">
+                            <a href="@Url.Action("MyBids", "Account")" class="luxury-btn luxury-btn-outline luxury-btn-pill">
                                 View All Bids <i class="fas fa-arrow-right ms-2"></i>
                             </a>
                         </div>
                     }
                     else
                     {
-                        <div class="alert alert-info text-center mt-3" role="alert">
+                        <div class="luxury-empty-bids">
                             <i class="fas fa-info-circle me-2"></i>No recent bid activity to display. Start bidding now!
                         </div>
                     }
                 </div>
             </div>
 
-            <!-- Profile Details Card (Combined with other info or kept separate) -->
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h5 class="card-title text-primary mb-3"><i class="fas fa-info-circle me-2"></i>Account Overview</h5>
-                    <dl class="row mb-0">
-                        <dt class="col-sm-4 text-muted">Full Name</dt>
-                        <dd class="col-sm-8">@Model.FullName</dd>
+            <!-- Profile Details Card -->
+            <div class="luxury-overview-card">
+                <div class="luxury-card-body">
+                    <h5 class="luxury-card-title mb-3"><i class="fas fa-info-circle me-2"></i>Account Overview</h5>
+                    <dl class="luxury-overview-list">
+                        <dt class="luxury-overview-label">Full Name</dt>
+                        <dd class="luxury-overview-value">@Model.FullName</dd>
 
-                        <dt class="col-sm-4 text-muted">Username</dt>
-                        <dd class="col-sm-8">@Model.Username</dd>
+                        <dt class="luxury-overview-label">Username</dt>
+                        <dd class="luxury-overview-value">@Model.Username</dd>
 
-                        <dt class="col-sm-4 text-muted">Account Status</dt>
-                        <dd class="col-sm-8">
+                        <dt class="luxury-overview-label">Account Status</dt>
+                        <dd class="luxury-overview-value">
                             @if (Model.IsBlocked)
                             {
-                                <span class="text-danger fw-bold"><i class="fas fa-ban me-1"></i>Blocked</span>
+                                <span class="luxury-account-status blocked"><i class="fas fa-ban me-1"></i>Blocked</span>
                             }
                             else
                             {
-                                <span class="text-success fw-bold"><i class="fas fa-check-circle me-1"></i>Active</span>
+                                <span class="luxury-account-status active"><i class="fas fa-check-circle me-1"></i>Active</span>
                             }
                         </dd>
                     </dl>
@@ -173,86 +175,462 @@
 
 @section Styles {
     <style>
-        body {
-            background-color: #f8f9fa; /* Light background for the page */
+        /* Luxury Color Palette Variables */
+        :root {
+            --walnut-brown: #5C4033;
+            --golden-oak: #C19A6B;
+            --royal-gold: #D4AF37;
+            --steel-mist: #A2B0BF;
+            --matte-charcoal: #2B2B2B;
+            --luxury-black: #000000;
         }
-        .container {
-            max-width: 1200px;
+
+        /* Base Container */
+        .luxury-profile-container {
+            background: var(--luxury-black);
+            color: var(--steel-mist);
+            min-height: 100vh;
+            padding: 0 15px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        .profile-avatar-lg {
-            width: 90px;
-            height: 90px;
-            background-color: #007bff; /* Primary blue for avatar */
+
+        /* Profile Header */
+        .luxury-profile-header {
+            background: linear-gradient(145deg, var(--matte-charcoal), #1a1a1a);
+            border: 1px solid var(--walnut-brown);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .luxury-profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--royal-gold), var(--golden-oak), var(--walnut-brown));
+        }
+
+        .luxury-profile-header:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.2);
+            border-color: var(--royal-gold);
+        }
+
+        /* Avatar */
+        .luxury-avatar-container {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 38px;
-            font-weight: bold;
-            color: white;
-            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2); /* Subtle glow */
-        }
-        .card {
-            border-radius: 12px;
-            overflow: hidden; /* Ensures borders are rounded on header/footer */
-        }
-        .card-title {
-            font-weight: 600;
-            color: #343a40; /* Darker text for titles */
-        }
-        .stat-item {
-            background-color: #e9f5ff; /* Lighter blue for stat boxes */
-            border-radius: 8px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: default;
-        }
-        .stat-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        .stat-item h4 {
+            font-size: 2.5rem;
             font-weight: 700;
-            color: #007bff;
+            color: var(--luxury-black);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
         }
-        .list-group-item {
-            border-color: #f0f0f0; /* Lighter border for list items */
+
+        .luxury-avatar-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.4);
         }
-        .table-hover tbody tr:hover {
-            background-color: #f5f5f5;
+
+        .luxury-initials {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
-        .badge.bg-success-light {
-            background-color: #d4edda;
-            color: #155724;
+
+        /* Profile Info */
+        .luxury-profile-info {
+            flex: 1;
+            min-width: 200px;
         }
-        .badge.bg-danger-light {
-            background-color: #f8d7da;
-            color: #721c24;
+
+        .luxury-profile-name {
+            color: var(--royal-gold);
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(212, 175, 55, 0.3);
+            margin-bottom: 0.5rem;
         }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            transition: all 0.2s ease;
+
+        .luxury-username {
+            color: var(--golden-oak);
+            font-size: 1.1rem;
+            font-weight: 500;
+            opacity: 0.9;
         }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-            transform: translateY(-1px);
+
+        .luxury-badges {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
         }
-        .btn-outline-secondary {
-            color: #6c757d;
-            border-color: #6c757d;
+
+        .luxury-status-badge, .luxury-role-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid;
         }
-        .btn-outline-secondary:hover {
-            background-color: #6c757d;
+
+        .luxury-status-badge.active {
+            background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+            color: var(--luxury-black);
+            border-color: var(--royal-gold);
+        }
+
+        .luxury-status-badge.blocked {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
+            border-color: #e74c3c;
         }
-        a {
-            color: #007bff;
+
+        .luxury-role-badge.admin {
+            background: linear-gradient(135deg, var(--steel-mist), #95a5a6);
+            color: var(--luxury-black);
+            border-color: var(--steel-mist);
+        }
+
+        .luxury-role-badge.user {
+            background: linear-gradient(135deg, var(--walnut-brown), var(--matte-charcoal));
+            color: var(--golden-oak);
+            border-color: var(--walnut-brown);
+        }
+
+        /* Profile Actions */
+        .luxury-profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        @@media (min-width: 576px) {
+            .luxury-profile-actions {
+                flex-direction: row;
+            }
+        }
+
+        /* Luxury Buttons */
+        .luxury-btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid;
+            display: inline-flex;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .luxury-btn-primary {
+            background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+            color: var(--luxury-black);
+            border-color: var(--royal-gold);
+        }
+
+        .luxury-btn-primary:hover {
+            background: linear-gradient(135deg, var(--golden-oak), var(--royal-gold));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+            color: var(--luxury-black);
             text-decoration: none;
         }
-        a:hover {
-            color: #0056b3;
-            text-decoration: underline;
+
+        .luxury-btn-outline {
+            background: transparent;
+            color: var(--golden-oak);
+            border-color: var(--golden-oak);
+        }
+
+        .luxury-btn-outline:hover {
+            background: var(--golden-oak);
+            color: var(--luxury-black);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(193, 154, 107, 0.4);
+            text-decoration: none;
+        }
+
+        .luxury-btn-pill {
+            border-radius: 50px;
+            padding: 10px 24px;
+        }
+
+        /* Card Styles */
+        .luxury-stats-card, .luxury-contact-card, .luxury-bids-card, .luxury-overview-card {
+            background: linear-gradient(145deg, var(--matte-charcoal), #1a1a1a);
+            border: 1px solid var(--walnut-brown);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .luxury-stats-card::before, .luxury-contact-card::before, 
+        .luxury-bids-card::before, .luxury-overview-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--royal-gold), var(--golden-oak), var(--royal-gold));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .luxury-stats-card:hover, .luxury-contact-card:hover, 
+        .luxury-bids-card:hover, .luxury-overview-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
+            border-color: var(--royal-gold);
+        }
+
+        .luxury-stats-card:hover::before, .luxury-contact-card:hover::before,
+        .luxury-bids-card:hover::before, .luxury-overview-card:hover::before {
+            opacity: 1;
+        }
+
+        .luxury-card-body {
+            padding: 1.5rem;
+        }
+
+        .luxury-card-title {
+            color: var(--royal-gold);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Stats Items */
+        .luxury-stat-item {
+            background: linear-gradient(135deg, var(--walnut-brown), var(--matte-charcoal));
+            border: 1px solid var(--golden-oak);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: default;
+        }
+
+        .luxury-stat-item:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(193, 154, 107, 0.3);
+            border-color: var(--royal-gold);
+        }
+
+        .luxury-stat-number {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--royal-gold);
+            font-family: 'Courier New', monospace;
+        }
+
+        .luxury-stat-label {
+            color: var(--steel-mist);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Contact List */
+        .luxury-contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .luxury-contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--walnut-brown);
+        }
+
+        .luxury-contact-item:last-child {
+            border-bottom: none;
+        }
+
+        .luxury-contact-label {
+            color: var(--golden-oak);
+            font-weight: 600;
+        }
+
+        .luxury-contact-value {
+            color: var(--steel-mist);
+            font-weight: 500;
+        }
+
+        /* Table Styles */
+        .luxury-table-container {
+            overflow-x: auto;
+        }
+
+        .luxury-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+        .luxury-table-header {
+            background: linear-gradient(135deg, var(--walnut-brown), var(--matte-charcoal));
+        }
+
+        .luxury-table-header th {
+            color: var(--golden-oak);
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--royal-gold);
+        }
+
+        .luxury-table-row {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--walnut-brown);
+        }
+
+        .luxury-table-row:hover {
+            background: linear-gradient(135deg, rgba(92, 64, 51, 0.1), rgba(43, 43, 43, 0.1));
+        }
+
+        .luxury-table-row td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .luxury-item-link {
+            color: var(--royal-gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .luxury-item-link:hover {
+            color: var(--golden-oak);
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+            text-decoration: none;
+        }
+
+        .luxury-bid-amount {
+            color: var(--royal-gold);
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+
+        .luxury-bid-date {
+            color: var(--steel-mist);
+            font-size: 0.9rem;
+        }
+
+        .luxury-status-badge.winning {
+            background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+            color: var(--luxury-black);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .luxury-status-badge.outbid {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Empty State */
+        .luxury-empty-bids {
+            background: linear-gradient(135deg, rgba(162, 176, 191, 0.1), rgba(162, 176, 191, 0.05));
+            color: var(--steel-mist);
+            border: 1px solid var(--steel-mist);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Overview List */
+        .luxury-overview-list {
+            margin: 0;
+        }
+
+        .luxury-overview-label {
+            color: var(--golden-oak);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--walnut-brown);
+        }
+
+        .luxury-overview-value {
+            color: var(--steel-mist);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+        }
+
+        .luxury-account-status.active {
+            color: var(--royal-gold);
+            font-weight: 600;
+        }
+
+        .luxury-account-status.blocked {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .luxury-profile-header {
+                padding: 1.5rem;
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .luxury-profile-name {
+                font-size: 1.5rem;
+            }
+            
+            .luxury-card-body {
+                padding: 1rem;
+            }
+            
+            .luxury-btn {
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+            
+            .luxury-avatar-container {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+        }
+
+        /* Smooth Animations */
+        * {
+            transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
         }
     </style>
 }

@@ -3,55 +3,504 @@
     ViewData["Title"] = "Edit Item";
 }
 
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
+<style>
+    :root {
+        --walnut-brown: #5C4033;
+        --golden-oak: #C19A6B;
+        --royal-gold: #D4AF37;
+        --steel-mist: #A2B0BF;
+        --matte-charcoal: #2B2B2B;
+        --text-light: #f8f9fa;
+        --text-muted: #A2B0BF;
+        --bg-dark: #000000;
+        --card-bg: #1a1a1a;
+        --border-color: rgba(196, 154, 107, 0.2);
+        --input-bg: #2B2B2B;
+        --input-border: rgba(196, 154, 107, 0.3);
+    }
+
+    /* Global Styling */
+    body {
+        background-color: var(--bg-dark) !important;
+        color: var(--text-light);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .luxury-container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        background-color: var(--bg-dark);
+        min-height: 100vh;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    .luxury-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+        justify-content: center;
+    }
+
+    .luxury-col {
+        position: relative;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        max-width: 66.666667%;
+    }
+
+    /* Header Styling */
+    .luxury-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        padding: 2rem 0;
+        background: linear-gradient(135deg, var(--walnut-brown) 0%, var(--matte-charcoal) 35%, var(--golden-oak) 70%, var(--royal-gold) 100%);
+        background-size: 400% 400%;
+        animation: luxuryGradientShift 20s ease infinite;
+        border-radius: 15px;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
+    }
+
+    @@keyframes luxuryGradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .luxury-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="8" fill="%23D4AF37" opacity="0.1"/><circle cx="80" cy="40" r="12" fill="%23C19A6B" opacity="0.1"/><circle cx="50" cy="80" r="10" fill="%23D4AF37" opacity="0.1"/></svg>') repeat;
+        background-size: 150px;
+        opacity: 0.6;
+        animation: moveBubbles 30s linear infinite;
+        z-index: 0;
+    }
+
+    @@keyframes moveBubbles {
+        from { background-position: 0 0; }
+        to { background-position: 100% 100%; }
+    }
+
+    .luxury-header h2 {
+        font-weight: 700;
+        font-size: 2.5rem;
+        letter-spacing: -0.02rem;
+        color: var(--text-light);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        margin-bottom: 0.5rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .luxury-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        color: var(--text-light);
+        position: relative;
+        z-index: 1;
+        margin-bottom: 0;
+    }
+
+    /* Card Styling */
+    .luxury-card {
+        background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal));
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        margin-bottom: 2rem;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+    }
+
+    .luxury-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+        border-color: var(--golden-oak);
+    }
+
+    .luxury-card-header {
+        background: linear-gradient(135deg, var(--matte-charcoal), var(--walnut-brown));
+        border-bottom: 1px solid var(--border-color);
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .luxury-card-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+        transition: left 0.5s;
+    }
+
+    .luxury-card:hover .luxury-card-header::before {
+        left: 100%;
+    }
+
+    .luxury-card-header h5 {
+        color: var(--royal-gold);
+        font-weight: 600;
+        margin-bottom: 0;
+        font-size: 1.2rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .luxury-card-header i {
+        color: var(--golden-oak);
+        margin-right: 0.5rem;
+    }
+
+    .luxury-card-body {
+        padding: 2rem;
+        background: var(--card-bg);
+    }
+
+    /* Form Styling */
+    .luxury-form-label {
+        color: var(--golden-oak);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+    }
+
+    .luxury-form-control, .luxury-form-select {
+        background-color: var(--input-bg);
+        border: 2px solid var(--input-border);
+        border-radius: 8px;
+        color: var(--text-light);
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .luxury-form-control:focus, .luxury-form-select:focus {
+        background-color: var(--input-bg);
+        border-color: var(--royal-gold);
+        box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        color: var(--text-light);
+        outline: none;
+    }
+
+    .luxury-form-control::placeholder {
+        color: var(--steel-mist);
+        opacity: 0.8;
+    }
+
+    .luxury-input-group-text {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        border: 2px solid var(--input-border);
+        color: var(--matte-charcoal);
+        font-weight: 600;
+        border-right: none;
+    }
+
+    .luxury-input-group .luxury-form-control {
+        border-left: none;
+    }
+
+    /* Button Styling */
+    .luxury-btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .luxury-btn-primary {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .luxury-btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .luxury-btn-primary:hover::before {
+        left: 100%;
+    }
+
+    .luxury-btn-primary:hover {
+        background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown));
+        color: var(--text-light);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        text-decoration: none;
+    }
+
+    .luxury-btn-secondary {
+        background: linear-gradient(135deg, var(--steel-mist), var(--matte-charcoal));
+        color: var(--text-light);
+        border: 1px solid var(--border-color);
+    }
+
+    .luxury-btn-secondary:hover {
+        background: linear-gradient(135deg, var(--matte-charcoal), var(--walnut-brown));
+        color: var(--golden-oak);
+        transform: translateY(-2px);
+        text-decoration: none;
+    }
+
+    .luxury-btn-lg {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+
+    /* Image Gallery */
+    .luxury-image-container {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 2px solid var(--border-color);
+    }
+
+    .luxury-image-container:hover {
+        transform: scale(1.05);
+        border-color: var(--golden-oak);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .luxury-image {
+        height: 150px;
+        width: 100%;
+        object-fit: cover;
+        transition: all 0.3s ease;
+    }
+
+    .luxury-badge-primary {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+        font-weight: 600;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+    }
+
+    .luxury-form-check {
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 8px;
+        padding: 0.3rem;
+    }
+
+    .luxury-form-check-input {
+        background-color: var(--input-bg);
+        border: 2px solid var(--golden-oak);
+    }
+
+    .luxury-form-check-input:checked {
+        background-color: var(--royal-gold);
+        border-color: var(--royal-gold);
+    }
+
+    .luxury-form-check-label {
+        color: var(--text-light);
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    /* Alert Styling */
+    .luxury-alert-danger {
+        background: linear-gradient(135deg, rgba(92, 64, 51, 0.9), rgba(92, 64, 51, 0.7));
+        border: 1px solid var(--walnut-brown);
+        color: var(--text-light);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .luxury-text-danger {
+        color: var(--walnut-brown) !important;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-top: 0.25rem;
+    }
+
+    .luxury-form-text {
+        color: var(--steel-mist);
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        line-height: 1.4;
+    }
+
+    /* File Input Styling */
+    input[type="file"].luxury-form-control {
+        padding: 0.5rem;
+        border: 2px dashed var(--input-border);
+        background: var(--input-bg);
+        transition: all 0.3s ease;
+    }
+
+    input[type="file"].luxury-form-control:hover {
+        border-color: var(--golden-oak);
+        background: rgba(196, 154, 107, 0.05);
+    }
+
+    input[type="file"].luxury-form-control:focus {
+        border-color: var(--royal-gold);
+        box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+    }
+
+    /* Form Validation Enhancement */
+    .luxury-form-control:invalid {
+        border-color: var(--walnut-brown);
+        box-shadow: 0 0 0 0.2rem rgba(92, 64, 51, 0.25);
+    }
+
+    .luxury-form-select:invalid {
+        border-color: var(--walnut-brown);
+        box-shadow: 0 0 0 0.2rem rgba(92, 64, 51, 0.25);
+    }
+
+    /* Utility Classes */
+    .luxury-d-flex { display: flex; }
+    .luxury-justify-between { justify-content: space-between; }
+    .luxury-align-center { align-items: center; }
+    .luxury-mb-3 { margin-bottom: 1rem; }
+    .luxury-mb-4 { margin-bottom: 1.5rem; }
+    .luxury-me-1 { margin-right: 0.25rem; }
+    .luxury-me-2 { margin-right: 0.5rem; }
+    .luxury-text-center { text-align: center; }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .luxury-col {
+            max-width: 95%;
+        }
+        
+        .luxury-header h2 {
+            font-size: 2rem;
+        }
+        
+        .luxury-card-body {
+            padding: 1.5rem;
+        }
+        
+        .luxury-btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        
+        .luxury-d-flex {
+            flex-direction: column;
+        }
+        
+        /* Mobile form layout */
+        .luxury-col[style*="max-width: 50%"] {
+            max-width: 100% !important;
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+        }
+        
+        /* Mobile image gallery */
+        div[style*="flex: 0 0 25%"] {
+            flex: 0 0 50% !important;
+            max-width: 50% !important;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .luxury-container {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .luxury-header {
+            padding: 1.5rem 1rem;
+        }
+        
+        .luxury-header h2 {
+            font-size: 1.75rem;
+        }
+    }
+</style>
+
+<div class="luxury-container">
+    <div class="luxury-row">
+        <div class="luxury-col">
             <!-- Header -->
-            <div class="text-center mb-4">
-                <h2 class="mb-2">Edit Item</h2>
-                <p class="text-muted">Update your auction listing details</p>
+            <div class="luxury-header">
+                <h2>Edit Item</h2>
+                <p>Update your auction listing details</p>
             </div>
 
             <!-- Main Form -->
             <form asp-action="Edit" method="post" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="luxury-alert-danger"></div>
                 <input type="hidden" asp-for="ItemId">
 
                 <!-- Item Details -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Item Information</h5>
+                <div class="luxury-card">
+                    <div class="luxury-card-header">
+                        <h5><i class="fas fa-info-circle luxury-me-2"></i>Item Information</h5>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label asp-for="Name" class="form-label">Item Name *</label>
-                                <input asp-for="Name" class="form-control" placeholder="Enter a descriptive name for your item">
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                    <div class="luxury-card-body">
+                        <div class="luxury-row">
+                            <div class="luxury-col luxury-mb-3">
+                                <label asp-for="Name" class="luxury-form-label">Item Name *</label>
+                                <input asp-for="Name" class="luxury-form-control" placeholder="Enter a descriptive name for your item">
+                                <span asp-validation-for="Name" class="luxury-text-danger"></span>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="CategoryId" class="form-label">Category *</label>
-                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                            <div class="luxury-col luxury-mb-3" style="max-width: 50%; padding-right: 0.5rem;">
+                                <label asp-for="CategoryId" class="luxury-form-label">Category *</label>
+                                <select asp-for="CategoryId" class="luxury-form-select" asp-items="ViewBag.Categories">
                                     <option value="">Select a category</option>
                                 </select>
-                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                                <span asp-validation-for="CategoryId" class="luxury-text-danger"></span>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="MinimumBid" class="form-label">Starting Bid *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">$</span>
-                                    <input asp-for="MinimumBid" class="form-control" placeholder="0.00" step="0.01">
+                            <div class="luxury-col luxury-mb-3" style="max-width: 50%; padding-left: 0.5rem;">
+                                <label asp-for="MinimumBid" class="luxury-form-label">Starting Bid *</label>
+                                <div class="luxury-input-group" style="display: flex;">
+                                    <span class="luxury-input-group-text">$</span>
+                                    <input asp-for="MinimumBid" class="luxury-form-control" placeholder="0.00" step="0.01">
                                 </div>
-                                <span asp-validation-for="MinimumBid" class="text-danger"></span>
+                                <span asp-validation-for="MinimumBid" class="luxury-text-danger"></span>
                             </div>
 
-                            <div class="col-12 mb-3">
-                                <label asp-for="Description" class="form-label">Description *</label>
-                                <textarea asp-for="Description" class="form-control" rows="6" 
+                            <div class="luxury-col luxury-mb-3">
+                                <label asp-for="Description" class="luxury-form-label">Description *</label>
+                                <textarea asp-for="Description" class="luxury-form-control" rows="6" 
                                           placeholder="Describe your item in detail..."></textarea>
-                                <span asp-validation-for="Description" class="text-danger"></span>
+                                <span asp-validation-for="Description" class="luxury-text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -60,28 +509,26 @@
                 <!-- Current Images -->
                 @if (Model.Images != null && Model.Images.Any())
                 {
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-images me-2"></i>Current Images</h5>
+                    <div class="luxury-card">
+                        <div class="luxury-card-header">
+                            <h5><i class="fas fa-images luxury-me-2"></i>Current Images</h5>
                         </div>
-                        <div class="card-body">
-                            <div class="row">
+                        <div class="luxury-card-body">
+                            <div class="luxury-row" style="display: flex; flex-wrap: wrap; margin: -0.5rem;">
                                 @foreach (var image in Model.Images)
                                 {
-                                    <div class="col-md-3 col-sm-4 col-6 mb-3">
-                                        <div class="position-relative">
-                                            <img src="@image.ImagePath" alt="Item Image" 
-                                                 class="img-fluid rounded" style="height: 150px; width: 100%; object-fit: cover;">
+                                    <div style="flex: 0 0 25%; max-width: 25%; padding: 0.5rem;">
+                                        <div class="luxury-image-container">
+                                            <img src="@image.ImagePath" alt="Item Image" class="luxury-image">
                                             @if (image.IsPrimary)
                                             {
-                                                <span class="position-absolute top-0 start-0 m-1 badge bg-primary">Primary</span>
+                                                <span class="luxury-badge-primary" style="position: absolute; top: 0.5rem; left: 0.5rem;">Primary</span>
                                             }
-                                            <div class="form-check position-absolute bottom-0 end-0 m-1">
-                                                <input class="form-check-input" type="checkbox" 
-                                                       name="ImagesToDelete" value="@image.ImageId" 
-                                                       style="background-color: rgba(255,255,255,0.8);">
-                                                <label class="form-check-label text-white">
-                                                    <small>Delete</small>
+                                            <div class="luxury-form-check" style="position: absolute; bottom: 0.5rem; right: 0.5rem;">
+                                                <input class="luxury-form-check-input" type="checkbox" 
+                                                       name="ImagesToDelete" value="@image.ImageId">
+                                                <label class="luxury-form-check-label">
+                                                    Delete
                                                 </label>
                                             </div>
                                         </div>
@@ -93,16 +540,16 @@
                 }
 
                 <!-- Add New Images -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="mb-0"><i class="fas fa-camera me-2"></i>Add New Images</h5>
+                <div class="luxury-card">
+                    <div class="luxury-card-header">
+                        <h5><i class="fas fa-camera luxury-me-2"></i>Add New Images</h5>
                     </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label asp-for="NewImages" class="form-label">Upload Additional Images</label>
-                            <input asp-for="NewImages" type="file" class="form-control" multiple accept="image/*">
-                            <span asp-validation-for="NewImages" class="text-danger"></span>
-                            <div class="form-text">
+                    <div class="luxury-card-body">
+                        <div class="luxury-mb-3">
+                            <label asp-for="NewImages" class="luxury-form-label">Upload Additional Images</label>
+                            <input asp-for="NewImages" type="file" class="luxury-form-control" multiple accept="image/*">
+                            <span asp-validation-for="NewImages" class="luxury-text-danger"></span>
+                            <div class="luxury-form-text">
                                 Upload additional high-quality images. Supported formats: JPG, PNG, GIF (Max 5MB each)
                             </div>
                         </div>
@@ -110,15 +557,15 @@
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <a href="@Url.Action("MyItems")" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left me-1"></i>Back to My Items
+                <div class="luxury-card">
+                    <div class="luxury-card-body">
+                        <div class="luxury-d-flex luxury-justify-between luxury-align-center">
+                            <a href="@Url.Action("MyItems")" class="luxury-btn luxury-btn-secondary">
+                                <i class="fas fa-arrow-left luxury-me-1"></i>Back to My Items
                             </a>
                             <div>
-                                <button type="submit" class="btn btn-primary btn-lg">
-                                    <i class="fas fa-save me-1"></i>Update Item
+                                <button type="submit" class="luxury-btn luxury-btn-primary luxury-btn-lg">
+                                    <i class="fas fa-save luxury-me-1"></i>Update Item
                                 </button>
                             </div>
                         </div>

@@ -37,17 +37,13 @@
                         
                         @if (Model.Images.Count > 1)
                         {
-                            <div class="p-3">
-                                <div class="row g-2">
-                                    @for (int i = 0; i < Model.Images.Count; i++)
-                                    {
-                                        <div class="col-2">
-                                            <img src="@Model.Images[i].ImagePath" class="img-fluid rounded cursor-pointer thumbnail-img" 
-                                                 data-bs-target="#itemCarousel" data-bs-slide-to="@i" 
-                                                 style="height: 60px; object-fit: cover;" alt="Thumbnail">
-                                        </div>
-                                    }
-                                </div>
+                            <div class="thumbnail-grid">
+                                @for (int i = 0; i < Model.Images.Count; i++)
+                                {
+                                    <img src="@Model.Images[i].ImagePath" class="rounded cursor-pointer thumbnail-img" 
+                                         data-bs-target="#itemCarousel" data-bs-slide-to="@i" 
+                                         alt="Thumbnail">
+                                }
                             </div>
                         }
                     }
@@ -414,7 +410,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Great!</button>
+                <button type="button" class="btn btn-success" onclick="window.location.href='@Url.Action("Details", "Auction", new { id = Model.ItemId })'">Great!</button>
             </div>
         </div>
     </div>
@@ -452,7 +448,7 @@
 </div>
 
 @section Scripts {
-    <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM Content Loaded - Initializing auction page...');
@@ -482,10 +478,15 @@
 
         // Update bid display
         function updateBidDisplay(bid) {
-            $('#current-bid').html('$' + bid.amount.toFixed(2));
-            $('#total-bids').text(bid.totalBids || '1');
+            const currentBidEl = document.getElementById('current-bid');
+            const totalBidsEl = document.getElementById('total-bids');
+            const nextMinimumEl = document.getElementById('next-minimum');
+            
+            if (currentBidEl) currentBidEl.innerHTML = '$' + bid.amount.toFixed(2);
+            if (totalBidsEl) totalBidsEl.textContent = bid.totalBids || '1';
+            if (nextMinimumEl) nextMinimumEl.textContent = currentMinimumBid.toFixed(2);
+            
             currentMinimumBid = bid.amount + 1;
-            $('#next-minimum').text(currentMinimumBid.toFixed(2));
         }
 
         // Add bid to history
@@ -512,6 +513,143 @@
 
         // Initialize quick bids on page load
         updateQuickBids();
+
+        // Current minimum bid tracking
+        let currentMinimumBid = @((auctionStatus?.CurrentHighestBid ?? Model.MinimumBid) + 1);
+
+        // Quick bid button click handlers
+        $(document).on('click', '.quick-bid-btn', function() {
+            const amount = parseFloat($(this).data('amount'));
+            $('#quick-bid-amount').val(amount.toFixed(2));
+            $('.quick-bid-btn').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        // Open bid modal
+        $('#open-bid-modal-btn').click(function() {
+            const bidAmount = parseFloat($('#quick-bid-amount').val()) || 0;
+            if (bidAmount >= currentMinimumBid) {
+                $('#modal-bid-amount').val(bidAmount.toFixed(2));
+                $('#modal-your-bid').text('$' + bidAmount.toFixed(2));
+            }
+            $('#bidModal').modal('show');
+        });
+
+        // Modal quick bid buttons
+        $(document).on('click', '#modal-quick-bids .btn', function() {
+            const amount = parseFloat($(this).data('amount'));
+            $('#modal-bid-amount').val(amount.toFixed(2));
+            $('#modal-your-bid').text('$' + amount.toFixed(2));
+            $('#modal-quick-bids .btn').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        // Update modal bid amount when typing
+        $('#modal-bid-amount').on('input', function() {
+            const amount = parseFloat($(this).val()) || 0;
+            $('#modal-your-bid').text('$' + amount.toFixed(2));
+            
+            // Validate bid amount
+            const validationMsg = $('#bid-validation-message');
+            if (amount < currentMinimumBid) {
+                validationMsg.text('Bid must be at least $' + currentMinimumBid.toFixed(2)).show();
+                $('#confirm-bid-btn').prop('disabled', true);
+            } else {
+                validationMsg.hide();
+                $('#confirm-bid-btn').prop('disabled', false);
+            }
+        });
+
+        // Confirm bid button
+        $('#confirm-bid-btn').click(function() {
+            const bidAmount = parseFloat($('#modal-bid-amount').val());
+            
+            if (bidAmount < currentMinimumBid) {
+                const errorMessageEl = document.getElementById('error-message');
+                if (errorMessageEl) errorMessageEl.textContent = 'Bid amount must be at least $' + currentMinimumBid.toFixed(2);
+                $('#bidModal').modal('hide');
+                setTimeout(() => {
+                    $('#errorModal').modal('show');
+                }, 300);
+                return;
+            }
+
+            // Disable button and show loading
+            const btn = $(this);
+            const originalText = btn.html();
+            btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i>Placing Bid...');
+
+            // Submit bid
+            $.post('@Url.Action("PlaceBidAjax", "Auction")', {
+                itemId: @Model.ItemId,
+                bidAmount: bidAmount,
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+            })
+            .done(function(response) {
+                if (response.success) {
+                    // Show success message briefly then redirect
+                    const successBidAmountEl = document.getElementById('success-bid-amount');
+                    const successMessageEl = document.getElementById('success-message');
+                    
+                    if (successBidAmountEl) successBidAmountEl.textContent = '$' + bidAmount.toFixed(2);
+                    if (successMessageEl) successMessageEl.textContent = response.message || 'Your bid has been placed successfully!';
+                    
+                    $('#bidModal').modal('hide');
+                    $('#successModal').modal('show');
+                    
+                    // Redirect back to the same page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '@Url.Action("Details", "Auction", new { id = Model.ItemId })';
+                    }, 2000);
+                } else {
+                    const errorMessageEl = document.getElementById('error-message');
+                    if (errorMessageEl) errorMessageEl.textContent = response.message || 'There was an error placing your bid.';
+                    
+                    $('#bidModal').modal('hide');
+                    setTimeout(() => {
+                        $('#errorModal').modal('show');
+                    }, 300);
+                }
+            })
+            .fail(function(xhr) {
+                let errorMsg = 'An error occurred. Please try again.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                }
+                
+                const errorMessageEl = document.getElementById('error-message');
+                if (errorMessageEl) errorMessageEl.textContent = errorMsg;
+                
+                $('#bidModal').modal('hide');
+                setTimeout(() => {
+                    $('#errorModal').modal('show');
+                }, 300);
+            })
+            .always(function() {
+                btn.prop('disabled', false).html(originalText);
+            });
+        });
+
+        // Update modal quick bids when modal opens
+        $('#bidModal').on('show.bs.modal', function() {
+            const modalContainer = document.getElementById('modal-quick-bids');
+            if (modalContainer) {
+                modalContainer.innerHTML = '';
+                const increments = [5, 10, 25, 50];
+                increments.forEach(inc => {
+                    const amount = currentMinimumBid + inc;
+                    const btn = document.createElement('button');
+                    btn.className = 'btn btn-outline-primary btn-sm me-1 mb-1';
+                    btn.setAttribute('data-amount', amount);
+                    btn.textContent = '$' + amount.toFixed(2);
+                    btn.type = 'button';
+                    modalContainer.appendChild(btn);
+                });
+            }
+            
+            // Update minimum bid display
+            $('#modal-next-minimum').text(currentMinimumBid.toFixed(2));
+        });
 
         // Show notification function
         function showNotification(message, type) {
@@ -634,7 +772,7 @@
         }
 
         // Modal functionality
-        let currentMinimumBid = @((auctionStatus?.CurrentHighestBid ?? Model.MinimumBid) + 1);
+        // currentMinimumBid already declared above
         
         console.log('JavaScript loaded, looking for bid button...');
         const bidButton = document.getElementById('open-bid-modal-btn');
@@ -731,7 +869,8 @@
 
             // Disable button and show loading
             this.disabled = true;
-            document.getElementById('confirm-bid-text').innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Placing...';
+            const confirmBidTextEl = document.getElementById('confirm-bid-text');
+            if (confirmBidTextEl) confirmBidTextEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Placing...';
             
             // Prepare form data
             const formData = new FormData();
@@ -743,7 +882,7 @@
             formData.append('__RequestVerificationToken', token);
             
             // Place bid via AJAX
-            fetch('/Auction/PlaceBidAjax', {
+            fetch('@Url.Action("PlaceBidAjax", "Auction")', {
                 method: 'POST',
                 body: formData
             })
@@ -753,32 +892,42 @@
                 
                 if (data.success) {
                     // Show success modal
-                    document.getElementById('success-message').textContent = data.message;
-                    document.getElementById('success-bid-amount').textContent = `$${data.bid.amount.toFixed(2)}`;
+                    const successMessageEl = document.getElementById('success-message');
+                    const successBidAmountEl = document.getElementById('success-bid-amount');
+                    
+                    if (successMessageEl) successMessageEl.textContent = data.message;
+                    if (successBidAmountEl) successBidAmountEl.textContent = `$${data.bid.amount.toFixed(2)}`;
                     $('#successModal').modal('show');
                     
-                    // Clear input fields
-                    document.getElementById('quick-bid-amount').value = '';
-                    document.getElementById('modal-bid-amount').value = '';
-                    
-                    // Update page data (will be handled by SignalR too)
-                    updateBidDisplay(data.bid);
+                    // Redirect back to the same page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '@Url.Action("Details", "Auction", new { id = Model.ItemId })';
+                    }, 2000);
                 } else {
                     // Show error modal
-                    document.getElementById('error-message').textContent = data.message;
-                    $('#errorModal').modal('show');
+                    const errorMessageEl = document.getElementById('error-message');
+                    if (errorMessageEl) errorMessageEl.textContent = data.message;
+                    setTimeout(() => {
+                        $('#errorModal').modal('show');
+                    }, 300);
                 }
             })
             .catch(error => {
                 $('#bidModal').modal('hide');
-                document.getElementById('error-message').textContent = 'An error occurred while placing your bid. Please try again.';
-                $('#errorModal').modal('show');
+                const errorMessageEl = document.getElementById('error-message');
+                if (errorMessageEl) errorMessageEl.textContent = 'An error occurred while placing your bid. Please try again.';
+                setTimeout(() => {
+                    $('#errorModal').modal('show');
+                }, 300);
                 console.error('Error:', error);
             })
             .finally(() => {
                 // Reset button
-                document.getElementById('confirm-bid-btn').disabled = false;
-                document.getElementById('confirm-bid-text').innerHTML = 'Place Bid';
+                const confirmBidBtn = document.getElementById('confirm-bid-btn');
+                const confirmBidText = document.getElementById('confirm-bid-text');
+                
+                if (confirmBidBtn) confirmBidBtn.disabled = false;
+                if (confirmBidText) confirmBidText.innerHTML = 'Place Bid';
             });
         });
 
@@ -788,13 +937,23 @@
             const nextMinimum = (bid.amount + 1).toFixed(2);
             
             // Update main display
-            document.getElementById('current-bid').innerHTML = `$${newAmount}`;
-            document.getElementById('total-bids').textContent = parseInt(document.getElementById('total-bids').textContent) + 1;
-            document.getElementById('next-minimum').textContent = nextMinimum;
+            const currentBidEl = document.getElementById('current-bid');
+            const totalBidsEl = document.getElementById('total-bids');
+            const nextMinimumEl = document.getElementById('next-minimum');
+            
+            if (currentBidEl) currentBidEl.innerHTML = `$${newAmount}`;
+            if (totalBidsEl) {
+                const currentTotal = parseInt(totalBidsEl.textContent) || 0;
+                totalBidsEl.textContent = currentTotal + 1;
+            }
+            if (nextMinimumEl) nextMinimumEl.textContent = nextMinimum;
             
             // Update modal display
-            document.getElementById('modal-current-bid').innerHTML = `$${newAmount}`;
-            document.getElementById('modal-next-minimum').textContent = nextMinimum;
+            const modalCurrentBidEl = document.getElementById('modal-current-bid');
+            const modalNextMinimumEl = document.getElementById('modal-next-minimum');
+            
+            if (modalCurrentBidEl) modalCurrentBidEl.innerHTML = `$${newAmount}`;
+            if (modalNextMinimumEl) modalNextMinimumEl.textContent = nextMinimum;
             
             // Update current minimum bid variable
             currentMinimumBid = bid.amount + 1;
@@ -836,11 +995,11 @@
                 if (data.suggestions) {
                     // Main section quick bids
                     const quickBidsContainer = document.getElementById('quick-bids');
-                    quickBidsContainer.innerHTML = '';
+                    if (quickBidsContainer) quickBidsContainer.innerHTML = '';
                     
                     // Modal quick bids
                     const modalQuickBidsContainer = document.getElementById('modal-quick-bids');
-                    modalQuickBidsContainer.innerHTML = '';
+                    if (modalQuickBidsContainer) modalQuickBidsContainer.innerHTML = '';
                     
                     data.suggestions.forEach(amount => {
                         // Main section button
@@ -849,7 +1008,7 @@
                         btn.className = 'btn btn-outline-primary btn-sm me-1 mb-1 quick-bid-btn';
                         btn.textContent = `$${amount.toFixed(2)}`;
                         btn.setAttribute('data-amount', amount);
-                        quickBidsContainer.appendChild(btn);
+                        if (quickBidsContainer) quickBidsContainer.appendChild(btn);
                         
                         // Modal button
                         const modalBtn = document.createElement('button');
@@ -857,13 +1016,16 @@
                         modalBtn.className = 'btn btn-outline-secondary btn-sm modal-quick-bid-btn';
                         modalBtn.textContent = `$${amount.toFixed(2)}`;
                         modalBtn.setAttribute('data-amount', amount);
-                        modalQuickBidsContainer.appendChild(modalBtn);
+                        if (modalQuickBidsContainer) modalQuickBidsContainer.appendChild(modalBtn);
                     });
                     
                     // Update current minimum bid
                     currentMinimumBid = data.nextMinimum || currentMinimumBid;
-                    document.getElementById('next-minimum').textContent = currentMinimumBid.toFixed(2);
-                    document.getElementById('modal-next-minimum').textContent = currentMinimumBid.toFixed(2);
+                    const nextMinimumEl = document.getElementById('next-minimum');
+                    const modalNextMinimumEl = document.getElementById('modal-next-minimum');
+                    
+                    if (nextMinimumEl) nextMinimumEl.textContent = currentMinimumBid.toFixed(2);
+                    if (modalNextMinimumEl) modalNextMinimumEl.textContent = currentMinimumBid.toFixed(2);
                 }
             });
         }); // End DOMContentLoaded
@@ -872,15 +1034,6 @@
 
 @section Styles {
     <style>
-        .thumbnail-img {
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .thumbnail-img:hover {
-            opacity: 0.7;
-        }
-        .cursor-pointer {
-            cursor: pointer;
-        }
+     
     </style>
 }

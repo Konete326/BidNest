@@ -1,17 +1,37 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\aptech\\new\\BidNest\\BidNest\\",
+  "WorkspaceRootPath": "D:\\.net\\BidNest\\BidNest\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\aptech\\new\\bidnest\\bidnest\\bidnest\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\.net\\bidnest\\bidnest\\bidnest\\views\\seller\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|solutionrelative:bidnest\\views\\seller\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\.net\\bidnest\\bidnest\\bidnest\\views\\seller\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|solutionrelative:bidnest\\views\\seller\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\.net\\bidnest\\bidnest\\bidnest\\views\\seller\\myitems.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|solutionrelative:bidnest\\views\\seller\\myitems.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\.net\\bidnest\\bidnest\\bidnest\\views\\seller\\analytics.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|solutionrelative:bidnest\\views\\seller\\analytics.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\.net\\bidnest\\bidnest\\bidnest\\views\\search\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|solutionrelative:bidnest\\views\\search\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\.net\\bidnest\\bidnest\\bidnest\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|solutionrelative:bidnest\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\aptech\\new\\bidnest\\bidnest\\bidnest\\views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\.net\\bidnest\\bidnest\\bidnest\\views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|solutionrelative:bidnest\\views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\aptech\\new\\bidnest\\bidnest\\bidnest\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|d:\\.net\\bidnest\\bidnest\\bidnest\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{AFD8591F-B1A9-4335-A022-D8DC4B6B7065}|BidNest\\BidNest.csproj|solutionrelative:bidnest\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
@@ -22,46 +42,104 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "D:\\aptech\\new\\BidNest\\BidNest\\BidNest\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "BidNest\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "D:\\aptech\\new\\BidNest\\BidNest\\BidNest\\Views\\Shared\\_Layout.cshtml*",
-              "RelativeToolTip": "BidNest\\Views\\Shared\\_Layout.cshtml*",
-              "ViewState": "AgIAAKQBAAAAAAAAAAAgwMkBAAAJAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Search\\Index.cshtml",
+              "RelativeDocumentMoniker": "BidNest\\Views\\Search\\Index.cshtml",
+              "ToolTip": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Search\\Index.cshtml",
+              "RelativeToolTip": "BidNest\\Views\\Search\\Index.cshtml",
+              "ViewState": "AgIAANECAAAAAAAAAAAiwNcCAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-01T12:15:35.887Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-02T08:41:34.3Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Analytics.cshtml",
+              "DocumentMoniker": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Seller\\Analytics.cshtml",
+              "RelativeDocumentMoniker": "BidNest\\Views\\Seller\\Analytics.cshtml",
+              "ToolTip": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Seller\\Analytics.cshtml",
+              "RelativeToolTip": "BidNest\\Views\\Seller\\Analytics.cshtml",
+              "ViewState": "AgIAAGcBAAAAAAAAAAAmwH4BAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-02T08:27:42.052Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\aptech\\new\\BidNest\\BidNest\\BidNest\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "BidNest\\Views\\Home\\Index.cshtml",
-              "ToolTip": "D:\\aptech\\new\\BidNest\\BidNest\\BidNest\\Views\\Home\\Index.cshtml*",
-              "RelativeToolTip": "BidNest\\Views\\Home\\Index.cshtml*",
-              "ViewState": "AgIAABgCAAAAAAAAAAAuwDoCAAABAAAAAAAAAA==",
+              "Title": "MyItems.cshtml",
+              "DocumentMoniker": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Seller\\MyItems.cshtml",
+              "RelativeDocumentMoniker": "BidNest\\Views\\Seller\\MyItems.cshtml",
+              "ToolTip": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Seller\\MyItems.cshtml",
+              "RelativeToolTip": "BidNest\\Views\\Seller\\MyItems.cshtml",
+              "ViewState": "AgIAAEECAAAAAAAAAAAiwFUCAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-01T12:06:04.638Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-02T08:06:21.782Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Seller\\Create.cshtml",
+              "RelativeDocumentMoniker": "BidNest\\Views\\Seller\\Create.cshtml",
+              "ToolTip": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Seller\\Create.cshtml",
+              "RelativeToolTip": "BidNest\\Views\\Seller\\Create.cshtml",
+              "ViewState": "AgIAAK0BAAAAAAAAAAAiwLcBAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-02T07:50:47.635Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Seller\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "BidNest\\Views\\Seller\\Dashboard.cshtml",
+              "ToolTip": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Seller\\Dashboard.cshtml",
+              "RelativeToolTip": "BidNest\\Views\\Seller\\Dashboard.cshtml",
+              "ViewState": "AgIAABMEAAAAAAAAAAAAAB0EAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-02T07:26:33.022Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "BidNest\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "BidNest\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAKQBAAAAAAAAAAAgwMkBAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-01T12:15:35.887Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "BidNest\\Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "BidNest\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAABgCAAAAAAAAAAAuwDoCAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-01T12:06:04.638Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "Contact.cshtml",
-              "DocumentMoniker": "D:\\aptech\\new\\BidNest\\BidNest\\BidNest\\Views\\Home\\Contact.cshtml",
+              "DocumentMoniker": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Home\\Contact.cshtml",
               "RelativeDocumentMoniker": "BidNest\\Views\\Home\\Contact.cshtml",
-              "ToolTip": "D:\\aptech\\new\\BidNest\\BidNest\\BidNest\\Views\\Home\\Contact.cshtml*",
-              "RelativeToolTip": "BidNest\\Views\\Home\\Contact.cshtml*",
+              "ToolTip": "D:\\.net\\BidNest\\BidNest\\BidNest\\Views\\Home\\Contact.cshtml",
+              "RelativeToolTip": "BidNest\\Views\\Home\\Contact.cshtml",
               "ViewState": "AgIAAN4BAAAAAAAAAAAuwPcBAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-01T11:57:14.822Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-01T11:57:14.822Z"
             }
           ]
         }

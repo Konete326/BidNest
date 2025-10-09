@@ -3,16 +3,18 @@
     ViewData["Title"] = "My Watchlist";
 }
 
-<div class="container py-5">
+<div class="luxury-watchlist-container py-5">
     <div class="row mb-5 align-items-center">
         <div class="col-md-8">
-            <h1 class="display-4 fw-bold text-primary mb-2">
-                <i class="fas fa-heart text-danger me-3 animated-heart"></i>My Watchlist
-            </h1>
-            <p class="lead text-muted">Keep track of items you're interested in, all in one place.</p>
+            <div class="luxury-header-content">
+                <h1 class="luxury-title mb-2">
+                    <i class="fas fa-heart luxury-heart-icon me-3"></i>My Watchlist
+                </h1>
+                <p class="luxury-subtitle">Keep track of items you're interested in, all in one place.</p>
+            </div>
         </div>
         <div class="col-md-4 text-md-end mt-3 mt-md-0">
-            <a href="@Url.Action("Active", "Auction")" class="btn btn-primary btn-lg shadow-sm">
+            <a href="@Url.Action("Active", "Auction")" class="luxury-btn luxury-btn-primary luxury-btn-lg">
                 <i class="fas fa-gavel me-2"></i>Browse Live Auctions
             </a>
         </div>
@@ -24,38 +26,38 @@
             @foreach (var item in Model.Items)
             {
                 <div class="col">
-                    <div class="card h-100 shadow-lg border-0 rounded-4 overflow-hidden item-card">
+                    <div class="luxury-watchlist-card h-100">
                         <div class="position-relative">
                             @if (!string.IsNullOrEmpty(item.ImageUrl))
                             {
-                                <img src="@item.ImageUrl" class="card-img-top item-image" alt="@item.Name">
+                                <img src="@item.ImageUrl" class="luxury-item-image" alt="@item.Name">
                             }
                             else
                             {
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center item-image-placeholder">
-                                    <i class="fas fa-image fa-4x text-muted"></i>
+                                <div class="luxury-item-placeholder d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-image fa-4x"></i>
                                 </div>
                             }
-                            <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-3 rounded-pill shadow remove-watchlist" 
+                            <button class="luxury-remove-btn position-absolute top-0 end-0 m-3 remove-watchlist" 
                                     data-item-id="@item.ItemId" title="Remove from Watchlist">
                                 <i class="fas fa-times me-1"></i> Remove
                             </button>
                             @if (item.EndDate > DateTime.UtcNow)
                             {
-                                <span class="badge bg-success position-absolute bottom-0 start-0 m-3 px-3 py-2 fs-6 rounded-pill shadow-sm">
+                                <span class="luxury-status-badge luxury-active position-absolute bottom-0 start-0 m-3">
                                     <i class="fas fa-hourglass-half me-1"></i> Active
                                 </span>
                             }
                             else
                             {
-                                <span class="badge bg-danger position-absolute bottom-0 start-0 m-3 px-3 py-2 fs-6 rounded-pill shadow-sm">
+                                <span class="luxury-status-badge luxury-ended position-absolute bottom-0 start-0 m-3">
                                     <i class="fas fa-clock me-1"></i> Ended
                                 </span>
                             }
                         </div>
-                        <div class="card-body p-4">
-                            <h5 class="card-title text-truncate mb-2 fw-bold">@item.Name</h5>
-                            <p class="card-text text-muted small mb-3 item-description">
+                        <div class="luxury-card-body p-4">
+                            <h5 class="luxury-item-title text-truncate mb-2">@item.Name</h5>
+                            <p class="luxury-item-description small mb-3">
                                 @if (!string.IsNullOrEmpty(item.Description))
                                 {
                                     @(item.Description.Length > 90 ? item.Description.Substring(0, 90) + "..." : item.Description)
@@ -68,38 +70,38 @@
                             
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div>
-                                    <small class="text-muted d-block">Current Bid</small>
-                                    <h5 class="text-success mb-0 fw-bold">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</h5>
+                                    <small class="luxury-bid-label d-block">Current Bid</small>
+                                    <h5 class="luxury-current-bid mb-0">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</h5>
                                 </div>
                                 <div class="text-end">
-                                    <small class="text-muted d-block">Minimum Bid</small>
-                                    <h6 class="mb-0 text-secondary">$@item.MinimumBid.ToString("N2")</h6>
+                                    <small class="luxury-bid-label d-block">Minimum Bid</small>
+                                    <h6 class="luxury-min-bid mb-0">$@item.MinimumBid.ToString("N2")</h6>
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <small class="text-muted d-block">Category:</small>
-                                <span class="badge bg-info bg-opacity-10 text-info fw-normal px-3 py-2 rounded-pill">@item.CategoryName</span>
+                                <small class="luxury-bid-label d-block">Category:</small>
+                                <span class="luxury-category-badge">@item.CategoryName</span>
                             </div>
 
                             @if (item.EndDate > DateTime.UtcNow)
                             {
-                                <div class="d-flex align-items-center text-primary small mb-3">
+                                <div class="d-flex align-items-center luxury-end-time small mb-3">
                                     <i class="fas fa-hourglass-end me-2"></i>
                                     <span>Ends: @item.EndDate.ToString("MMM dd, yyyy HH:mm")</span>
                                 </div>
                             }
                             else
                             {
-                                <div class="d-flex align-items-center text-danger small mb-3">
+                                <div class="d-flex align-items-center luxury-ended-time small mb-3">
                                     <i class="fas fa-calendar-times me-2"></i>
                                     <span>Auction Ended: @item.EndDate.ToString("MMM dd, yyyy HH:mm")</span>
                                 </div>
                             }
                         </div>
-                        <div class="card-footer bg-light border-0 p-3">
+                        <div class="luxury-card-footer p-3">
                             <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
-                               class="btn btn-primary btn-block w-100 btn-lg rounded-pill">
+                               class="luxury-btn luxury-btn-view w-100">
                                 <i class="fas fa-eye me-2"></i>View Item
                             </a>
                         </div>
@@ -112,20 +114,20 @@
         @if (Model.TotalPages > 1)
         {
             <nav aria-label="Page navigation" class="mt-5">
-                <ul class="pagination justify-content-center shadow-sm rounded-pill p-2">
-                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                        <a class="page-link rounded-start-pill" href="@Url.Action("Watchlist", new { page = Model.CurrentPage - 1 })">
+                <ul class="luxury-pagination justify-content-center">
+                    <li class="luxury-page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="luxury-page-link" href="@Url.Action("Watchlist", new { page = Model.CurrentPage - 1 })">
                             <i class="fas fa-chevron-left"></i>
                         </a>
                     </li>
                     @for (int i = 1; i <= Model.TotalPages; i++)
                     {
-                        <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("Watchlist", new { page = i })">@i</a>
+                        <li class="luxury-page-item @(Model.CurrentPage == i ? "active" : "")">
+                            <a class="luxury-page-link" href="@Url.Action("Watchlist", new { page = i })">@i</a>
                         </li>
                     }
-                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
-                        <a class="page-link rounded-end-pill" href="@Url.Action("Watchlist", new { page = Model.CurrentPage + 1 })">
+                    <li class="luxury-page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="luxury-page-link" href="@Url.Action("Watchlist", new { page = Model.CurrentPage + 1 })">
                             <i class="fas fa-chevron-right"></i>
                         </a>
                     </li>
@@ -135,14 +137,16 @@
     }
     else
     {
-        <div class="text-center py-5 my-5">
-            <i class="fas fa-heart-crack fa-7x text-muted mb-4 "></i>
-            <h2 class="display-5 fw-bold mb-3">Your Watchlist is Empty!</h2>
-            <p class="lead text-secondary mb-4">
+        <div class="luxury-empty-state text-center py-5 my-5">
+            <div class="luxury-empty-icon mb-4">
+                <i class="fas fa-heart-crack fa-7x"></i>
+            </div>
+            <h2 class="luxury-empty-title mb-3">Your Watchlist is Empty!</h2>
+            <p class="luxury-empty-text mb-4">
                 Looks like you haven't added any items to your watchlist yet.
                 Start tracking exciting auctions today!
             </p>
-            <a href="@Url.Action("Active", "Auction")" class="btn btn-primary btn-lg px-5 py-3 shadow-lg rounded-pill">
+            <a href="@Url.Action("Active", "Auction")" class="luxury-btn luxury-btn-primary luxury-btn-lg">
                 <i class="fas fa-search me-2"></i>Explore Live Auctions
             </a>
         </div>
@@ -186,7 +190,7 @@
                                     cardCol.fadeOut(400, function() { // Fade out the column
                                         cardCol.remove();
                                         // Check if watchlist is now empty
-                                        if ($('.item-card').length === 0) {
+                                        if ($('.luxury-watchlist-card').length === 0) {
                                             // Optionally, redirect or show empty state dynamically
                                             location.reload(); 
                                         }
@@ -209,130 +213,377 @@
 }
 
 <style>
-    /* Custom Styles for a modern look */
-    body {
-        background-color: #f8f9fa; /* Light background for the whole page */
+    /* Luxury Color Palette Variables */
+    :root {
+        --walnut-brown: #5C4033;
+        --golden-oak: #C19A6B;
+        --royal-gold: #D4AF37;
+        --steel-mist: #A2B0BF;
+        --matte-charcoal: #2B2B2B;
+        --luxury-black: #000000;
     }
 
-    .container {
-        max-width: 1200px;
+    /* Base Container */
+    .luxury-watchlist-container {
+        background: var(--luxury-black);
+        color: var(--steel-mist);
+        min-height: 100vh;
+        padding: 0 15px;
+        max-width: 1400px;
+        margin: 0 auto;
     }
 
-    .display-4 {
-        font-size: 3.5rem;
-        color: #343a40; /* Darker text for headings */
+    /* Header Styles */
+    .luxury-title {
+        color: var(--royal-gold);
+        font-size: 3rem;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(212, 175, 55, 0.3);
+        letter-spacing: -0.5px;
     }
 
-    .lead {
-        font-size: 1.25rem;
+    .luxury-heart-icon {
+        color: var(--royal-gold);
+        animation: luxuryHeartbeat 2s ease-in-out infinite;
     }
 
-   
-   
-
-    /* Card Styling */
-    .item-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid #e0e0e0;
+    .luxury-subtitle {
+        color: var(--golden-oak);
+        font-size: 1.2rem;
+        font-weight: 400;
+        opacity: 0.9;
     }
 
-    .item-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    /* Luxury Buttons */
+    .luxury-btn {
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid;
+        display: inline-flex;
+        align-items: center;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
-    .item-image {
+    .luxury-btn-primary {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--luxury-black);
+        border-color: var(--royal-gold);
+    }
+
+    .luxury-btn-primary:hover {
+        background: linear-gradient(135deg, var(--golden-oak), var(--royal-gold));
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        color: var(--luxury-black);
+        text-decoration: none;
+    }
+
+    .luxury-btn-lg {
+        padding: 16px 32px;
+        font-size: 1.1rem;
+    }
+
+    .luxury-btn-view {
+        background: linear-gradient(135deg, var(--walnut-brown), var(--matte-charcoal));
+        color: var(--golden-oak);
+        border-color: var(--walnut-brown);
+        border-radius: 50px;
+        padding: 12px 24px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .luxury-btn-view:hover {
+        background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown));
+        color: var(--luxury-black);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(193, 154, 107, 0.4);
+        text-decoration: none;
+    }
+
+    /* Watchlist Card Styles */
+    .luxury-watchlist-card {
+        background: linear-gradient(145deg, var(--matte-charcoal), #1a1a1a);
+        border: 1px solid var(--walnut-brown);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        position: relative;
+    }
+
+    .luxury-watchlist-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--royal-gold), var(--golden-oak), var(--royal-gold));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+    }
+
+    .luxury-watchlist-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 50px rgba(212, 175, 55, 0.2);
+        border-color: var(--royal-gold);
+    }
+
+    .luxury-watchlist-card:hover::before {
+        opacity: 1;
+    }
+
+    /* Item Image */
+    .luxury-item-image {
         width: 100%;
-        height: 220px; /* Fixed height for consistency */
-        object-fit: cover;
-        border-bottom: 1px solid #f0f0f0;
-    }
-
-    .item-image-placeholder {
         height: 220px;
-        background-color: #f5f5f5;
-        border-bottom: 1px solid #f0f0f0;
+        object-fit: cover;
+        transition: transform 0.3s ease;
     }
 
-    .card-title {
-        font-size: 1.35rem;
-        color: #343a40;
+    .luxury-watchlist-card:hover .luxury-item-image {
+        transform: scale(1.05);
     }
 
-    .item-description {
-        height: 40px; /* Limit description height */
+    .luxury-item-placeholder {
+        height: 220px;
+        background: linear-gradient(135deg, var(--matte-charcoal), #1a1a1a);
+        color: var(--walnut-brown);
+        border-bottom: 1px solid var(--walnut-brown);
+    }
+
+    /* Remove Button */
+    .luxury-remove-btn {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+    }
+
+    .luxury-remove-btn:hover {
+        background: linear-gradient(135deg, #c0392b, #e74c3c);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        color: white;
+    }
+
+    /* Status Badges */
+    .luxury-status-badge {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .luxury-status-badge.luxury-active {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--luxury-black);
+    }
+
+    .luxury-status-badge.luxury-ended {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+    }
+
+    /* Card Body */
+    .luxury-card-body {
+        background: transparent;
+        color: var(--steel-mist);
+    }
+
+    .luxury-item-title {
+        color: var(--royal-gold);
+        font-weight: 700;
+        font-size: 1.3rem;
+    }
+
+    .luxury-item-description {
+        color: var(--steel-mist);
+        opacity: 0.8;
+        height: 40px;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
-    .remove-watchlist {
-        background-color: rgba(220, 53, 69, 0.9); /* Slightly transparent */
-        border: none;
-        font-size: 0.9rem;
+    .luxury-bid-label {
+        color: var(--golden-oak);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
-    .remove-watchlist:hover {
-        background-color: #dc3545;
+    .luxury-current-bid {
+        color: var(--royal-gold);
+        font-weight: 700;
+        font-family: 'Courier New', monospace;
     }
 
-    /* Badges */
-    .badge {
-        font-size: 0.85rem;
-        padding: 0.5em 0.8em;
+    .luxury-min-bid {
+        color: var(--steel-mist);
+        font-weight: 600;
+        font-family: 'Courier New', monospace;
     }
 
-    /* Buttons */
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        transition: background-color 0.2s ease, border-color 0.2s ease;
+    .luxury-category-badge {
+        background: linear-gradient(135deg, var(--walnut-brown), var(--matte-charcoal));
+        color: var(--golden-oak);
+        padding: 6px 16px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: 1px solid var(--golden-oak);
     }
 
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #0056b3;
+    .luxury-end-time {
+        color: var(--royal-gold);
+        font-weight: 500;
     }
 
-    .btn-lg {
-        padding: 0.75rem 1.5rem;
-        font-size: 1.1rem;
+    .luxury-ended-time {
+        color: #e74c3c;
+        font-weight: 500;
+    }
+
+    /* Card Footer */
+    .luxury-card-footer {
+        background: linear-gradient(135deg, #1a1a1a, var(--matte-charcoal));
+        border-top: 1px solid var(--walnut-brown);
     }
 
     /* Pagination */
-    .pagination .page-link {
-        color: #007bff;
-        border-radius: 0.5rem;
-        margin: 0 0.25rem;
-        transition: background-color 0.2s ease, color 0.2s ease;
-        border: 1px solid #dee2e6;
+    .luxury-pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background: linear-gradient(145deg, var(--matte-charcoal), #1a1a1a);
+        border-radius: 50px;
+        padding: 8px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     }
 
-    .pagination .page-item.active .page-link {
-        background-color: #007bff;
-        border-color: #007bff;
-        color: white;
+    .luxury-page-item {
+        margin: 0 4px;
     }
 
-    .pagination .page-link:hover {
-        background-color: #e9ecef;
-        color: #0056b3;
+    .luxury-page-link {
+        color: var(--golden-oak);
+        background: transparent;
+        border: 1px solid var(--walnut-brown);
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
     }
 
-    .pagination .page-item.disabled .page-link {
-        color: #6c757d;
+    .luxury-page-link:hover {
+        background: var(--golden-oak);
+        color: var(--luxury-black);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(193, 154, 107, 0.4);
+        text-decoration: none;
+    }
+
+    .luxury-page-item.active .luxury-page-link {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--luxury-black);
+        border-color: var(--royal-gold);
+    }
+
+    .luxury-page-item.disabled .luxury-page-link {
+        color: var(--walnut-brown);
         pointer-events: none;
-        background-color: #f8f9fa;
-        border-color: #dee2e6;
+        opacity: 0.5;
     }
 
-    /* Empty Watchlist State */
-    .alert-info {
-        background-color: #e0f7fa;
-        color: #007bff;
-        border-color: #b2ebf2;
-        padding: 3rem;
-        border-radius: 1rem;
+    /* Empty State */
+    .luxury-empty-state {
+        background: linear-gradient(145deg, var(--matte-charcoal), #1a1a1a);
+        border: 1px solid var(--walnut-brown);
+        border-radius: 16px;
+        padding: 80px 40px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     }
 
-  
+    .luxury-empty-icon {
+        color: var(--walnut-brown);
+        opacity: 0.7;
+    }
+
+    .luxury-empty-title {
+        color: var(--steel-mist);
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+
+    .luxury-empty-text {
+        color: var(--golden-oak);
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    /* Animations */
+    @@keyframes luxuryHeartbeat {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .luxury-title {
+            font-size: 2.5rem;
+        }
+        
+        .luxury-watchlist-card {
+            margin-bottom: 20px;
+        }
+        
+        .luxury-btn {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+        
+        .luxury-btn-lg {
+            padding: 14px 28px;
+            font-size: 1rem;
+        }
+        
+        .luxury-empty-state {
+            padding: 60px 20px;
+        }
+        
+        .luxury-empty-title {
+            font-size: 2rem;
+        }
+    }
+
+    /* Smooth Animations */
+    * {
+        transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    }
 </style>

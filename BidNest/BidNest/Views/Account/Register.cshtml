@@ -1,156 +1,292 @@
-﻿@model BidNest.ViewModels.RegisterViewModel
+@model BidNest.ViewModels.RegisterViewModel
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section Styles {
-    <style>
-        /* Animated gradient background */
-        .login-hero { /* Renamed from 'register-hero' for consistency with login */
-            background: linear-gradient(45deg, #007bff, #6610f2, #007bff);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            color: #fff;
-        }
+<style>
+:root {
+    --walnut-brown: #5C4033;
+    --golden-oak: #C19A6B;
+    --royal-gold: #D4AF37;
+    --steel-mist: #A2B0BF;
+    --matte-charcoal: #2B2B2B;
+    --luxury-black: #000000;
+    --text-light: #ffffff;
+    --border-color: rgba(193, 154, 107, 0.3);
+    --shadow-luxury: 0 20px 60px rgba(0, 0, 0, 0.8);
+    --shadow-hover: 0 25px 80px rgba(212, 175, 55, 0.25);
+}
 
-        /* Floating bubble overlay */
-        .login-hero::before {
+        /* Premium Background with Subtle Animation */
+        .luxury-register-hero {
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(92, 64, 51, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(193, 154, 107, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            min-height: 100vh;
+            /* Subtle Floating Elements */
+        .luxury-register-hero::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="10" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="40" r="15" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="80" r="12" fill="%23ffffff" opacity="0.1"/><circle cx="30" cy="70" r="8" fill="%23ffffff" opacity="0.1"/><circle cx="70" cy="10" r="11" fill="%23ffffff" opacity="0.1"/></svg>') repeat;
-            background-size: 150px;
-            opacity: 0.3;
-            animation: moveBubbles 30s linear infinite;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="8" fill="%23D4AF37" opacity="0.06"/><circle cx="80" cy="40" r="12" fill="%23C19A6B" opacity="0.04"/><circle cx="50" cy="80" r="10" fill="%23D4AF37" opacity="0.05"/><circle cx="30" cy="70" r="6" fill="%23C19A6B" opacity="0.03"/><circle cx="70" cy="10" r="9" fill="%23D4AF37" opacity="0.04"/></svg>') repeat;
+            background-size: 200px;
+            opacity: 0.6;
+            animation: floatElements 40s linear infinite;
             z-index: 0;
         }
 
-        /* Card styling - Modernized (matches login-card) */
-        .register-card { /* Using a distinct class for register to avoid conflicts, but styling is identical */
-            background: rgba(255, 255, 255, 0.98);
+        /* Premium Register Card */
+        .luxury-register-card {
+            background: linear-gradient(145deg, var(--matte-charcoal), #1a1a1a);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            backdrop-filter: blur(5px);
+            box-shadow: var(--shadow-luxury);
+            backdrop-filter: blur(15px);
             z-index: 1;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--border-color);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            animation: luxuryFadeInCard 1s ease-out forwards;
+            overflow: hidden;
         }
 
-        .register-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        .luxury-register-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--royal-gold), var(--golden-oak), var(--walnut-brown));
+            border-radius: 20px 20px 0 0;
+            z-index: 1;
         }
 
-        .register-card .card-header {
-            background: linear-gradient(90deg, #007bff, #6610f2);
-            color: #fff;
+        .luxury-register-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--royal-gold);
+        }
+
+        .luxury-register-card .card-header {
+            background: linear-gradient(135deg, var(--walnut-brown), var(--matte-charcoal));
+            color: var(--text-light);
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
-            padding: 2rem 1.5rem;
+            padding: 2rem;
             font-size: 1.25rem;
             position: relative;
             overflow: hidden;
-        }
-        
-        /* Subtle wave effect for header */
-        .register-card .card-header::before {
-            content: '';
-            position: absolute;
-            bottom: -30px;
-            left: -10%;
-            width: 120%;
-            height: 60px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            transform: rotate(-5deg);
-        }
-
-        /* Floating labels style - Enhanced (matches login) */
-        .form-floating label {
-            color: #6c757d;
-            transition: all 0.2s ease;
-        }
-        .form-control {
-            border-radius: 10px;
-            border: 1px solid #ced4da;
-            padding: 1rem 0.75rem; /* Adjust padding for better look with floating labels */
-        }
-        .form-control:focus {
-            border-color: #6610f2;
-            box-shadow: 0 0 0 0.25rem rgba(102, 16, 242, 0.2);
-            border-width: 2px;
-        }
-        .form-floating > .form-control:focus ~ label,
-        .form-floating > .form-control:not(:placeholder-shown) ~ label,
-        .form-floating > .form-select ~ label {
-            transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-            color: #6610f2;
-        }
-
-        /* Register Button - Gradient and Hover Effect (matches login button) */
-        .btn-primary-gradient { /* New class for gradient button */
-            background: linear-gradient(45deg, #007bff, #6610f2);
             border: none;
-            border-radius: 10px;
-            padding: 0.75rem 1.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            background-size: 200% auto;
-            color: #fff; /* Ensure text is white */
+            border-bottom: 1px solid var(--border-color);
         }
-        .btn-primary-gradient:hover {
-            background-position: right center;
-            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+
+        .luxury-register-card .card-header h3 {
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+            color: var(--royal-gold);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .luxury-register-card .card-header p {
+            position: relative;
+            z-index: 1;
+            color: var(--steel-mist);
+        }
+
+        .luxury-register-card .card-body {
+            background-color: transparent;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Premium Form Controls */
+        .form-floating label {
+            color: var(--steel-mist);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .form-control {
+            background-color: var(--matte-charcoal);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-light);
+            padding: 1rem 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-control:focus {
+            background-color: var(--matte-charcoal);
+            border-color: var(--royal-gold);
+            box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: var(--text-light);
+            outline: none;
             transform: translateY(-2px);
         }
-        .btn-primary-gradient:active {
-            transform: translateY(0);
-            box-shadow: none;
+
+        .form-control::placeholder {
+            color: var(--steel-mist);
+            opacity: 0.7;
         }
 
-        /* General text and links */
-        .text-primary { /* Ensure text-primary styles are defined */
-            color: #007bff !important;
+        .form-floating > .form-control:not(:placeholder-shown) ~ label {
+            transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+            color: var(--royal-gold);
         }
+
+        /* Premium Register Button */
+        .luxury-btn-register {
+            background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+            border: none;
+            border-radius: 50px;
+            padding: 0.875rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--luxury-black);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .luxury-btn-register::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .luxury-btn-register:hover::before {
+            left: 100%;
+        }
+
+        .luxury-btn-register:hover {
+            background: linear-gradient(135deg, var(--golden-oak), var(--royal-gold));
+            color: var(--luxury-black);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
+        }
+
+        .luxury-btn-register:active {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Luxury Text and Links */
+        .text-primary {
+            color: var(--royal-gold) !important;
+        }
+
         .text-primary:hover {
-            color: #0056b3 !important;
+            color: var(--golden-oak) !important;
         }
-        a.fw-bold { /* Adjusting link style for consistency */
+
+        .text-danger {
+            color: #e74c3c !important;
+            font-weight: 500;
+        }
+
+        a.fw-bold {
             text-decoration: none;
-            transition: color 0.2s ease;
+            transition: all 0.3s ease;
+            color: var(--royal-gold);
         }
 
-        /* Gradient animation */
-        @@keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        a.fw-bold:hover {
+            color: var(--golden-oak);
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
         }
 
-        /* Bubble movement */
-        @@keyframes moveBubbles {
+        /* Card Footer Styling */
+        .card-footer {
+            background: linear-gradient(145deg, #1a1a1a, var(--matte-charcoal)) !important;
+            border: none !important;
+            border-bottom-left-radius: 20px !important;
+            border-bottom-right-radius: 20px !important;
+            padding: 1.5rem 2rem !important;
+            border-top: 1px solid var(--border-color) !important;
+        }
+
+        .form-text {
+            color: var(--steel-mist) !important;
+            opacity: 0.8;
+        }
+
+        /* Premium Animations */
+        @@keyframes floatElements {
             from { background-position: 0 0; }
-            to { background-position: 100% 100%; }
+            to { background-position: 200px 200px; }
         }
-    </style>
-}
 
-<div class="login-hero"> <!-- Using the same hero background as login -->
+        @@keyframes luxuryFadeInCard {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .luxury-register-card {
+                margin: 1rem;
+            }
+            
+            .luxury-register-card .card-header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .luxury-register-card .card-body {
+                padding: 1.5rem;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .luxury-register-card {
+                margin: 0.5rem;
+            }
+            
+            .luxury-register-card .card-header {
+                padding: 1.5rem 1rem;
+            }
+            
+            .luxury-register-card .card-header h3 {
+                font-size: 1.5rem;
+            }
+            
+            .luxury-register-card .card-body {
+                padding: 1rem;
+            }
+        }
+
+/* Smooth Animations */
+* {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+</style>
+
+<div class="luxury-register-hero">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-7"> <!-- Slightly wider card for more fields -->
-                <div class="card register-card shadow-lg">
+                <div class="luxury-register-card shadow-lg">
                     <div class="card-header text-center">
                         <h3 class="mb-1 fw-bold">Create Your BidNest Account ✨</h3>
                         <p class="mb-0 small opacity-75">Join us and start bidding today!</p>
@@ -201,7 +337,7 @@
                             </div>
 
                             <div class="d-grid gap-2 mt-4">
-                                <button type="submit" class="btn btn-primary-gradient btn-lg">Create Account</button>
+                                <button type="submit" class="btn luxury-btn-register btn-lg">Create Account</button>
                             </div>
                         </form>
                     </div>

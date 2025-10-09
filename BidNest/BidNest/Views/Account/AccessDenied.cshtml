@@ -6,20 +6,20 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow border-danger">
-                <div class="card-header bg-danger text-white text-center">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Access Denied</h3>
+            <div class="card shadow border-danger luxury-access-denied-card">
+                <div class="card-header bg-danger text-white text-center luxury-header">
+                    <h3><i class="fas fa-exclamation-triangle luxury-icon"></i> Access Denied</h3>
                 </div>
-                <div class="card-body text-center">
-                    <h4 class="text-danger">You don't have permission to access this resource</h4>
-                    <p class="text-muted">
+                <div class="card-body text-center luxury-body">
+                    <h4 class="text-danger luxury-title">You don't have permission to access this resource</h4>
+                    <p class="text-muted luxury-description">
                         The page you're trying to access requires special permissions that your account doesn't have.
                     </p>
-                    <div class="mt-4">
-                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary me-2">
+                    <div class="mt-4 luxury-buttons">
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary me-2 luxury-btn-primary">
                             <i class="fas fa-home"></i> Go Home
                         </a>
-                        <a href="@Url.Action("Login", "Account")" class="btn btn-outline-secondary">
+                        <a href="@Url.Action("Login", "Account")" class="btn btn-outline-secondary luxury-btn-secondary">
                             <i class="fas fa-sign-in-alt"></i> Login with Different Account
                         </a>
                     </div>
@@ -28,3 +28,405 @@
         </div>
     </div>
 </div>
+
+@section Styles {
+    <style>
+        :root {
+            --walnut-brown: #5C4033;
+            --golden-oak: #C19A6B;
+            --royal-gold: #D4AF37;
+            --steel-mist: #A2B0BF;
+            --matte-charcoal: #2B2B2B;
+            --text-light: #f8f9fa;
+            --text-muted: #A2B0BF;
+            --bg-dark: #000000;
+            --card-bg: #1a1a1a;
+            --border-color: rgba(196, 154, 107, 0.2);
+            --shadow-luxury: 0 15px 45px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 20px 60px rgba(212, 175, 55, 0.15);
+            --error-gradient: linear-gradient(135deg, var(--walnut-brown), var(--matte-charcoal));
+        }
+
+        /* Global Styling */
+        body {
+            background-color: var(--bg-dark) !important;
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--bg-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        /* Luxury Access Denied Card */
+        .luxury-access-denied-card {
+            background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal));
+            border: 2px solid var(--walnut-brown) !important;
+            border-radius: 25px;
+            box-shadow: var(--shadow-luxury);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            animation: luxuryFadeInCard 0.8s ease-out forwards;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .luxury-access-denied-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--walnut-brown), var(--royal-gold), var(--golden-oak));
+            z-index: 1;
+        }
+
+        .luxury-access-denied-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--golden-oak);
+        }
+
+        /* Luxury Header */
+        .luxury-header {
+            background: var(--error-gradient) !important;
+            background-size: 400% 400%;
+            animation: luxuryGradientShift 15s ease infinite;
+            border: none !important;
+            border-radius: 25px 25px 0 0 !important;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .luxury-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="3" fill="%23D4AF37" opacity="0.1"/><circle cx="80" cy="40" r="4" fill="%23C19A6B" opacity="0.1"/><circle cx="50" cy="80" r="3" fill="%23D4AF37" opacity="0.1"/></svg>') repeat;
+            background-size: 100px;
+            opacity: 0.3;
+            animation: moveBubbles 20s linear infinite;
+            z-index: 0;
+        }
+
+        .luxury-header h3 {
+            color: var(--text-light);
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 1;
+            margin-bottom: 0;
+            font-size: 1.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Luxury Icon */
+        .luxury-icon {
+            font-size: 2rem;
+            margin-right: 0.75rem;
+            animation: luxuryPulse 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+        }
+
+        /* Luxury Body */
+        .luxury-body {
+            background-color: transparent;
+            padding: 2.5rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Luxury Title */
+        .luxury-title {
+            color: var(--walnut-brown) !important;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, var(--walnut-brown), var(--golden-oak));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.4;
+        }
+
+        /* Luxury Description */
+        .luxury-description {
+            color: var(--steel-mist) !important;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        /* Luxury Buttons Container */
+        .luxury-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* Button Base Styling */
+        .btn {
+            border-radius: 25px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            padding: 0.75rem 2rem;
+            font-size: 0.95rem;
+            min-width: 200px;
+        }
+
+        /* Primary Button (Go Home) */
+        .luxury-btn-primary {
+            background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak)) !important;
+            color: var(--matte-charcoal) !important;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+            border: 2px solid transparent !important;
+        }
+
+        .luxury-btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .luxury-btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .luxury-btn-primary:hover {
+            background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown)) !important;
+            color: var(--text-light) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Secondary Button (Login) */
+        .luxury-btn-secondary {
+            background: transparent !important;
+            color: var(--steel-mist) !important;
+            border: 2px solid var(--steel-mist) !important;
+            box-shadow: 0 4px 15px rgba(162, 176, 191, 0.2);
+        }
+
+        .luxury-btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(162, 176, 191, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .luxury-btn-secondary:hover::before {
+            left: 100%;
+        }
+
+        .luxury-btn-secondary:hover {
+            background: linear-gradient(135deg, var(--steel-mist), var(--matte-charcoal)) !important;
+            color: var(--text-light) !important;
+            border-color: var(--golden-oak) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(162, 176, 191, 0.3);
+        }
+
+        /* Button Icons */
+        .btn i {
+            transition: transform 0.3s ease;
+            margin-right: 0.5rem;
+        }
+
+        .btn:hover i {
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @@keyframes luxuryFadeInCard {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @@keyframes luxuryGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @@keyframes moveBubbles {
+            from { background-position: 0 0; }
+            to { background-position: 100% 100%; }
+        }
+
+        @@keyframes luxuryPulse {
+            0%, 100% { 
+                transform: scale(1);
+                filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+            }
+            50% { 
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5));
+            }
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .container {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .luxury-access-denied-card {
+                margin: 0 0.5rem;
+                border-radius: 20px;
+            }
+            
+            .luxury-header {
+                padding: 1.5rem;
+                border-radius: 20px 20px 0 0 !important;
+            }
+            
+            .luxury-header h3 {
+                font-size: 1.5rem;
+            }
+            
+            .luxury-body {
+                padding: 2rem 1.5rem;
+            }
+            
+            .luxury-title {
+                font-size: 1.2rem;
+            }
+            
+            .luxury-description {
+                font-size: 1rem;
+            }
+            
+            .luxury-buttons {
+                gap: 0.75rem;
+            }
+            
+            .btn {
+                width: 100%;
+                min-width: auto;
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .luxury-icon {
+                font-size: 1.75rem;
+                margin-right: 0.5rem;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .luxury-access-denied-card {
+                margin: 0 0.25rem;
+                border-radius: 15px;
+            }
+            
+            .luxury-header {
+                padding: 1.25rem;
+                border-radius: 15px 15px 0 0 !important;
+            }
+            
+            .luxury-header h3 {
+                font-size: 1.3rem;
+            }
+            
+            .luxury-body {
+                padding: 1.5rem 1rem;
+            }
+            
+            .luxury-title {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .luxury-description {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .btn {
+                padding: 0.65rem 1.25rem;
+                font-size: 0.85rem;
+            }
+            
+            .luxury-icon {
+                font-size: 1.5rem;
+                margin-right: 0.4rem;
+            }
+        }
+
+        /* Focus States for Accessibility */
+        .btn:focus {
+            outline: 2px solid var(--royal-gold);
+            outline-offset: 2px;
+        }
+
+        /* High Contrast Mode Support */
+        @@media (prefers-contrast: high) {
+            .luxury-access-denied-card {
+                border-width: 3px;
+            }
+            
+            .luxury-title {
+                -webkit-text-fill-color: var(--walnut-brown);
+            }
+        }
+
+        /* Reduced Motion Support */
+        @@media (prefers-reduced-motion: reduce) {
+            .luxury-access-denied-card {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
+            
+            .luxury-header {
+                animation: none;
+            }
+            
+            .luxury-icon {
+                animation: none;
+            }
+            
+            .btn::before {
+                display: none;
+            }
+        }
+    </style>
+}

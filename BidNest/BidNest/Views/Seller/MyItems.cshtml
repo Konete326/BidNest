@@ -3,284 +3,418 @@
     ViewData["Title"] = "My Items";
 }
 
-<div class="container-fluid py-4 bg-light min-vh-100">
+<style>
+    :root {
+        --walnut-brown: #5C4033;
+        --golden-oak: #C19A6B;
+        --royal-gold: #D4AF37;
+        --steel-mist: #A2B0BF;
+        --matte-charcoal: #2B2B2B;
+        --text-light: #f8f9fa;
+        --text-muted: #A2B0BF;
+        --bg-dark: #000000;
+        --card-bg: #1a1a1a;
+        --border-color: rgba(196, 154, 107, 0.2);
+    }
+
+    /* Global Styling */
+    body {
+        background-color: var(--bg-dark) !important;
+        color: var(--text-light);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .luxury-container {
+        width: 100%;
+        max-width: 1400px;
+        padding: 2rem 15px;
+        margin: 0 auto;
+        background-color: var(--bg-dark);
+        min-height: 100vh;
+    }
+
+    /* Header Styling */
+    .luxury-header {
+        background: linear-gradient(135deg, var(--walnut-brown) 0%, var(--matte-charcoal) 35%, var(--golden-oak) 70%, var(--royal-gold) 100%);
+        background-size: 400% 400%;
+        animation: luxuryGradientShift 20s ease infinite;
+        border-radius: 15px;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    @@keyframes luxuryGradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .luxury-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="8" fill="%23D4AF37" opacity="0.1"/><circle cx="80" cy="40" r="12" fill="%23C19A6B" opacity="0.1"/><circle cx="50" cy="80" r="10" fill="%23D4AF37" opacity="0.1"/></svg>') repeat;
+        background-size: 150px;
+        opacity: 0.6;
+        animation: moveBubbles 30s linear infinite;
+        z-index: 0;
+    }
+
+    @@keyframes moveBubbles {
+        from { background-position: 0 0; }
+        to { background-position: 100% 100%; }
+    }
+
+    .luxury-header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .luxury-header h2 {
+        font-weight: 700;
+        font-size: 2.5rem;
+        letter-spacing: -0.02rem;
+        color: var(--text-light);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        margin-bottom: 0.5rem;
+    }
+
+    .luxury-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        color: var(--text-light);
+        margin-bottom: 0;
+    }
+
+    /* Button Styling */
+    .luxury-btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+        margin: 0.25rem;
+    }
+
+    .luxury-btn-primary {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .luxury-btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .luxury-btn-primary:hover::before {
+        left: 100%;
+    }
+
+    .luxury-btn-primary:hover {
+        background: linear-gradient(135deg, var(--golden-oak), var(--walnut-brown));
+        color: var(--text-light);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        text-decoration: none;
+    }
+
+    .luxury-btn-lg {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+
+    /* Filter Card */
+    .luxury-filter-card {
+        background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal));
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .luxury-filter-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(212, 175, 55, 0.15);
+        border-color: var(--golden-oak);
+    }
+
+    /* Filter Buttons */
+    .luxury-filter-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .luxury-filter-btn {
+        padding: 0.5rem 1.25rem;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .luxury-filter-btn-outline {
+        background: transparent;
+        color: var(--royal-gold);
+        border-color: var(--royal-gold);
+    }
+
+    .luxury-filter-btn-outline:hover {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+        text-decoration: none;
+        transform: translateY(-1px);
+    }
+
+    .luxury-filter-btn-active {
+        background: linear-gradient(135deg, var(--royal-gold), var(--golden-oak));
+        color: var(--matte-charcoal);
+        border-color: var(--golden-oak);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .luxury-badge-count {
+        background: rgba(43, 43, 43, 0.9);
+        color: var(--royal-gold);
+        padding: 0.2rem 0.5rem;
+        border-radius: 10px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-left: 0.5rem;
+    }
+
+    /* Form Select */
+    .luxury-form-select {
+        background-color: var(--matte-charcoal);
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        color: var(--text-light);
+        padding: 0.5rem 2.5rem 0.5rem 1rem;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23C19A6B' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+    }
+
+    .luxury-form-select:focus {
+        background-color: var(--matte-charcoal);
+        border-color: var(--royal-gold);
+        box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+        color: var(--text-light);
+        outline: none;
+    }
+
+    .luxury-form-label {
+        color: var(--golden-oak);
+        font-weight: 600;
+        margin-right: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Empty State */
+    .luxury-empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal));
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        border: 2px dashed var(--border-color);
+        margin-top: 2rem;
+    }
+
+    .luxury-empty-icon {
+        font-size: 4rem;
+        color: var(--steel-mist);
+        opacity: 0.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .luxury-empty-title {
+        color: var(--text-light);
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .luxury-empty-text {
+        color: var(--steel-mist);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Utility Classes */
+    .luxury-d-flex { display: flex; }
+    .luxury-justify-between { justify-content: space-between; }
+    .luxury-justify-center { justify-content: center; }
+    .luxury-align-center { align-items: center; }
+    .luxury-flex-wrap { flex-wrap: wrap; }
+    .luxury-text-center { text-align: center; }
+    .luxury-mb-0 { margin-bottom: 0; }
+    .luxury-mb-2 { margin-bottom: 0.5rem; }
+    .luxury-me-2 { margin-right: 0.5rem; }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .luxury-header-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .luxury-header h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .luxury-btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        
+        .luxury-filter-card {
+            padding: 1rem;
+        }
+        
+        .luxury-filter-group {
+            justify-content: center;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .luxury-container {
+            padding: 1rem 10px;
+        }
+        
+        .luxury-header {
+            padding: 1.5rem 1rem;
+        }
+        
+        .luxury-header h2 {
+            font-size: 1.75rem;
+        }
+        
+        .luxury-btn {
+            font-size: 0.85rem;
+            padding: 0.6rem 1rem;
+        }
+        
+        .luxury-filter-btn {
+            font-size: 0.8rem;
+            padding: 0.4rem 1rem;
+        }
+    }
+</style>
+
+<div class="luxury-container">
     <!-- Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center bg-white p-3 rounded shadow-sm">
-                <div>
-                    <h2 class="mb-1 text-primary">My Items</h2>
-                    <p class="text-muted mb-0">Manage your auction listings and track their performance</p>
-                </div>
-                <div>
-                    <a href="@Url.Action("Create")" class="btn btn-primary btn-lg rounded-pill shadow-sm">
-                        <i class="fas fa-plus me-2"></i>Add New Item
-                    </a>
-                </div>
+    <div class="luxury-header">
+        <div class="luxury-header-content">
+            <div>
+                <h2 class="luxury-mb-2">My Items</h2>
+                <p class="luxury-mb-0">Manage your auction listings and track their performance</p>
+            </div>
+            <div>
+                <a href="@Url.Action("Create")" class="luxury-btn luxury-btn-primary luxury-btn-lg">
+                    <i class="fas fa-plus luxury-me-2"></i>Add New Item
+                </a>
             </div>
         </div>
     </div>
 
     <!-- Filters -->
-    <div class="card mb-4 border-0 shadow-sm">
-        <div class="card-body">
-            <div class="row align-items-center g-3">
-                <div class="col-md-7 col-lg-8">
-                    <div class="btn-group flex-wrap" role="group">
-                        <a href="@Url.Action("MyItems", new { status = "all" })" 
-                           class="btn btn-filter @(Model.StatusFilter == "all" ? "btn-primary active" : "btn-outline-primary")">
-                            All Items <span class="badge bg-light text-primary ms-1">@Model.TotalItems</span>
-                        </a>
-                        <a href="@Url.Action("MyItems", new { status = "active" })" 
-                           class="btn btn-filter @(Model.StatusFilter == "active" ? "btn-success active" : "btn-outline-success")">
-                            Active
-                        </a>
-                        <a href="@Url.Action("MyItems", new { status = "pending" })" 
-                           class="btn btn-filter @(Model.StatusFilter == "pending" ? "btn-warning active" : "btn-outline-warning")">
-                            Pending
-                        </a>
-                        <a href="@Url.Action("MyItems", new { status = "sold" })" 
-                           class="btn btn-filter @(Model.StatusFilter == "sold" ? "btn-info active" : "btn-outline-info")">
-                            Sold
-                        </a>
-                        <a href="@Url.Action("MyItems", new { status = "expired" })" 
-                           class="btn btn-filter @(Model.StatusFilter == "expired" ? "btn-secondary active" : "btn-outline-secondary")">
-                            Expired
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-5 col-lg-4">
-                    <div class="d-flex justify-content-md-end align-items-center flex-wrap">
-                        <label for="sortSelect" class="form-label me-2 mb-0 text-muted d-none d-sm-block">Sort by:</label>
-                        <select id="sortSelect" class="form-select form-select-sm w-auto custom-select-icon shadow-sm" onchange="location = this.value;">
-                            <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "newest" })">Newest First</option>
-                            <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "oldest" })">Oldest First</option>
-                            <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "price-high" })">Highest Price</option>
-                            <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "price-low" })">Lowest Price</option>
-                            <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "ending" })">Ending Soon</option>
-                        </select>
-                    </div>
-                </div>
+    <div class="luxury-filter-card">
+        <div class="luxury-d-flex luxury-justify-between luxury-align-center luxury-flex-wrap">
+            <div class="luxury-filter-group">
+                <a href="@Url.Action("MyItems", new { status = "all" })" 
+                   class="luxury-filter-btn @(Model.StatusFilter == "all" ? "luxury-filter-btn-active" : "luxury-filter-btn-outline")">
+                    All Items <span class="luxury-badge-count">@Model.TotalItems</span>
+                </a>
+                <a href="@Url.Action("MyItems", new { status = "active" })" 
+                   class="luxury-filter-btn @(Model.StatusFilter == "active" ? "luxury-filter-btn-active" : "luxury-filter-btn-outline")">
+                    Active
+                </a>
+                <a href="@Url.Action("MyItems", new { status = "pending" })" 
+                   class="luxury-filter-btn @(Model.StatusFilter == "pending" ? "luxury-filter-btn-active" : "luxury-filter-btn-outline")">
+                    Pending
+                </a>
+                <a href="@Url.Action("MyItems", new { status = "sold" })" 
+                   class="luxury-filter-btn @(Model.StatusFilter == "sold" ? "luxury-filter-btn-active" : "luxury-filter-btn-outline")">
+                    Sold
+                </a>
+                <a href="@Url.Action("MyItems", new { status = "expired" })" 
+                   class="luxury-filter-btn @(Model.StatusFilter == "expired" ? "luxury-filter-btn-active" : "luxury-filter-btn-outline")">
+                    Expired
+                </a>
+            </div>
+            <div class="luxury-d-flex luxury-align-center luxury-flex-wrap">
+                <label for="sortSelect" class="luxury-form-label">Sort by:</label>
+                <select id="sortSelect" class="luxury-form-select" onchange="location = this.value;">
+                    <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "newest" })">Newest First</option>
+                    <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "oldest" })">Oldest First</option>
+                    <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "price-high" })">Highest Price</option>
+                    <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "price-low" })">Lowest Price</option>
+                    <option value="@Url.Action("MyItems", new { status = Model.StatusFilter, sort = "ending" })">Ending Soon</option>
+                </select>
             </div>
         </div>
     </div>
 
-    <!-- Items Grid -->
-    @if (Model.Items.Any())
-    {
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            @foreach (var item in Model.Items)
-            {
-                <div class="col">
-                    <div class="card h-100 item-card border-0 shadow-sm rounded-3 overflow-hidden">
-                        <!-- Image -->
-                        <div class="position-relative item-image-container">
-                            @if (item.Images.Any())
-                            {
-                                <img src="@item.Images.First().ImagePath" alt="@item.Name" 
-                                     class="card-img-top item-image">
-                            }
-                            else
-                            {
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center item-image-placeholder">
-                                    <i class="fas fa-image fa-4x text-muted opacity-50"></i>
-                                </div>
-                            }
-                            
-                            <!-- Status Badge -->
-                            <span class="position-absolute top-0 end-0 m-2 badge rounded-pill status-badge @GetStatusBadgeClass(item.Status)">
-                                @GetStatusText(item.Status)
-                            </span>
-                        </div>
-
-                        <div class="card-body d-flex flex-column p-3">
-                            <h5 class="card-title text-truncate mb-1">
-                                <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" class="text-decoration-none text-dark hover-primary">
-                                    @item.Name
-                                </a>
-                            </h5>
-                            <p class="card-text text-muted small mb-2">@item.CategoryName</p>
-                            
-                            <!-- Pricing Info -->
-                            <div class="mb-3 border-top pt-2 mt-2">
-                                @if (item.Status == "A") // Active
-                                {
-                                    <div class="d-flex justify-content-between align-items-center mb-1">
-                                        <span class="text-muted small">Current Bid:</span>
-                                        <span class="fw-bold text-success fs-5">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="text-muted small">Bids:</span>
-                                        <span class="badge bg-primary rounded-pill px-3 py-2">@item.BidCount <i class="fas fa-gavel ms-1"></i></span>
-                                    </div>
-                                }
-                                else if (item.Status == "S") // Sold
-                                {
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="text-muted small">Sold for:</span>
-                                        <span class="fw-bold text-success fs-5">$@((item.CurrentBid ?? item.MinimumBid).ToString("N2"))</span>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="text-muted small">Starting Bid:</span>
-                                        <span class="fw-bold fs-5">$@item.MinimumBid.ToString("N2")</span>
-                                    </div>
-                                }
-                            </div>
-
-                            <!-- Time Info -->
-                            <div class="mb-3 text-center border-bottom pb-2">
-                                @if (item.Status == "A")
-                                {
-                                    <p class="mb-0 text-warning">
-                                        <i class="fas fa-hourglass-half me-1"></i>
-                                        <span id="timer-@item.ItemId" class="fw-bold">Calculating...</span>
-                                    </p>
-                                }
-                                else if (item.Status == "P")
-                                {
-                                    <p class="mb-0 text-muted small">
-                                        <i class="fas fa-calendar-alt me-1"></i>
-                                        Submitted @item.CreatedAt.ToString("MMM dd, yyyy")
-                                    </p>
-                                }
-                                else if (item.Status == "S")
-                                {
-                                    <p class="mb-0 text-success small">
-                                        <i class="fas fa-check-circle me-1"></i>
-                                        Sold @item.EndDate.ToString("MMM dd, yyyy")
-                                    </p>
-                                }
-                                else
-                                {
-                                    <p class="mb-0 text-muted small">
-                                        <i class="fas fa-calendar-times me-1"></i>
-                                        Ended @item.EndDate.ToString("MMM dd, yyyy")
-                                    </p>
-                                }
-                            </div>
-
-                            <!-- Actions -->
-                            <div class="mt-auto pt-2">
-                                <div class="d-flex gap-2">
-                                    <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" 
-                                       class="btn btn-sm btn-outline-primary flex-fill rounded-pill">
-                                        <i class="fas fa-eye me-1"></i>View Details
-                                    </a>
-                                    
-                                    @if (item.Status == "P") // Pending - can edit
-                                    {
-                                        <a href="@Url.Action("Edit", new { id = item.ItemId })" 
-                                           class="btn btn-sm btn-outline-secondary rounded-circle icon-btn" data-bs-toggle="tooltip" title="Edit Item">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-sm btn-outline-danger rounded-circle icon-btn" 
-                                                onclick="deleteItem(@item.ItemId, '@item.Name')" data-bs-toggle="tooltip" title="Delete Item">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    }
-                                    else if (item.Status == "A" && item.BidCount == 0) // Active with no bids - can delete
-                                    {
-                                        <button type="button" class="btn btn-sm btn-outline-danger rounded-circle icon-btn" 
-                                                onclick="deleteItem(@item.ItemId, '@item.Name')" data-bs-toggle="tooltip" title="Delete Item">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    }
-                                    else if (item.Status == "A") // Active with bids - show analytics
-                                    {
-                                        <a href="@Url.Action("Analytics", new { itemId = item.ItemId })" 
-                                           class="btn btn-sm btn-outline-info rounded-circle icon-btn" data-bs-toggle="tooltip" title="View Analytics">
-                                            <i class="fas fa-chart-line"></i>
-                                        </a>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-
-        <!-- Pagination -->
-        @if (Model.TotalPages > 1)
-        {
-            <nav aria-label="Items pagination" class="mt-5">
-                <ul class="pagination justify-content-center shadow-sm rounded-pill p-2 bg-white">
-                    @if (Model.HasPreviousPage)
-                    {
-                        <li class="page-item">
-                            <a class="page-link rounded-pill mx-1" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = Model.CurrentPage - 1 })" aria-label="Previous">
-                                <i class="fas fa-chevron-left"></i>
-                            </a>
-                        </li>
-                    }
-
-                    @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
-                    {
-                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a class="page-link rounded-pill mx-1 @(i == Model.CurrentPage ? "bg-primary border-primary text-white" : "text-primary")" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = i })">@i</a>
-                        </li>
-                    }
-
-                    @if (Model.HasNextPage)
-                    {
-                        <li class="page-item">
-                            <a class="page-link rounded-pill mx-1" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = Model.CurrentPage + 1 })" aria-label="Next">
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </nav>
-        }
-    }
-    else
+    <!-- Items Grid or Empty State -->
+    @if (!Model.Items.Any())
     {
         <!-- Empty State -->
-        <div class="text-center py-5 bg-white rounded shadow-sm mt-4">
-            <i class="fas fa-box-open fa-5x text-muted mb-4 opacity-75"></i>
-            <h4 class="text-muted mb-3">No Items Found</h4>
+        <div class="luxury-empty-state">
+            <i class="fas fa-box-open luxury-empty-icon"></i>
+            <h4 class="luxury-empty-title">No Items Found</h4>
             @if (Model.StatusFilter == "all")
             {
-                <p class="text-muted fs-5">You haven't created any listings yet. Let's get started!</p>
-                <a href="@Url.Action("Create")" class="btn btn-primary btn-lg rounded-pill mt-3 shadow">
-                    <i class="fas fa-plus me-2"></i>Create Your First Listing
+                <p class="luxury-empty-text">You haven't created any listings yet. Let's get started!</p>
+                <a href="@Url.Action("Create")" class="luxury-btn luxury-btn-primary luxury-btn-lg">
+                    <i class="fas fa-plus luxury-me-2"></i>Create Your First Listing
                 </a>
             }
             else
             {
-                <p class="text-muted fs-5">No items found with status: <span class="fw-bold text-dark">@GetStatusText(Model.StatusFilter)</span></p>
-                <a href="@Url.Action("MyItems", new { status = "all" })" class="btn btn-outline-primary btn-lg rounded-pill mt-3">
-                    <i class="fas fa-boxes me-2"></i>View All Items
+                <p class="luxury-empty-text">No items found with status: <span style="color: var(--royal-gold); font-weight: 600;">@GetStatusText(Model.StatusFilter)</span></p>
+                <a href="@Url.Action("MyItems", new { status = "all" })" class="luxury-btn luxury-btn-primary luxury-btn-lg">
+                    <i class="fas fa-boxes luxury-me-2"></i>View All Items
                 </a>
             }
         </div>
     }
-</div>
-
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-4 shadow-lg">
-            <div class="modal-header bg-danger text-white border-0">
-                <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Confirm Deletion</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4">
-                <p class="lead">Are you sure you want to delete "<span id="deleteItemName" class="fw-bold text-dark"></span>"?</p>
-                <p class="text-danger small mb-0">This action cannot be undone and will permanently remove your item.</p>
-            </div>
-            <div class="modal-footer border-0 p-3">
-                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-                <form id="deleteForm" method="post" style="display: inline;">
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-danger rounded-pill px-4">Delete Item</button>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 
 @functions {
@@ -369,230 +503,4 @@
           return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     </script>
-}
-
-@section Styles {
-    <style>
-        body {
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f8f9fa; /* Lighter background for the entire page */
-        }
-
-        .container-fluid {
-            max-width: 1400px;
-        }
-
-        /* Header Styling */
-        .d-flex.justify-content-between.align-items-center.bg-white {
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        /* Filter Buttons */
-        .btn-filter {
-            border-radius: 50rem !important; /* Pill shape */
-            margin: 0.25rem;
-            font-weight: 500;
-            transition: all 0.2s ease-in-out;
-            padding: 0.5rem 1.25rem;
-        }
-
-        .btn-filter.active {
-            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
-            font-weight: 600;
-        }
-        
-        .btn-outline-primary:hover {
-            color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-outline-success:hover {
-            color: #fff;
-            background-color: #28a745;
-            border-color: #28a745;
-        }
-
-        .btn-outline-warning:hover {
-            color: #212529; /* Darker text for warning hover */
-            background-color: #ffc107;
-            border-color: #ffc107;
-        }
-
-        .btn-outline-info:hover {
-            color: #fff;
-            background-color: #17a2b8;
-            border-color: #17a2b8;
-        }
-
-        .btn-outline-secondary:hover {
-            color: #fff;
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-
-        /* Sort Select */
-        .custom-select-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 16px 12px;
-            padding-right: 2.25rem;
-            border-radius: 0.5rem;
-            border-color: #ced4da;
-        }
-
-        /* Item Card */
-        .item-card {
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        }
-        
-        .item-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-
-        .item-image-container {
-            height: 200px; /* Fixed height for consistency */
-            overflow: hidden;
-            background-color: #f0f2f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .item-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures image covers the area without distortion */
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .item-card:hover .item-image {
-            transform: scale(1.05); /* Slight zoom on hover */
-        }
-
-        .item-image-placeholder {
-            height: 100%;
-            width: 100%;
-            color: #adb5bd;
-        }
-
-        .status-badge {
-            font-size: 0.85rem;
-            padding: 0.4em 0.8em;
-            letter-spacing: 0.5px;
-        }
-
-        .card-title a {
-            font-weight: 600;
-            color: #343a40;
-        }
-
-        .card-title a.hover-primary:hover {
-            color: #007bff !important;
-        }
-
-        .icon-btn {
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            font-size: 0.9rem;
-        }
-
-        /* Pagination */
-        .pagination .page-item .page-link {
-            border: none;
-            color: #007bff;
-            margin: 0 0.2rem;
-            transition: all 0.2s ease-in-out;
-            min-width: 38px;
-            text-align: center;
-        }
-
-        .pagination .page-item .page-link:hover {
-            background-color: #e9ecef;
-            color: #0056b3;
-        }
-
-        .pagination .page-item.active .page-link {
-            background-color: #007bff;
-            border-color: #007bff;
-            color: white;
-            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
-        }
-        
-        .pagination .page-item.disabled .page-link {
-            color: #6c757d;
-            background-color: #fff;
-        }
-
-        /* Empty State */
-        .text-center.py-5 {
-            border: 2px dashed #e9ecef;
-        }
-        
-        .text-center.py-5 i {
-            color: #adb5bd !important;
-        }
-
-        /* Modal Overrides */
-        #deleteModal .modal-header {
-            border-bottom: none;
-        }
-
-        #deleteModal .modal-footer {
-            border-top: none;
-        }
-
-        /* Responsive Adjustments */
-        @@media (max-width: 767.98px) {
-            .d-flex.justify-content-between.align-items-center {
-                flex-direction: column;
-                align-items: flex-start !important;
-            }
-            .d-flex.justify-content-between.align-items-center > div:last-child {
-                margin-top: 1rem;
-                width: 100%;
-            }
-            .d-flex.justify-content-between.align-items-center > div:last-child .btn {
-                width: 100%;
-            }
-            .btn-group {
-                width: 100%;
-                justify-content: center;
-            }
-            .btn-group .btn {
-                flex-grow: 1;
-            }
-            .d-flex.justify-content-md-end {
-                justify-content: center !important;
-                margin-top: 1rem;
-            }
-            .custom-select-icon {
-                width: 100% !important;
-            }
-        }
-
-        @@media (max-width: 575.98px) {
-            .btn-group .btn {
-                font-size: 0.85rem;
-                padding: 0.4rem 0.8rem;
-            }
-        }
-    </style>
 }
