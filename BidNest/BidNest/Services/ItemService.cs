@@ -564,7 +564,7 @@ namespace BidNest.Services
         {
             return await _context.Items
                 .Where(i => i.SellerId == sellerId && i.Status == "S" && i.CurrentPrice.HasValue)
-                .SumAsync(i => i.CurrentPrice.Value);
+                .SumAsync(i => i.CurrentPrice ?? 0);
         }
 
         public async Task<List<SellerBidViewModel>> GetSellerRecentBidsAsync(int sellerId, int count)
@@ -585,7 +585,7 @@ namespace BidNest.Services
                     BidderName = b.Bidder.FullName,
                     Amount = b.Amount,
                     BidTime = b.BidTime,
-                    IsWinning = b.Item.CurrentBidId == b.BidId,
+                    IsWinning = b.Item.CurrentBidId.HasValue && b.Item.CurrentBidId.Value == b.BidId,
                     ItemImageUrl = b.Item.ItemImages.FirstOrDefault(img => img.IsPrimary) != null
                         ? b.Item.ItemImages.FirstOrDefault(img => img.IsPrimary)!.Url
                         : b.Item.ItemImages.FirstOrDefault() != null
@@ -674,7 +674,7 @@ namespace BidNest.Services
                 .Where(i => i.SellerId == sellerId && i.Status == "S" && i.CurrentPrice.HasValue)
                 .ToListAsync();
 
-            return soldItems.Any() ? soldItems.Average(i => i.CurrentPrice.Value) : 0;
+            return soldItems.Any() ? soldItems.Average(i => i.CurrentPrice ?? 0) : 0;
         }
 
         public async Task<List<MonthlyEarningsViewModel>> GetSellerMonthlyEarningsAsync(int sellerId, int months)
@@ -688,7 +688,7 @@ namespace BidNest.Services
                 {
                     Year = g.Key.Year,
                     Month = g.Key.Month,
-                    Earnings = g.Sum(i => i.CurrentPrice.Value),
+                    Earnings = g.Sum(i => i.CurrentPrice ?? 0),
                     ItemsSold = g.Count()
                 })
                 .OrderBy(e => e.Year)
@@ -709,7 +709,9 @@ namespace BidNest.Services
                     CategoryId = g.Key.CategoryId!.Value,
                     CategoryName = g.Key.Name,
                     ItemCount = g.Count(),
-                    AveragePrice = g.Where(i => i.CurrentPrice.HasValue).Average(i => i.CurrentPrice.Value)
+                    AveragePrice = g.Where(i => i.CurrentPrice.HasValue).Any() 
+                        ? g.Where(i => i.CurrentPrice.HasValue).Average(i => i.CurrentPrice ?? 0) 
+                        : 0
                 })
                 .OrderByDescending(c => c.ItemCount)
                 .Take(count)

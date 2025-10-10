@@ -993,7 +993,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.suggestions) {
-                    // Main section quick bids
+                    
                     const quickBidsContainer = document.getElementById('quick-bids');
                     if (quickBidsContainer) quickBidsContainer.innerHTML = '';
                     
@@ -1002,7 +1002,7 @@
                     if (modalQuickBidsContainer) modalQuickBidsContainer.innerHTML = '';
                     
                     data.suggestions.forEach(amount => {
-                        // Main section button
+                        
                         const btn = document.createElement('button');
                         btn.type = 'button';
                         btn.className = 'btn btn-outline-primary btn-sm me-1 mb-1 quick-bid-btn';
@@ -1010,7 +1010,7 @@
                         btn.setAttribute('data-amount', amount);
                         if (quickBidsContainer) quickBidsContainer.appendChild(btn);
                         
-                        // Modal button
+                       
                         const modalBtn = document.createElement('button');
                         modalBtn.type = 'button';
                         modalBtn.className = 'btn btn-outline-secondary btn-sm modal-quick-bid-btn';

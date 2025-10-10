@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BidNest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+447e0eaeaf09b2c0177d7d5abe250c8b4f246612")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+011f7eefebe44d7f17c978e7f01743a43070e6b2")]
 [assembly: System.Reflection.AssemblyProductAttribute("BidNest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BidNest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

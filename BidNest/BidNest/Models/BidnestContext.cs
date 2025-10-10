@@ -42,7 +42,7 @@ public partial class BidnestContext : DbContext
         // Connection string is configured in Program.cs via dependency injection
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer("Server=NEEL\\SQLEXPRESS;Database=bidnests;User Id=sa;Password=shahneel;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=bidnest;User Id=aptech;Password=aptech;TrustServerCertificate=True;");
         }
     }
 

@@ -15,17 +15,20 @@ namespace BidNest.Controllers
         private readonly BidnestContext _context;
         private readonly IItemService _itemService;
         private readonly IImageService _imageService;
+        private readonly IItemStatusService _itemStatusService;
         private readonly ILogger<SellerController> _logger;
 
         public SellerController(
             BidnestContext context,
             IItemService itemService,
             IImageService imageService,
+            IItemStatusService itemStatusService,
             ILogger<SellerController> logger)
         {
             _context = context;
             _itemService = itemService;
             _imageService = imageService;
+            _itemStatusService = itemStatusService;
             _logger = logger;
         }
 
@@ -394,20 +397,32 @@ namespace BidNest.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var viewModel = new SellerAnalyticsViewModel
+            try
             {
-                SellerId = userId,
-                TotalListings = await _itemService.GetSellerTotalListingsAsync(userId),
-                ActiveListings = await _itemService.GetSellerActiveListingsCountAsync(userId),
-                SoldItems = await _itemService.GetSellerSoldItemsCountAsync(userId),
-                TotalEarnings = await _itemService.GetSellerTotalEarningsAsync(userId),
-                AverageSellingPrice = await _itemService.GetSellerAverageSellingPriceAsync(userId),
-                MonthlyEarnings = await _itemService.GetSellerMonthlyEarningsAsync(userId, 12),
-                TopCategories = await _itemService.GetSellerTopCategoriesAsync(userId, 5),
-                RecentSales = await _itemService.GetSellerRecentSalesAsync(userId, 10)
-            };
+                // Process any expired items first to ensure up-to-date sales data
+                await _itemStatusService.ProcessExpiredItemsAsync();
+                
+                var viewModel = new SellerAnalyticsViewModel
+                {
+                    SellerId = userId,
+                    TotalListings = await _itemService.GetSellerTotalListingsAsync(userId),
+                    ActiveListings = await _itemService.GetSellerActiveListingsCountAsync(userId),
+                    SoldItems = await _itemService.GetSellerSoldItemsCountAsync(userId),
+                    TotalEarnings = await _itemService.GetSellerTotalEarningsAsync(userId),
+                    AverageSellingPrice = await _itemService.GetSellerAverageSellingPriceAsync(userId),
+                    MonthlyEarnings = await _itemService.GetSellerMonthlyEarningsAsync(userId, 12),
+                    TopCategories = await _itemService.GetSellerTopCategoriesAsync(userId, 5),
+                    RecentSales = await _itemService.GetSellerRecentSalesAsync(userId, 10)
+                };
 
-            return View(viewModel);
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading analytics for user {UserId}", userId);
+                TempData["ErrorMessage"] = "Unable to load analytics. Please try again.";
+                return RedirectToAction("Dashboard");
+            }
         }
 
         // POST: /Seller/ExtendAuction/5
@@ -454,6 +469,75 @@ namespace BidNest.Controllers
             {
                 _logger.LogError(ex, "Error extending auction {ItemId}", id);
                 TempData["ErrorMessage"] = "Unable to extend auction. Please try again.";
+                return RedirectToAction(nameof(MyItems));
+            }
+        }
+
+        // POST: /Seller/ProcessExpiredItems (for testing/manual processing)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProcessExpiredItems()
+        {
+            var userId = GetCurrentUserId();
+            if (userId == 0)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            try
+            {
+                await _itemStatusService.ProcessExpiredItemsAsync();
+                TempData["SuccessMessage"] = "Expired items processed successfully. Sales data updated.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing expired items manually");
+                TempData["ErrorMessage"] = "Error processing expired items. Please try again.";
+            }
+
+            return RedirectToAction("Analytics");
+        }
+
+        // POST: /Seller/ExpireAuction/5 (for testing - manually expire an auction)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExpireAuction(int id)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == 0)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            try
+            {
+                var item = await _context.Items.FindAsync(id);
+                if (item == null)
+                {
+                    TempData["ErrorMessage"] = "Item not found.";
+                    return RedirectToAction(nameof(MyItems));
+                }
+
+                if (item.SellerId != userId)
+                {
+                    TempData["ErrorMessage"] = "You don't have permission to modify this auction.";
+                    return RedirectToAction(nameof(MyItems));
+                }
+
+                // Set end date to past to trigger expiration processing
+                item.EndDate = DateTime.UtcNow.AddMinutes(-1);
+                await _context.SaveChangesAsync();
+
+                // Process the expired item immediately
+                await _itemStatusService.ProcessExpiredItemsAsync();
+
+                TempData["SuccessMessage"] = "Auction expired and processed. Check your analytics for updated sales data.";
+                return RedirectToAction("Analytics");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error expiring auction {ItemId}", id);
+                TempData["ErrorMessage"] = "Unable to expire auction. Please try again.";
                 return RedirectToAction(nameof(MyItems));
             }
         }

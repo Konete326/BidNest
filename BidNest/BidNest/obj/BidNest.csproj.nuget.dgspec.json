@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\aptech\\BidNest\\BidNest\\BidNest\\BidNest.csproj": {}
+    "D:\\.net\\BidNest\\BidNest\\BidNest\\BidNest.csproj": {}
   },
   "projects": {
-    "D:\\aptech\\BidNest\\BidNest\\BidNest\\BidNest.csproj": {
+    "D:\\.net\\BidNest\\BidNest\\BidNest\\BidNest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\aptech\\BidNest\\BidNest\\BidNest\\BidNest.csproj",
+        "projectUniqueName": "D:\\.net\\BidNest\\BidNest\\BidNest\\BidNest.csproj",
         "projectName": "BidNest",
-        "projectPath": "D:\\aptech\\BidNest\\BidNest\\BidNest\\BidNest.csproj",
-        "packagesPath": "C:\\Users\\coole\\.nuget\\packages\\",
-        "outputPath": "D:\\aptech\\BidNest\\BidNest\\BidNest\\obj\\",
+        "projectPath": "D:\\.net\\BidNest\\BidNest\\BidNest\\BidNest.csproj",
+        "packagesPath": "C:\\Users\\Khizar Computer\\.nuget\\packages\\",
+        "outputPath": "D:\\.net\\BidNest\\BidNest\\BidNest\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\coole\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Khizar Computer\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

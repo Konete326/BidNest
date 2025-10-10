@@ -276,6 +276,205 @@
         margin-bottom: 2rem;
     }
 
+    /* Item Card Styling */
+    .luxury-item-card {
+        background: linear-gradient(145deg, var(--card-bg), var(--matte-charcoal));
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .luxury-item-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+        border-color: var(--golden-oak);
+    }
+
+    .luxury-item-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .luxury-item-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .luxury-item-card:hover .luxury-item-img {
+        transform: scale(1.05);
+    }
+
+    .luxury-no-image {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background: var(--matte-charcoal);
+        color: var(--steel-mist);
+        font-size: 1.2rem;
+    }
+
+    .luxury-no-image i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        opacity: 0.5;
+    }
+
+    .luxury-item-status {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 2;
+    }
+
+    .luxury-item-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .luxury-item-title {
+        color: var(--text-light);
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+    }
+
+    .luxury-item-description {
+        color: var(--steel-mist);
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+        flex-grow: 1;
+    }
+
+    .luxury-item-details {
+        margin-bottom: 1.5rem;
+    }
+
+    .luxury-item-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .luxury-price-label {
+        color: var(--steel-mist);
+        font-size: 0.85rem;
+    }
+
+    .luxury-price-value {
+        color: var(--royal-gold);
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .luxury-current-bid {
+        color: var(--golden-oak);
+        font-size: 1.1rem;
+    }
+
+    .luxury-item-bids, .luxury-item-timer {
+        color: var(--steel-mist);
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .luxury-item-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: auto;
+    }
+
+    .luxury-btn-sm {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        border-radius: 20px;
+    }
+
+    .luxury-btn-outline {
+        background: transparent;
+        color: var(--royal-gold);
+        border: 1px solid var(--royal-gold);
+    }
+
+    .luxury-btn-outline:hover {
+        background: var(--royal-gold);
+        color: var(--matte-charcoal);
+        text-decoration: none;
+    }
+
+    .luxury-btn-danger {
+        background: #dc3545;
+        color: white;
+        border: 1px solid #dc3545;
+    }
+
+    .luxury-btn-danger:hover {
+        background: #c82333;
+        border-color: #c82333;
+    }
+
+    /* Pagination Styling */
+    .luxury-pagination .page-link {
+        background-color: var(--matte-charcoal);
+        border-color: var(--border-color);
+        color: var(--royal-gold);
+        padding: 0.5rem 0.75rem;
+        margin: 0 0.125rem;
+        border-radius: 8px;
+    }
+
+    .luxury-pagination .page-link:hover {
+        background-color: var(--royal-gold);
+        border-color: var(--royal-gold);
+        color: var(--matte-charcoal);
+    }
+
+    .luxury-pagination .page-item.active .page-link {
+        background-color: var(--royal-gold);
+        border-color: var(--royal-gold);
+        color: var(--matte-charcoal);
+    }
+
+    /* Modal Styling */
+    .luxury-modal .modal-content {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+    }
+
+    .luxury-modal .modal-header {
+        border-bottom: 1px solid var(--border-color);
+        background: linear-gradient(135deg, var(--walnut-brown), var(--matte-charcoal));
+    }
+
+    .luxury-modal .modal-title {
+        color: var(--text-light);
+    }
+
+    .luxury-modal .modal-body {
+        color: var(--text-light);
+    }
+
+    .luxury-modal .modal-footer {
+        border-top: 1px solid var(--border-color);
+        background-color: var(--matte-charcoal);
+    }
+
     /* Utility Classes */
     .luxury-d-flex { display: flex; }
     .luxury-justify-between { justify-content: space-between; }
@@ -415,6 +614,166 @@
             }
         </div>
     }
+    else
+    {
+        <!-- Items Grid -->
+        <div class="row">
+            @foreach (var item in Model.Items)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="luxury-item-card">
+                        <div class="luxury-item-image">
+                            @if (item.Images.Any())
+                            {
+                                <img src="@item.Images.First().ImagePath" alt="@item.Name" class="luxury-item-img">
+                            }
+                            else
+                            {
+                                <div class="luxury-no-image">
+                                    <i class="fas fa-image"></i>
+                                    <span>No Image</span>
+                                </div>
+                            }
+                            <div class="luxury-item-status">
+                                <span class="badge @GetStatusBadgeClass(item.Status)">@GetStatusText(item.Status)</span>
+                            </div>
+                        </div>
+                        <div class="luxury-item-content">
+                            <h5 class="luxury-item-title">@item.Name</h5>
+                            <p class="luxury-item-description">@(item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)</p>
+                            
+                            <div class="luxury-item-details">
+                                <div class="luxury-item-price">
+                                    <span class="luxury-price-label">Starting Bid:</span>
+                                    <span class="luxury-price-value">$@item.MinimumBid.ToString("N2")</span>
+                                </div>
+                                @if (item.CurrentBid.HasValue)
+                                {
+                                    <div class="luxury-item-price">
+                                        <span class="luxury-price-label">Current Bid:</span>
+                                        <span class="luxury-price-value luxury-current-bid">$@item.CurrentBid.Value.ToString("N2")</span>
+                                    </div>
+                                }
+                                <div class="luxury-item-bids">
+                                    <i class="fas fa-gavel luxury-me-2"></i>@item.BidCount Bid@(item.BidCount != 1 ? "s" : "")
+                                </div>
+                                @if (item.Status == "A")
+                                {
+                                    <div class="luxury-item-timer">
+                                        <i class="fas fa-clock luxury-me-2"></i>
+                                        <span id="timer-@item.ItemId" class="text-warning">Calculating...</span>
+                                    </div>
+                                }
+                            </div>
+                            
+                            <div class="luxury-item-actions">
+                                <a href="@Url.Action("Details", "Auction", new { id = item.ItemId })" class="luxury-btn luxury-btn-outline luxury-btn-sm">
+                                    <i class="fas fa-eye luxury-me-2"></i>View
+                                </a>
+                                @if (item.Status == "P")
+                                {
+                                    <a href="@Url.Action("Edit", new { id = item.ItemId })" class="luxury-btn luxury-btn-outline luxury-btn-sm">
+                                        <i class="fas fa-edit luxury-me-2"></i>Edit
+                                    </a>
+                                }
+                                @if (item.Status == "A")
+                                {
+                                    <button type="button" class="luxury-btn luxury-btn-outline luxury-btn-sm" onclick="expireAuction(@item.ItemId, '@item.Name')">
+                                        <i class="fas fa-stop luxury-me-2"></i>End Now
+                                    </button>
+                                }
+                                @if (item.Status == "P" || (item.Status == "A" && item.BidCount == 0))
+                                {
+                                    <button type="button" class="luxury-btn luxury-btn-danger luxury-btn-sm" onclick="deleteItem(@item.ItemId, '@item.Name')">
+                                        <i class="fas fa-trash luxury-me-2"></i>Delete
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Items pagination" class="mt-4">
+                <ul class="pagination justify-content-center luxury-pagination">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link luxury-page-link" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = Model.CurrentPage - 1 })">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                    }
+                    
+                    @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link luxury-page-link" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = i })">@i</a>
+                        </li>
+                    }
+                    
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link luxury-page-link" href="@Url.Action("MyItems", new { status = Model.StatusFilter, page = Model.CurrentPage + 1 })">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    }
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content luxury-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete "<span id="deleteItemName"></span>"?</p>
+                    <p class="text-warning"><i class="fas fa-exclamation-triangle"></i> This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteForm" method="post" style="display: inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">Delete Item</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expire Auction Modal -->
+    <div class="modal fade" id="expireModal" tabindex="-1" aria-labelledby="expireModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content luxury-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="expireModalLabel">End Auction Early</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to end "<span id="expireItemName"></span>" auction early?</p>
+                    <p class="text-info"><i class="fas fa-info-circle"></i> This will immediately process the auction and determine the winner if there are bids.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="expireForm" method="post" style="display: inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-warning">End Auction</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @functions {
@@ -491,6 +850,15 @@
             
             var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
             deleteModal.show();
+        }
+
+        // Expire auction functionality
+        function expireAuction(itemId, itemName) {
+            document.getElementById('expireItemName').textContent = itemName;
+            document.getElementById('expireForm').action = '@Url.Action("ExpireAuction")/' + itemId;
+            
+            var expireModal = new bootstrap.Modal(document.getElementById('expireModal'));
+            expireModal.show();
         }
 
         // Initialize timers
